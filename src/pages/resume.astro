@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/single.astro'
+import * as resume from '../resume.md';
+const {Content,frontmatter} = resume
+---
+<Layout title={'Eric Mikkelsen'} marquee={'Resume'}>
+	<Content />
+	{frontmatter.workHistory.map(job => {
+		return (<>
+			<h3>{job.organization}</h3>
+			<p>
+				{job.jobTitle}
+				<br><time datetime="">{job.date}</time>
+				<br><span set:html={job.description}/>
+			</p>
+			
+		</>)
+	})}
+</Layout>
