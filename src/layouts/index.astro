@@ -3,7 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Nav from '../components/Nav.astro'
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-const { title, description, heading, imageSrc = '' } = Astro.props;
+const { title, description, heading, imageSrc = '',marquee} = Astro.props;
 
 
 ---
@@ -17,7 +17,7 @@ const { title, description, heading, imageSrc = '' } = Astro.props;
 		<main>
 			<h1 class="rounded-right">
 				<span>
-					{title}
+					{marquee||title}
 				</span>
 			</h1>
 			<div class="rounded-right">
