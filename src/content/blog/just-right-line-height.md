@@ -7,11 +7,11 @@ Line height is the extra space above and below your text. It creates extra space
 
 Here are some examples of different line-heights.
 
-![This line-height is one hundred and fifty percent of the font size](/static/images/line-height-one-hundred-fifty-percent.svg)
+![This line-height is one hundred and fifty percent of the font size](/images/line-height-one-hundred-fifty-percent.svg)
 
 The text above has more space between lines. While the text below has less space between lines. More line-height means more space as you can see in the examples above and below.
 
-![This line-height is one hundred percent of the font size](/static/images/line-height-one-hundred-percent.svg)
+![This line-height is one hundred percent of the font size](/images/line-height-one-hundred-percent.svg)
 
 ## What is a good line height?
 

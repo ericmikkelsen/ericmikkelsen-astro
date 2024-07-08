@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="503.2" height="207.8" viewBox="0 0 133 55">
+    <text font-family="Courier" font-size="8.5" font-weight="700" style="line-height:1">
+      <tspan x="16" y="23">This line height is</tspan>
+      <tspan x="16" y="31">one hundred percent</tspan>
+      <tspan x="16" y="39">of the font size.</tspan>
+    </text>
+</svg>
