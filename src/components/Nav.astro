@@ -11,30 +11,37 @@ const links = [
         text: "ericmikkelsen.com",
         url: "/",
         delay: '',
+        current: false,
     },
     {
         text: "blog",
         url: "/blog/",
         delay: '',
+        current: false,
     },
     {
         text: "resume",
         url: "/resume/",
         delay: '',
+        current: false,
     },
     {
         text: "projects",
         url: "/projects/",
         delay: '',
+        current: false,
+
     },
 ].map(link => {
-    const relatedLink = link.url === currentPath || currentPath.startsWith(link.url) && link.url !== '/'
+    const current = link.url === currentPath;
+    const relatedLink = current || currentPath.startsWith(link.url) && link.url !== '/'
     if(relatedLink) {
         link.delay = currentDelay
     } else {
         link.delay = delays[0]
         delays.shift();
     }
+    link.current = current
     return link
 });
 
@@ -140,7 +147,7 @@ const links = [
             const i = index + 1;
             return (
                 <a href={link.url}>
-                    <span class="link-target" style={`--nav-${i}-delay:${link.delay}`}>
+                    <span aria-current={link.current ? 'page' : null} class="link-target" style={`--nav-${i}-delay:${link.delay}`}>
                         <span>{link.text}</span>
                     </span>
                 </a>
