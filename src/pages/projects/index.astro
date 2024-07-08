@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../layouts/archive.astro'
+let projects = (await getCollection('projects')).sort(
+	(a, b) => {
+		return a.data.title - b.data.title
+	}
+).map(post => {
+	return {
+		url: `/projects/${post.slug}/`,
+		text: post.data.title
+	}
+});
+---
+<Layout title={'Projects'} links={projects}>
+    
+</Layout>
