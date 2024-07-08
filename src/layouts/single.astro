@@ -1,0 +1,8 @@
+---
+import Layout from './index.astro'
+const {title,marquee} = Astro.props
+---
+<Layout title={marquee||title} description="Wholesome thoughts on web dev probably." titleAs={'aside'}>
+	<h1>{title}</h1>
+	<slot></slot>
+</Layout>
