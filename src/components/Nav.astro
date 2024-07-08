@@ -1,26 +1,44 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
+import shuffleArray from "../modules/shuffleArray";
+
+const delays = shuffleArray(['0s','.05s','.1s']);
+const currentDelay = '.275s';
+const currentPath = Astro.url.pathname;
 const links = [
     {
         text: "ericmikkelsen.com",
         url: "/",
+        delay: '',
     },
     {
         text: "blog",
         url: "/blog/",
+        delay: '',
     },
     {
         text: "resume",
         url: "/resume/",
+        delay: '',
     },
     {
         text: "projects",
         url: "/projects/",
+        delay: '',
     },
-];
----
+].map(link => {
+    const relatedLink = link.url === currentPath || currentPath.startsWith(link.url) && link.url !== '/'
+    if(relatedLink) {
+        link.delay = currentDelay
+    } else {
+        link.delay = delays[0]
+        delays.shift();
+    }
+    return link
+});
 
+---
 <style>
     nav {
         margin: 5% 0 0;
@@ -74,18 +92,22 @@ const links = [
     }
     a:nth-child(1) .link-target {
         background-color: #be449d;
+        animation-delay: var(--nav-1-delay, 0s);
     }
     a:nth-child(2) .link-target {
         background-color: #e40089;
         animation-delay: .15s;
+        animation-delay: var(--nav-2-delay, .15s);
     }
     a:nth-child(3) .link-target {
         background-color: #e3220c;
         animation-delay: .05s;
+        animation-delay: var(--nav-3-delay, .05s);
     }
     a:nth-child(4) .link-target {
         background-color: #d40;
         animation-delay: .1s;
+        animation-delay: var(--nav-4-delay, .1s);
     }
     .link-target::before {
         content: "";
@@ -113,10 +135,11 @@ const links = [
 </style>
 <nav class="rounded-right">
     {
-        links.map((link) => {
+        links.map((link,index) => {
+            const i = index + 1;
             return (
                 <a href={link.url}>
-                    <span class="link-target">
+                    <span class="link-target" style={`--nav-${i}-delay:${link.delay}`}>
                         <span>{link.text}</span>
                     </span>
                 </a>
