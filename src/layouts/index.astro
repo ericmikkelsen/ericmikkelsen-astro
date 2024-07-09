@@ -4,7 +4,7 @@ import Nav from '../components/Nav.astro'
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 const { title, description, heading, imageSrc = '',marquee} = Astro.props;
-
+const Heading = marquee ? 'b' : 'h1';
 
 ---
 <!DOCTYPE html>
@@ -15,11 +15,11 @@ const { title, description, heading, imageSrc = '',marquee} = Astro.props;
 	<body>
 		<Nav class:list={['NAV']}/>
 		<main>
-			<h1 class="rounded-right">
+			<Heading class="Heading rounded-right">
 				<span>
 					{marquee||title}
 				</span>
-			</h1>
+			</Heading>
 			<div class="rounded-right">
 				<slot></slot>
 			</div>
@@ -28,7 +28,7 @@ const { title, description, heading, imageSrc = '',marquee} = Astro.props;
 	</body>
 </html>
 <style>
-	h1 {
+	.Heading {
 		background: pink;
 		padding: 5.555555555%;
 		color: #000;
@@ -42,7 +42,7 @@ const { title, description, heading, imageSrc = '',marquee} = Astro.props;
 		position: relative;
 		vertical-align: middle;
 	}
-	h1 span {
+	.Heading span {
 		position: relative;
 		top: .05em;
 		right: .025em;
