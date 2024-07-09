@@ -14,27 +14,21 @@
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
 	--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
-/* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1240,24,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
 
-	/* Step -2: 11.1111px → 15.36px */
-	--f--2: clamp(0.6944rem, 0.6021rem + 0.4618vi, 0.96rem);
-	/* Step -1: 13.3333px → 19.2px */
-	--f--1: clamp(0.8333rem, 0.7058rem + 0.6377vi, 1.2rem);
-	/* Step 0: 16px → 24px */
-	--f-0: clamp(1rem, 0.8261rem + 0.8696vi, 1.5rem);
-	/* Step 1: 19.2px → 30px */
-	--f-1: clamp(1.2rem, 0.9652rem + 1.1739vi, 1.875rem);
-	/* Step 2: 23.04px → 37.5px */
-	--f-2: clamp(1.44rem, 1.1257rem + 1.5717vi, 2.3438rem);
-	/* Step 3: 27.648px → 46.875px */
-	--f-3: clamp(1.728rem, 1.31rem + 2.0899vi, 2.9297rem);
-	/* Step 4: 33.1776px → 58.5938px */
-	--f-4: clamp(2.0736rem, 1.5211rem + 2.7626vi, 3.6621rem);
-	/* Step 5: 39.8131px → 73.2422px */
-	--f-5: clamp(2.4883rem, 1.7616rem + 3.6336vi, 4.5776rem);
-  
-	font-size: 1.25em;
+	/* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1920,20,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+	--step--1: clamp(0.9896rem, 0.9025rem + 0.4354vi, 1.425rem);
+	--step-0: clamp(1.1875rem, 1.0688rem + 0.5938vi, 1.7813rem);
+	--step-1: clamp(1.425rem, 1.2647rem + 0.8016vi, 2.2266rem);
+	--step-2: clamp(1.71rem, 1.4954rem + 1.0732vi, 2.7832rem);
+	--step-3: clamp(2.052rem, 1.7666rem + 1.427vi, 3.479rem);
+	--step-4: clamp(2.4624rem, 2.0851rem + 1.8864vi, 4.3488rem);
+	--step-5: clamp(2.9549rem, 2.4587rem + 2.4811vi, 5.4359rem);
+	--step-6: clamp(3.5459rem, 2.896rem + 3.2491vi, 6.7949rem);
+	--step-7: clamp(4.255rem, 3.4073rem + 4.2386vi, 8.4937rem);
 	background: #000;
+}
+body {
+	font-size: var(--step-0);
 }
 @font-face {
 	font-family: 'Atkinson';
@@ -81,19 +75,19 @@ h6 {
 	color: rgb(var(--black));
 }
 h1 {
-	font-size: 3.052em;
+	font-size: var(--step-6);
 }
 h2 {
-	font-size: 2.441em;
+	font-size: var(--step-5);
 }
 h3 {
-	font-size: 1.953em;
+	font-size: var(--step-4);
 }
 h4 {
-	font-size: 1.563em;
+	font-size: var(--step-3);
 }
 h5 {
-	font-size: 1.25em;
+	font-size: var(--step-2);
 }
 strong,
 b {
@@ -101,9 +95,6 @@ b {
 }
 a {
 	color: var(--accent);
-}
-a:hover {
-	/* color: var(--accent); */
 }
 p {
 	margin-bottom: 1em;
