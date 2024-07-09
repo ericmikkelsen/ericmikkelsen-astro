@@ -30,19 +30,20 @@ const Heading = marquee ? 'b' : 'h1';
 <style>
 	.Heading {
 		background: pink;
-		padding: 5.555555555%;
 		color: #000;
-		word-break: break-all;
-		width: 2ch;
+		display: inline-block;
+		font-size: var(--step-7);
 		line-height: .775;
 		margin: 0 5.555555555% 0 0;
-		font-size: var(--step-7);
+		padding: 5.555555555%;
+		position: relative;
 		text-shadow: .075em .075em 0 #fff;
 		text-transform: uppercase;
-		position: relative;
-		vertical-align: middle;
+		vertical-align: top;
+		width: 2ch;
+		word-break: break-all;
 	}
-	@media (min-width: 86em) {
+	@media (min-width: 54.5em) {
 		.Heading {
 			position: sticky;
 			top: 5.555555555vw;
@@ -70,20 +71,15 @@ const Heading = marquee ? 'b' : 'h1';
 		object-fit: cover;
 		object-position: 60%;
 	}
-	main {
-		/* padding-top: 5%; */
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-	}
 	main div {
-		display: block;
+		display: inline-block;
 		width: fit-content;
 		background-color: #fff;
 		padding: 5.555555555%;
 		margin: 5.555555555% 0 0;
-		max-width: 35em;
-		width: 100%;
+		min-width: 60%;
+		width: 33rem;
+		max-width: 100%;
 		box-sizing: border-box;
 	}
 	main div > * {f
