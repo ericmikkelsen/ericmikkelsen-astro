@@ -49,10 +49,9 @@ const links = [
 <style>
     nav {
         margin: 5% 0 0;
-        /* background: black; */
+        margin: clamp(1rem, 5vw, 3rem) 0 0;
         padding: 0 5%;
-        /* display: inline-block; */
-        /* text-transform: uppercase; */
+        padding-inline: clamp(1rem, 5vw, 3rem);
         font-weight: 700;
     }
     a {
@@ -60,7 +59,9 @@ const links = [
         border-radius: 100rem;
         display: inline-block;
         margin-right: 5%;
+        margin-right: clamp(1rem, 5vw, 3rem);
         margin-bottom: 5%;
+        margin-bottom: clamp(1rem, 5vw, 3rem);
         transition-timing-function: ease-in-out;
         aspect-ratio: 1/1;
         outline: none;

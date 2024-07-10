@@ -56,12 +56,7 @@ body {
 	color: rgb(var(--gray-dark));
 	line-height: 1.7;
 }
-main {
-	/* width: 720px; */
-	/* max-width: calc(100% - 2em); */
-	margin: auto;
-	padding: 0 5% 5%;
-}
+
 * {
 	line-height: calc(1em + .5rem);
 }
