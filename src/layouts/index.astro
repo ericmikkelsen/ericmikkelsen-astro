@@ -26,6 +26,7 @@ const Heading = marquee ? "b" : "h1";
 			<img
 				src={imageSrc || "/eric-looking-left.jpg"}
 				alt="Eric in a green shirt looking at the h1 to the left"
+				class=""
 			/>
 		</main>
 	</body><style>
@@ -38,6 +39,7 @@ const Heading = marquee ? "b" : "h1";
 		.Heading {
 			background: pink;
 			color: #000;
+			border: .25rem solid;
 			display: inline-block;
 			font-size: var(--step-7);
 			line-height: 0.775;
@@ -81,11 +83,13 @@ const Heading = marquee ? "b" : "h1";
 			left: 0;
 			object-fit: cover;
 			object-position: 60%;
+			filter:grayscale(1);
 		}
 		main div {
 			display: inline-block;
 			width: fit-content;
 			background-color: #fff;
+			border: .25em solid;
 			padding: 5.555555555%;
 			padding: clamp(1rem, 5vw, 3rem);
 			margin-top: 5.555555555%;

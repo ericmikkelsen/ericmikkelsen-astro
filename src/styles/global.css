@@ -27,9 +27,6 @@
 	--step-7: clamp(4.255rem, 3.4073rem + 4.2386vi, 8.4937rem);
 	background: #000;
 }
-body {
-	font-size: var(--step-0);
-}
 @font-face {
 	font-family: 'Atkinson';
 	src: url('/fonts/atkinson-regular.woff') format('woff');
@@ -46,7 +43,6 @@ body {
 }
 body {
 	font-family: 'Atkinson', sans-serif;
-	/* font-family: 'Courier New', Courier, monospace; */
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -91,8 +87,9 @@ b {
 a {
 	color: var(--accent);
 }
-p {
+p,li {
 	margin-bottom: 1em;
+	font-size: var(--step-0);
 }
 .prose p {
 	margin-bottom: 2em;
@@ -154,6 +151,6 @@ hr {
 }
 
 .rounded-right {
-	border-top-right-radius: 4rem;
-	border-bottom-right-radius: 4rem;
+	border-top-right-radius: clamp(2rem,5vw,3rem);
+	border-bottom-right-radius: clamp(2rem,5vw,3rem);
 }
