@@ -48,11 +48,18 @@ const links = [
 ---
 <style>
     nav {
-        margin: 5% 0 0;
-        margin: clamp(1rem, 5vw, 3rem) 0 0;
-        padding: 0 5%;
-        padding-inline: clamp(1rem, 5vw, 3rem);
+        /* background-color: rgba(255,255,255,.8); */
+        box-sizing: border-box;
         font-weight: 700;
+        margin: clamp(1rem, 5vw, 3rem);
+        margin-left: 0;
+        max-width: calc(100% - clamp(1rem, 5vw, 3rem));
+        padding: 0 5%;
+        padding: clamp(1rem, 5vw, 3rem);
+        padding-bottom: 0;
+        padding-right: 0;
+        text-wrap: pretty;
+        width: max-content;
     }
     a {
         aspect-ratio: 1/1;
@@ -65,12 +72,11 @@ const links = [
         outline: none;
         position: relative;
         text-decoration: none;
-        transform: rotate(30deg);
         transition-timing-function: ease-in-out;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
     a:focus-visible > * {
-        outline: 0.25em solid #fff;
+        outline: 0.125em solid #000;
         outline-offset: -0.5em;
     }
     a:active .link-target > * {
@@ -83,16 +89,23 @@ const links = [
     .link-target {
         align-items: center;
         aspect-ratio: 1/1;
-        background: #000;
+        background: #fff;
+        border: .25rem solid #000;
         border-radius: 100rem;
         color: #000;
         display: inline-flex;
+        font-size: var(--step-0);
         justify-content: center;
         min-width: 2.75rem;
         padding: 2.5vw;
         position: relative;
         text-align: center;
         text-decoration: none;
+        transform: rotate(30deg);
+        z-index: 10;
+    }
+    [aria-current] .link-target {
+        background-color: #082;
     }
     @media (prefers-reduced-motion: no-preference) {
         .link-target {
@@ -104,21 +117,18 @@ const links = [
         }
     }
     a:nth-child(1) .link-target {
-        background-color: #be449d;
         animation-delay: var(--nav-1-delay, 0s);
     }
     a:nth-child(2) .link-target {
-        background-color: #e40089;
         animation-delay: .15s;
         animation-delay: var(--nav-2-delay, .15s);
     }
     a:nth-child(3) .link-target {
-        background-color: #e3220c;
         animation-delay: .05s;
         animation-delay: var(--nav-3-delay, .05s);
     }
     a:nth-child(4) .link-target {
-        background-color: #d40;
+        /* background-color: #d40; */
         animation-delay: .1s;
         animation-delay: var(--nav-4-delay, .1s);
     }
@@ -126,25 +136,34 @@ const links = [
         content: "";
         display: block;
         position: absolute;
-        width: 115%;
-        height: 115%;
+        width: 130%;
+        height: 130%;
         background-color: inherit;
         opacity: 1;
         border-radius: inherit;
-        transform: scale(0.86956521739);
-        z-index: -1;
+        transform: scale(0.76923076923);
         opacity: .75;
         transition: transform .25s;
-        transition-timing-function: ease-out;
+        transition-timing-function: ease-in;
         box-sizing: initial; 
+        z-index: -1;
     }
-    a:hover .link-target::before {
+    a:not([aria-current]):hover .link-target::before {
         transform: scale(1);
+        transition-timing-function: ease-out;
+    }
+    [aria-current] .link-target {
+        border-color: currentColor;
     }
     .link-target span {
         border-bottom: 0.25em solid;
         line-height: 1.1;
         transition: 0.125s;
+    }
+    [aria-current] .link-target span {
+        border-bottom-color: transparent;
+        top: .25em;
+        position: relative;
     }
 </style>
 <nav class="rounded-right">
@@ -152,8 +171,8 @@ const links = [
         links.map((link,index) => {
             const i = index + 1;
             return (
-                <a href={link.url}>
-                    <span aria-current={link.current ? 'page' : null} class="link-target" style={`--nav-${i}-delay:${link.delay}`}>
+                <a href={link.url} aria-current={link.current ? 'page' : null}>
+                    <span class="link-target" style={`--nav-${i}-delay:${link.delay}`}>
                         <span>{link.text}</span>
                     </span>
                 </a>
