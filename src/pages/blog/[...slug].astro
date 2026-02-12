@@ -14,6 +14,9 @@ type Props = CollectionEntry<'blog'>;
 const post = Astro.props;
 const { Content } = await post.render();
 ---
-<Layout title={post.data.title} description="Wholesome thoughts on web dev probably." marquee="Blog">
+<Layout 
+	title={post.data.title} 
+	description="Wholesome thoughts on web dev probably."
+>
 	<Content />
 </Layout>

@@ -1,14 +1,15 @@
 ---
 import Layout from './index.astro';
-const {title, links} = Astro.props
+const {title, links,reversed = null} = Astro.props
 ---
 <Layout title={title}>
-    {links.map((link) => {
-        const {url,text} = link
-		return (
-			<a href={url}>
-				{text}
-			</a>
-	)
-	})}
+	<ol reversed={reversed || null}>
+		{links.map(({url,text}) => 
+			<li>
+				<a href={url}>
+					{text}
+				</a>
+			</li>
+		)}
+	</ol>
 </Layout>
