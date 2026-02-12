@@ -1,10 +1,4 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE } from "../consts";
-import shuffleArray from "../modules/shuffleArray";
-
-const delays = shuffleArray(['0s','.05s','.1s']);
-const currentDelay = '.275s';
 const currentPath = Astro.url.pathname;
 const links = [
     {
@@ -34,130 +28,19 @@ const links = [
     },
 ].map(link => {
     const current = link.url === currentPath;
-    const relatedLink = current || currentPath.startsWith(link.url) && link.url !== '/'
-    if(relatedLink) {
-        link.delay = currentDelay
-    } else {
-        link.delay = delays[0]
-        delays.shift();
-    }
     link.current = current
     return link
 });
 
 ---
-<style>
-    nav {
-        margin: 5% 0 0;
-        margin: clamp(1rem, 5vw, 3rem) 0 0;
-        padding: 0 5%;
-        padding-inline: clamp(1rem, 5vw, 3rem);
-        font-weight: 700;
-    }
-    a {
-        text-decoration: none;
-        border-radius: 100rem;
-        display: inline-block;
-        margin-right: 5%;
-        margin-right: clamp(1rem, 5vw, 3rem);
-        margin-bottom: 5%;
-        margin-bottom: clamp(1rem, 5vw, 3rem);
-        transition-timing-function: ease-in-out;
-        aspect-ratio: 1/1;
-        outline: none;
-        transform: rotate(30deg);
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        position: relative;
-    }
-    a:focus-visible > * {
-        outline: 0.25em solid #fff;
-        outline-offset: -0.5em;
-    }
-    a:active .link-target > * {
-        transform: translateY(0.125em);
-    }
-    @keyframes fadeInAnimation {
-        80% {transform: scale(1.1)}
-        100% { transform: scale(1) }
-    }
-    .link-target {
-        align-items: center;
-        aspect-ratio: 1/1;
-        background: #000;
-        border-radius: 100rem;
-        color: #000;
-        display: inline-flex;
-        justify-content: center;
-        min-width: 2.75rem;
-        padding: 2.5vw;
-        position: relative;
-        text-align: center;
-        text-decoration: none;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-        .link-target {
-            animation: fadeInAnimation ease .2s;
-            animation-iteration-count: 1;
-            animation-fill-mode: forwards;
-            animation-timing-function: ease-out;
-            transform: scale(0);
-        }
-    }
-    a:nth-child(1) .link-target {
-        background-color: #be449d;
-        animation-delay: var(--nav-1-delay, 0s);
-    }
-    a:nth-child(2) .link-target {
-        background-color: #e40089;
-        animation-delay: .15s;
-        animation-delay: var(--nav-2-delay, .15s);
-    }
-    a:nth-child(3) .link-target {
-        background-color: #e3220c;
-        animation-delay: .05s;
-        animation-delay: var(--nav-3-delay, .05s);
-    }
-    a:nth-child(4) .link-target {
-        background-color: #d40;
-        animation-delay: .1s;
-        animation-delay: var(--nav-4-delay, .1s);
-    }
-    .link-target::before {
-        content: "";
-        display: block;
-        position: absolute;
-        width: 115%;
-        height: 115%;
-        background-color: inherit;
-        opacity: 1;
-        border-radius: inherit;
-        transform: scale(0.86956521739);
-        z-index: -1;
-        opacity: .75;
-        transition: transform .25s;
-        transition-timing-function: ease-out;
-        box-sizing: initial; 
-    }
-    a:hover .link-target::before {
-        transform: scale(1);
-    }
-    .link-target span {
-        border-bottom: 0.25em solid;
-        line-height: 1.1;
-        transition: 0.125s;
-    }
-</style>
 <nav class="rounded-right">
-    {
-        links.map((link,index) => {
-            const i = index + 1;
-            return (
+    <ul>
+        {links.map((link) => 
+            <li>
                 <a href={link.url}>
-                    <span aria-current={link.current ? 'page' : null} class="link-target" style={`--nav-${i}-delay:${link.delay}`}>
-                        <span>{link.text}</span>
-                    </span>
+                    {link.text}
                 </a>
-            );
-        })
-    }
+            </li>
+        )}
+    </ul>
 </nav>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="57.947796mm"
+   height="58.800915mm"
+   viewBox="0 0 57.947796 58.800915"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="link-projects.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.3935732"
+     inkscape:cx="108.35455"
+     inkscape:cy="130.59952"
+     inkscape:window-width="1440"
+     inkscape:window-height="872"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-75.451106,-120.06972)">
+    <g
+       id="g3"
+       transform="translate(33.748924,35.254892)">
+      <g
+         id="g8"
+         transform="translate(-53.697932,27.273711)">
+        <path
+           sodipodi:type="star"
+           style="fill:#e00d91;fill-opacity:1;stroke:#000000;stroke-width:1.84036;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="path4"
+           inkscape:flatsided="true"
+           sodipodi:sides="9"
+           sodipodi:cx="142.08118"
+           sodipodi:cy="23.553564"
+           sodipodi:r1="19.831163"
+           sodipodi:r2="18.635199"
+           sodipodi:arg1="0.52359878"
+           sodipodi:arg2="0.87266463"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           d="m 159.25547,33.469146 -10.39164,8.719616 -13.56531,0 -10.39163,-8.719616 -2.3556,-13.359227 6.78266,-11.7479075 12.74723,-4.6396108 12.74722,4.6396109 6.78266,11.7479074 z"
+           inkscape:transform-center-y="-0.85970326"
+           transform="matrix(0,1.437671,-1.437671,0,157.37659,-117.32441)"
+           inkscape:transform-center-x="6.8576341e-06" />
+        <g
+           id="g7"
+           transform="rotate(90,125.55568,89.057521)">
+          <path
+             sodipodi:type="star"
+             style="fill:#e00d91;fill-opacity:1;stroke-width:0.264583;stroke-linejoin:round;stroke-dasharray:0.00264583, 0.00264583"
+             id="path4-6"
+             inkscape:flatsided="true"
+             sodipodi:sides="9"
+             sodipodi:cx="142.08118"
+             sodipodi:cy="23.553564"
+             sodipodi:r1="19.831163"
+             sodipodi:r2="18.635199"
+             sodipodi:arg1="0.52359878"
+             sodipodi:arg2="0.87266463"
+             inkscape:rounded="0"
+             inkscape:randomized="0"
+             d="m 159.25547,33.469146 -10.39164,8.719616 -13.56531,0 -10.39163,-8.719616 -2.3556,-13.359227 6.78266,-11.7479075 12.74723,-4.6396108 12.74722,4.6396109 6.78266,11.7479074 z"
+             inkscape:transform-center-y="-0.54563973"
+             transform="matrix(0.91246574,0,0,0.91246574,-5.1564537,69.573246)"
+             inkscape:transform-center-x="4.2481353e-06" />
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.02708px;line-height:1.25;font-family:'Courier New';-inkscape-font-specification:'Courier New, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:6.87917px;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+             id="text4"><textPath
+               xlink:href="#path4-6"
+               id="textPath4"
+               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8.46667px;font-family:'Courier New';-inkscape-font-specification:'Courier New, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:6.87917px;fill:#000000;fill-opacity:1">Projects</textPath></text>
+        </g>
+      </g>
+      <circle
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.64583;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="path31-8-1"
+         cx="72.403893"
+         cy="132.05986"
+         r="5.5547724" />
+    </g>
+  </g>
+</svg>
