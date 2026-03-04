@@ -1,30 +1,41 @@
 ---
 const currentPath = Astro.url.pathname;
+
+import BlogSquare from '../assets/blog-square.svg';
+import HomeCircle from '../assets/home-circle.svg';
+import ProjectsNonagon from '../assets/projects-nonagon.svg';
+import ResumeTriangle from '../assets/resume-triangle.svg';
+const Icons = {
+    blog: BlogSquare,
+    home: HomeCircle,
+    projects: ProjectsNonagon,
+    resume: ResumeTriangle,
+};
+
 const links = [
     {
-        text: "ericmikkelsen.com",
+        current: false,
+        slug: "home",
+        text: "EricMikkelsen.com",
         url: "/",
-        delay: '',
-        current: false,
     },
     {
-        text: "blog",
+        current: false,
+        slug: "blog",
+        text: "Blog",
         url: "/blog/",
-        delay: '',
-        current: false,
     },
     {
-        text: "resume",
+        current: false,
         url: "/resume/",
-        delay: '',
-        current: false,
+        slug: "resume", 
+        text: "Resume",
     },
     {
-        text: "projects",
-        url: "/projects/",
-        delay: '',
         current: false,
-
+        slug: "projects",
+        text: "Projects",
+        url: "/projects/",
     },
 ].map(link => {
     const current = link.url === currentPath;
@@ -34,13 +45,122 @@ const links = [
 
 ---
 <nav class="rounded-right">
-    <ul>
-        {links.map((link) => 
-            <li>
-                <a href={link.url}>
-                    {link.text}
-                </a>
-            </li>
-        )}
-    </ul>
+    {links.map(({url,text,slug}) => {
+        const Icon = Icons[slug];
+        return <a 
+            href={url} 
+            class={`nav__link nav__link--${slug}`}
+        >
+        {text}
+        <Icon class="ur-here" aria-hidden="true"/>
+        </a>
+    }
+    )}
 </nav>
+<style>
+    nav {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        margin-left: auto;
+        /* justify-content: end; */
+    }
+    .nav__link {
+        align-items: center;
+        background-color: #fff;
+        border-radius: 16px;
+        border: 8px solid #000;
+        color: #000;
+        display: inline-flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        font-size: clamp(1.1875rem, 4vw, 1.5rem);
+        font-weight: 100;
+        font-family: SpaceCowgirl, 'Courier New', Courier, monospace;
+        gap: 16px;
+        justify-content: center;
+        outline: 4px solid transparent;
+        outline-offset: 4px;
+        overflow: hidden;
+        padding: 8px;
+        position: relative;
+        transition: background-color 0.15s ease-out;
+        text-underline-offset: 4px;
+    }
+    .nav__link:hover {
+        transition-timing-function: ease-in;
+        color: #fff;
+    }
+    .nav__link--projects {
+        background-color: var(--pink);
+    }
+    .nav__link--resume {
+        background-color: var(--purple);
+    }
+    .nav__link--blog {
+        background-color: var(--green);
+    }
+    .nav__link--home {
+        background-color: var(--orange);
+    }
+    .nav__link:focus {
+        outline-color: #fff;
+    }
+    .nav__link:focus:not(:focus-visible) {
+        outline-color: transparent;
+    }
+    .nav__link svg {
+        vertical-align: middle;
+        height: clamp(2rem, 15vw, 12rem);
+        transition: transform 0.15s ease-out;
+        width: auto;
+        z-index: 10;
+        transform: scale(1);
+    }
+    .nav__link:active svg {
+        transform: scale(.9166666);
+        transition-timing-function: ease-out;
+    }
+</style>
+<style is:global>
+    .ur-here__dot {
+        transform: scale(1);
+        transition: transform 0.15s ease-in;
+        transform-origin: center center;
+        transform-box: fill-box;
+    }
+    /* .nav__link:active .ur-here__dot {
+        transform: scale(.8);
+    } */
+    .ur-here__shape--square {
+        fill: var(--green);
+    }
+    .ur-here__shape--circle {
+        fill: var(--orange);
+    }
+    .ur-here__shape--triangle {
+        fill: var(--purple);
+    }
+    .ur-here__shape--nonagon {
+        fill: var(--pink);
+    }
+    .nav__link:hover .ur-here__shape {
+        fill: #fff;
+    }
+    .nav__link:hover .ur-here__dot {
+        fill: #000;
+    }
+    /* 
+    /* .nav__link--home:hover .ur-here__dot {
+        fill: var(--orange);
+    }
+    .nav__link--blog:hover .ur-here__dot {
+        fill: var(--green);
+    }
+    .nav__link--resume:hover .ur-here__dot {
+        fill: var(--purple);
+    }
+    .nav__link--projects:hover .ur-here__dot {
+        fill: var(--pink);
+    } */
+</style>

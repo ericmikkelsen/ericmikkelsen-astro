@@ -1,0 +1,34 @@
+html {
+    --green: #085;
+    --orange: #d30;
+    --pink: #e00d91;
+    --purple: #984de3;
+    font-family: 'Courier New', Courier, monospace;
+    background: #e02;
+}
+* {
+    box-sizing: border-box;
+}
+a {
+    color: inherit;
+}
+
+h1 {
+    font-family: SpaceCowgirl, 'Courier New', Courier, monospace;
+    font-weight: 900;
+    color: #fff;
+    font-size: 2.5em;
+    line-height: calc(1em + .5rem);
+}
+h1::first-line {
+    font-size: clamp(1.5rem, 10vw, 6rem); 
+    line-height: calc(1em + .5rem);
+}
+h1 b {
+    font-weight: 100;
+    font-size: .5em;
+    display: block;
+    line-height: calc(1em + .5rem);
+    /* font-family: 'Courier New', Courier, monospace; */
+}
+img {max-width: 100%; height: auto}

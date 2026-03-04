@@ -13,3 +13,18 @@ const {title, links,reversed = null} = Astro.props
 		)}
 	</ol>
 </Layout>
+<style>
+	ol {
+		font-size: 2rem;
+	}
+	li + li {
+		margin-top: 16px;
+	}
+	a {
+		border-radius: 12px;
+	}
+	a:focus {
+		outline: 4px solid #fff;
+		outline-offset: 4px;
+	}
+</style>

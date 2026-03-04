@@ -7,6 +7,7 @@ const {
 	title, 
 	description, 
 	h1 = true,
+	subTiitle = null,
 } = Astro.props;
 ---
 
@@ -17,14 +18,47 @@ const {
 			title={title} 
 			description={description}
 		/>
+		<style>
+			@font-face {
+				font-family: SpaceCowgirl;
+				src: url(/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2) format('woff2-variations');
+				font-display: swap;
+			}
+			@view-transition {
+				navigation: auto;
+			}
+		</style>
 	</head>
 	<body>
 		<Nav class:list={["NAV"]} />
 		<main>
-				{h1 && !!title && 
-					<h1>{title}</h1>
-				}
+				{h1 && !!title && <h1>
+						{title}
+						{!!subTiitle && <b>{subTiitle}</b>}
+				</h1> }
 				<slot />
 		</main>
 	</body>
 </html>
+<style>
+	body {
+		/* display: flex; */
+		/* flex-direction: row-reverse; */
+		align-items: flex-start;
+		flex-wrap: wrap;
+		padding: 5%;
+		margin: 0;
+		justify-content: center;
+	}
+	main {
+		max-width: 30rem;
+		width: 100%;
+		flex-grow: 1;
+	}
+</style>
+<style is:global>
+	nav {
+		/* width: 40rem; */
+		flex-grow: 666;
+	}
+</style>
