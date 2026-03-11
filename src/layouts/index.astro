@@ -1,21 +1,22 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Nav from "../components/Nav.astro";
+import MenuButton from "../components/MenuButton.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
-const { 
-	title, 
-	description, 
+const {
+	title,
+	description,
 	h1 = true,
 	subTiitle = null,
+	showNav = false,
 } = Astro.props;
 ---
-
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead 
-			title={title} 
+		<BaseHead
+			title={title}
 			description={description}
 		/>
 		<style>
@@ -30,7 +31,10 @@ const {
 		</style>
 	</head>
 	<body>
-		<Nav class:list={["NAV"]} />
+		{showNav
+			? <Nav class:list={["NAV"]} />
+			: <MenuButton />
+		}
 		<main>
 				{h1 && !!title && <h1>
 						{title}
@@ -41,6 +45,12 @@ const {
 	</body>
 </html>
 <style>
+	html {
+	background: url(/public/images/pattern-1.png);
+	background-size: 20rem auto;
+	image-rendering: pixelated;
+	background-position: top left;
+	}
 	body {
 		/* display: flex; */
 		/* flex-direction: row-reverse; */
@@ -51,9 +61,14 @@ const {
 		justify-content: center;
 	}
 	main {
+		view-transition-name: main;
 		max-width: 30rem;
 		width: 100%;
 		flex-grow: 1;
+		padding: 5%;
+		background: #e00;
+		border-radius: 16px;
+		margin-top:5%;
 	}
 </style>
 <style is:global>

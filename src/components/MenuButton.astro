@@ -1,0 +1,32 @@
+---
+import BlogSquare from '../assets/blog-square.svg';
+import HomeCircle from '../assets/home-circle.svg';
+import ProjectsNonagon from '../assets/projects-nonagon.svg';
+import ResumeTriangle from '../assets/resume-triangle.svg';
+---
+<a href="/">
+	<b>Menu</b>
+	<span>
+		<HomeCircle class="icon icon--circle"/>
+		<BlogSquare class="icon icon--square"/>
+		<ResumeTriangle class="icon icon--triangle"/>
+		<ProjectsNonagon class="icon icon--nonagon"/>
+	</span>
+</a>
+<style>
+a {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	background-color: #000;
+	color: #fff;
+	padding: 1.25%;
+	padding-inline: 5%;
+	text-decoration: none;
+	border-radius: 16px;
+}
+.icon {
+	height: 2rem;
+	width: auto;
+}
+</style>

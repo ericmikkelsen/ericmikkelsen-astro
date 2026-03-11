@@ -28,7 +28,7 @@ const links = [
     {
         current: false,
         url: "/resume/",
-        slug: "resume", 
+        slug: "resume",
         text: "Resume",
     },
     {
@@ -42,17 +42,23 @@ const links = [
     link.current = current
     return link
 });
-
+const iconClasses = {
+    blog: "icon--square",
+    home: "icon--circle",
+    projects: "icon--nonagon",
+    resume: "icon--triangle",
+};
 ---
 <nav class="rounded-right">
     {links.map(({url,text,slug}) => {
         const Icon = Icons[slug];
-        return <a 
-            href={url} 
+        const iconClass = iconClasses[slug];
+        return <a
+            href={url}
             class={`nav__link nav__link--${slug}`}
         >
         {text}
-        <Icon class="ur-here" aria-hidden="true"/>
+        <Icon class={`icon ${iconClass}`} aria-hidden="true"/>
         </a>
     }
     )}
@@ -60,7 +66,7 @@ const links = [
 <style>
     nav {
         display: flex;
-        gap: 24px;
+        gap: clamp(1.1875rem, 4vw, 1.5rem);
         flex-wrap: wrap;
         margin-left: auto;
         /* justify-content: end; */
@@ -69,7 +75,7 @@ const links = [
         align-items: center;
         background-color: #fff;
         border-radius: 16px;
-        border: 8px solid #000;
+        border: 10px solid #000;
         color: #000;
         display: inline-flex;
         flex-wrap: wrap;
@@ -79,8 +85,8 @@ const links = [
         font-family: SpaceCowgirl, 'Courier New', Courier, monospace;
         gap: 16px;
         justify-content: center;
-        outline: 4px solid transparent;
-        outline-offset: 4px;
+        outline: 3px solid transparent;
+        outline-offset: -6.625px;
         overflow: hidden;
         padding: 8px;
         position: relative;
@@ -150,7 +156,7 @@ const links = [
     .nav__link:hover .ur-here__dot {
         fill: #000;
     }
-    /* 
+    /*
     /* .nav__link--home:hover .ur-here__dot {
         fill: var(--orange);
     }

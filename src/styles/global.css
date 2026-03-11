@@ -1,34 +1,49 @@
 html {
-    --green: #085;
-    --orange: #d30;
-    --pink: #e00d91;
-    --purple: #984de3;
-    font-family: 'Courier New', Courier, monospace;
-    background: #e02;
+	--green: #085;
+	--orange: #d30;
+	--pink: #e00d91;
+	--purple: #984de3;
+	font-family: "Courier New", Courier, monospace;
+	background: #e02;
 }
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 a {
-    color: inherit;
+	color: inherit;
 }
 
 h1 {
-    font-family: SpaceCowgirl, 'Courier New', Courier, monospace;
-    font-weight: 900;
-    color: #fff;
-    font-size: 2.5em;
-    line-height: calc(1em + .5rem);
+	font-family: SpaceCowgirl, "Courier New", Courier, monospace;
+	font-weight: 900;
+	color: #fff;
+	font-size: 2.5em;
+	line-height: calc(1em + 0.5rem);
 }
 h1::first-line {
-    font-size: clamp(1.5rem, 10vw, 6rem); 
-    line-height: calc(1em + .5rem);
+	font-size: clamp(1.5rem, 10vw, 6rem);
+	line-height: calc(1em + 0.5rem);
 }
 h1 b {
-    font-weight: 100;
-    font-size: .5em;
-    display: block;
-    line-height: calc(1em + .5rem);
-    /* font-family: 'Courier New', Courier, monospace; */
+	font-weight: 100;
+	font-size: 0.5em;
+	display: block;
+	line-height: calc(1em + 0.5rem);
+	/* font-family: 'Courier New', Courier, monospace; */
 }
-img {max-width: 100%; height: auto}
+.icon--square {
+	view-transition-name: icon--square;
+}
+.icon--circle {
+	view-transition-name: icon--circle;
+}
+.icon--triangle {
+	view-transition-name: icon--triangle;
+}
+.icon--nonagon {
+	view-transition-name: icon--nonagon;
+}
+img {
+	max-width: 100%;
+	height: auto;
+}
