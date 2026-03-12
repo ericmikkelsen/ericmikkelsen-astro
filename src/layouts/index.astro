@@ -12,44 +12,58 @@ const {
 	showNav = false,
 } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead
-			title={title}
-			description={description}
-		/>
+		<BaseHead title={title} description={description} />
 		<style>
 			@font-face {
 				font-family: SpaceCowgirl;
-				src: url(/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2) format('woff2-variations');
+				src: url(/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2)
+					format("woff2-variations");
 				font-display: swap;
 			}
 			@view-transition {
 				navigation: auto;
 			}
 		</style>
+		<link
+			rel="preload"
+			href="/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/public/images/pattern-1.png"
+			as="image"
+			type="font/woff2"
+			crossorigin
+		/>
 	</head>
 	<body>
-		{showNav
-			? <Nav class:list={["NAV"]} />
-			: <MenuButton />
-		}
+		{showNav ? <Nav class:list={["NAV"]} /> : <MenuButton />}
 		<main>
-				{h1 && !!title && <h1>
+			{
+				h1 && !!title && (
+					<h1>
 						{title}
 						{!!subTiitle && <b>{subTiitle}</b>}
-				</h1> }
-				<slot />
+					</h1>
+				)
+			}
+			<slot />
 		</main>
 	</body>
 </html>
 <style>
 	html {
-	background: url(/public/images/pattern-1.png);
-	background-size: 20rem auto;
-	image-rendering: pixelated;
-	background-position: top left;
+		background: url(/public/images/pattern-1.png);
+		background-size: 20rem auto;
+		image-rendering: pixelated;
+		background-position: top left;
 	}
 	body {
 		/* display: flex; */
@@ -62,13 +76,10 @@ const {
 	}
 	main {
 		view-transition-name: main;
-		max-width: 30rem;
-		width: 100%;
-		flex-grow: 1;
 		padding: 5%;
 		background: #e00;
 		border-radius: 16px;
-		margin-top:5%;
+		margin-top: 5%;
 	}
 </style>
 <style is:global>
