@@ -1,24 +1,18 @@
 ---
 const currentPath = Astro.url.pathname;
 
-import BlogSquare from '../assets/blog-square.svg';
-import HomeCircle from '../assets/home-circle.svg';
-import ProjectsNonagon from '../assets/projects-nonagon.svg';
-import ResumeTriangle from '../assets/resume-triangle.svg';
+import BlogSquare from "../assets/blog-square.svg";
+import HomeCircle from "../assets/home-circle.svg";
+import ProjectsNonagon from "../assets/projects-nonagon.svg";
+import ResumeTriangle from "../assets/resume-triangle.svg";
 const Icons = {
     blog: BlogSquare,
-    home: HomeCircle,
     projects: ProjectsNonagon,
     resume: ResumeTriangle,
+    toys: HomeCircle,
 };
 
 const links = [
-    {
-        current: false,
-        slug: "home",
-        text: "EricMikkelsen.com",
-        url: "/",
-    },
     {
         current: false,
         slug: "blog",
@@ -37,136 +31,94 @@ const links = [
         text: "Projects",
         url: "/projects/",
     },
-].map(link => {
+    {
+        current: false,
+        slug: "toys",
+        text: "Toys",
+        url: "/toys/",
+    },
+].map((link) => {
     const current = link.url === currentPath;
-    link.current = current
-    return link
+    link.current = current;
+    return link;
 });
 const iconClasses = {
     blog: "icon--square",
-    home: "icon--circle",
     projects: "icon--nonagon",
     resume: "icon--triangle",
+    toys: "icon--circle",
 };
 ---
-<nav class="rounded-right">
-    {links.map(({url,text,slug}) => {
-        const Icon = Icons[slug];
-        const iconClass = iconClasses[slug];
-        return <a
-            href={url}
-            class={`nav__link nav__link--${slug}`}
-        >
-        {text}
-        <Icon class={`icon ${iconClass}`} aria-hidden="true"/>
-        </a>
-    }
-    )}
+
+<nav>
+    <a href="/">Eric Mikkelsen</a>
+    <ul role="list">
+        {
+            links.map(({ url, text, slug }) => {
+                const Icon = Icons[slug];
+                const iconClass = iconClasses[slug];
+                return (
+                    <li>
+                        <a href={url} class={`nav__link nav__link--${slug}`}>
+                            <span>{text}</span>
+                            <br />
+                            <Icon
+                                class={`icon ${iconClass}`}
+                                aria-hidden="true"
+                            />
+                        </a>
+                    </li>
+                );
+            })
+        }
+    </ul>
 </nav>
-<style>
+<style lang="scss">
     nav {
+        width: 100%;
+        clear: both;
+        display: inline-block;
+    }
+    nav > a {
+        display: block;
+        padding: 1em;
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
         display: flex;
-        gap: clamp(1.1875rem, 4vw, 1.5rem);
-        flex-wrap: wrap;
-        margin-left: auto;
-        /* justify-content: end; */
+        gap: 1px;
     }
-    .nav__link {
-        align-items: center;
-        background-color: #fff;
-        border-radius: 16px;
-        border: 10px solid #000;
-        color: #000;
-        display: inline-flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        font-size: clamp(1.1875rem, 4vw, 1.5rem);
-        font-weight: 100;
-        font-family: SpaceCowgirl, 'Courier New', Courier, monospace;
-        gap: 16px;
-        justify-content: center;
-        outline: 3px solid transparent;
-        outline-offset: -6.625px;
-        overflow: hidden;
-        padding: 8px;
-        position: relative;
-        transition: background-color 0.15s ease-out;
-        text-underline-offset: 4px;
-    }
-    .nav__link:hover {
-        transition-timing-function: ease-in;
+    li a {
+        background: #000;
         color: #fff;
+        display: inline-block;
+        padding: 0;
+        text-align: center;
     }
-    .nav__link--projects {
-        background-color: var(--pink);
+    li span {
+        display: inline-block;
+        padding: 25% 0 5%;
     }
-    .nav__link--resume {
-        background-color: var(--purple);
+    /**
+     * Old school method for aspect ratio
+     * @link https://css-tricks.com/aspect-ratio-boxes/#the-pseudo-element-tactic
+     */
+    li a::before {
+        content: "";
+        width: 1px;
+        margin-left: -1px;
+        float: left;
+        height: 0;
+        padding-top: 100%;
     }
-    .nav__link--blog {
-        background-color: var(--green);
+    li a::after {
+        content: "";
+        display: table;
+        clear: both;
     }
-    .nav__link--home {
-        background-color: var(--orange);
+    li svg {
+        height: 2em;
     }
-    .nav__link:focus {
-        outline-color: #fff;
-    }
-    .nav__link:focus:not(:focus-visible) {
-        outline-color: transparent;
-    }
-    .nav__link svg {
-        vertical-align: middle;
-        height: clamp(2rem, 15vw, 12rem);
-        transition: transform 0.15s ease-out;
-        width: auto;
-        z-index: 10;
-        transform: scale(1);
-    }
-    .nav__link:active svg {
-        transform: scale(.9166666);
-        transition-timing-function: ease-out;
-    }
-</style>
-<style is:global>
-    .ur-here__dot {
-        transform: scale(1);
-        transition: transform 0.15s ease-in;
-        transform-origin: center center;
-        transform-box: fill-box;
-    }
-    /* .nav__link:active .ur-here__dot {
-        transform: scale(.8);
-    } */
-    .ur-here__shape--square {
-        fill: var(--green);
-    }
-    .ur-here__shape--circle {
-        fill: var(--orange);
-    }
-    .ur-here__shape--triangle {
-        fill: var(--purple);
-    }
-    .ur-here__shape--nonagon {
-        fill: var(--pink);
-    }
-    .nav__link:hover .ur-here__shape {
-        fill: #fff;
-    }
-    .nav__link:hover .ur-here__dot {
-        fill: #000;
-    }
-    /*
-    /* .nav__link--home:hover .ur-here__dot {
-        fill: var(--orange);
-    }
-    .nav__link--blog:hover .ur-here__dot {
-        fill: var(--green);
-    }
-    .nav__link--resume:hover .ur-here__dot {
-        fill: var(--purple);
-    }
-    .nav__link--projects:hover .ur-here__dot {
-        fill: var(--pink);
-    } */
 </style>

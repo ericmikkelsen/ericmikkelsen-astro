@@ -1,90 +1,59 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
+import BaseHead from "../components/Head/BaseHead.astro";
 import Nav from "../components/Nav.astro";
 import MenuButton from "../components/MenuButton.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-
 const {
-	title,
-	description,
-	h1 = true,
-	subTiitle = null,
-	showNav = false,
+    title,
+    description,
+    h1 = true,
+    subTiitle = null,
+    showNav = false,
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			@font-face {
-				font-family: SpaceCowgirl;
-				src: url(/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2)
-					format("woff2-variations");
-				font-display: swap;
-			}
-			@view-transition {
-				navigation: auto;
-			}
-		</style>
-		<link
-			rel="preload"
-			href="/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2"
-			as="font"
-			type="font/woff2"
-			crossorigin
-		/>
-		<link
-			rel="preload"
-			href="/public/images/pattern-1.png"
-			as="image"
-			type="font/woff2"
-			crossorigin
-		/>
-	</head>
-	<body>
-		{showNav ? <Nav class:list={["NAV"]} /> : <MenuButton />}
-		<main>
-			{
-				h1 && !!title && (
-					<h1>
-						{title}
-						{!!subTiitle && <b>{subTiitle}</b>}
-					</h1>
-				)
-			}
-			<slot />
-		</main>
-	</body>
+    <head>
+        <BaseHead title={title} description={description} />
+        <style>
+            @font-face {
+                font-family: SpaceCowgirl;
+                src: url(/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2)
+                    format("woff2-variations");
+                font-display: swap;
+            }
+            @view-transition {
+                navigation: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <Nav class:list={["NAV"]} />
+        <main>
+            {
+                h1 && !!title && (
+                    <h1>
+                        {title}
+                        {!!subTiitle && <b>{subTiitle}</b>}
+                    </h1>
+                )
+            }
+            <slot />
+        </main>
+    </body>
 </html>
 <style>
-	html {
-		background: url(/public/images/pattern-1.png);
-		background-size: 20rem auto;
-		image-rendering: pixelated;
-		background-position: top left;
-	}
-	body {
-		/* display: flex; */
-		/* flex-direction: row-reverse; */
-		align-items: flex-start;
-		flex-wrap: wrap;
-		padding: 5%;
-		margin: 0;
-		justify-content: center;
-	}
-	main {
-		view-transition-name: main;
-		padding: 5%;
-		background: #e00;
-		border-radius: 16px;
-		margin-top: 5%;
-	}
+    html {
+    }
+    body {
+    }
+    main {
+    }
 </style>
 <style is:global>
-	nav {
-		/* width: 40rem; */
-		flex-grow: 666;
-	}
+    nav {
+        /* width: 40rem; */
+        flex-grow: 666;
+    }
 </style>
