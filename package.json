@@ -19,6 +19,8 @@
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^5.17.2",
     "astro-capo": "^0.0.1",
+    "libimagequant-wasm": "^0.3.0",
+    "oxipng-wasm": "^0.1.0",
     "preact": "^10.21.0",
     "sass": "^1.98.0",
     "satori": "^0.26.0",
