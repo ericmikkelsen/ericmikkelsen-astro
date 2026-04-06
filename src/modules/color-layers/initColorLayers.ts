@@ -99,6 +99,7 @@ type CachedElements = {
     settingsStatus: HTMLOutputElement | null;
     layersList: HTMLUListElement | null;
     svgPreview: SVGSVGElement | null;
+    colorsFyiLink: HTMLAnchorElement | null;
     exportButton: HTMLButtonElement | null;
 };
 
@@ -118,6 +119,7 @@ const emptyElements = (): CachedElements => ({
     settingsStatus: null,
     layersList: null,
     svgPreview: null,
+    colorsFyiLink: null,
     exportButton: null,
 });
 
@@ -185,8 +187,25 @@ export const initColorLayers = (): void => {
             settingsStatus: document.querySelector<HTMLOutputElement>("#settings-status"),
             layersList: document.querySelector<HTMLUListElement>("#layers-list"),
             svgPreview: document.querySelector<SVGSVGElement>("#layer-preview"),
+            colorsFyiLink: document.querySelector<HTMLAnchorElement>("#colors-fyi-link"),
             exportButton: document.querySelector<HTMLButtonElement>("#export-png"),
         };
+    };
+
+    const updateColorsFyiLink = (): void => {
+        if (!els.colorsFyiLink) {
+            return;
+        }
+
+        const colors = [
+            state.background.color,
+            ...state.layers.map((layer) => layer.color),
+        ];
+
+        const uniqueColors = [...new Set(colors)];
+        const compareUrl = new URL("https://colors.fyi/compare-colors/");
+        compareUrl.searchParams.set("colors", uniqueColors.join(", "));
+        els.colorsFyiLink.href = compareUrl.toString();
     };
 
     const setImageSettingsVisibility = (visible: boolean): void => {
@@ -509,6 +528,7 @@ export const initColorLayers = (): void => {
      */
     const renderLayerList = (): void => {
         if (!els.layersList) {
+            updateColorsFyiLink();
             return;
         }
 
@@ -532,6 +552,7 @@ export const initColorLayers = (): void => {
             const emptyItem = document.createElement("li");
             emptyItem.textContent = EMPTY_LAYERS_TEXT;
             els.layersList.appendChild(emptyItem);
+            updateColorsFyiLink();
             return;
         }
 
@@ -556,6 +577,8 @@ export const initColorLayers = (): void => {
             `;
             els.layersList.appendChild(layerItem);
         }
+
+        updateColorsFyiLink();
     };
 
     /**
@@ -749,6 +772,7 @@ export const initColorLayers = (): void => {
         const action = input.dataset.action;
         if (action === "background-recolor") {
             state.background.color = input.value;
+            updateColorsFyiLink();
             requestRender();
             return;
         }
@@ -767,6 +791,7 @@ export const initColorLayers = (): void => {
         }
         if (action === "recolor") {
             layer.color = input.value;
+            updateColorsFyiLink();
             requestRender();
         }
         if (action === "opacity") {
@@ -910,6 +935,7 @@ export const initColorLayers = (): void => {
         }
         setImageSettingsVisibility(false);
         setStatus(STATUS.chooseImage);
+        updateColorsFyiLink();
 
         els.fileInput.addEventListener("change", handleSettingsChanged);
         els.colorCountInput.addEventListener("input", handleSettingsChanged);
