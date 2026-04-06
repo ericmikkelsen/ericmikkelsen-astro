@@ -1,0 +1,174 @@
+---
+import Layout from "../../../layouts/html.astro";
+/**
+ * User stories
+ * - As a user I should be able to upload an image
+ * - as a user I should be able to reduce the number of colors in an image
+ * - as a user I should be able to set the resolution of the output image
+ * - as a user I should be able to set the color count of the output image
+ *
+ * Dev notes
+ * - color quantization and layer rendering run in a dedicated worker with WebGL
+ * - exported PNG optimization uses oxipng wasm in the worker
+ */
+---
+
+<Layout title="Color Layers">
+    <menu aria-label="Controls" role="menu">
+        <li>
+            <label for="file-upload">
+                <span>Upload image</span>
+                <input
+                    name="file"
+                    type="file"
+                    id="file-upload"
+                    accept="image/svg, image/png, image/jpeg, image/jpg, image/avif, image/webp"
+                />
+            </label>
+        </li>
+        <li>
+            <details name="controls">
+                <summary>Image Settings</summary>
+                <!-- each list item should be a new image setting, unless it makes sense to put them together like widht/height and preserve aspect ratio -->
+                <ul>
+                    <li>
+                        <label for="color-count">
+                            <span>Color count</span>
+                            <input
+                                name="color-count"
+                                id="color-count"
+                                type="number"
+                                min="2"
+                                max="32"
+                                value="6"
+                            />
+                        </label>
+                        <span>This will reset existing colors</span>
+                    </li>
+                    <li>
+                        <label for="dithering">
+                            <span>Dithering</span>
+                            <input
+                                name="dithering"
+                                id="dithering"
+                                type="range"
+                                min="0"
+                                max="1"
+                                step="0.01"
+                                value="0.85"
+                            />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="contrast">
+                            <span>Contrast</span>
+                            <input
+                                name="contrast"
+                                id="contrast"
+                                type="range"
+                                min="0"
+                                max="2"
+                                step="0.01"
+                                value="1"
+                            />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="lightness">
+                            <span>Lightness</span>
+                            <input
+                                name="lightness"
+                                id="lightness"
+                                type="range"
+                                min="-100"
+                                max="100"
+                                step="1"
+                                value="0"
+                            />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="speckle-cleanup">
+                            <span>Speckle cleanup</span>
+                            <input
+                                name="speckle-cleanup"
+                                id="speckle-cleanup"
+                                type="range"
+                                min="0"
+                                max="100"
+                                step="1"
+                                value="0"
+                            />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="lock-aspect-ratio">
+                            <span>Lock aspect ratio</span>
+                            <input
+                                name="lock-aspect-ratio"
+                                type="checkbox"
+                                id="lock-aspect-ratio"
+                                checked
+                            />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="width">
+                            <span>Width</span>
+                            <input name="width" type="number" id="width" />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="height">
+                            <span>Height</span>
+                            <input name="height" type="number" id="height" />
+                        </label>
+                    </li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <details name="controls">
+                <summary>Layers</summary>
+                <ul id="layers-list" aria-label="Layers">
+                    <li>No layers yet. Upload an image to begin.</li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <button id="export-png">Export flattened PNG</button>
+        </li>
+    </menu>
+    <main>
+        <prism-graph-canvas>
+            <svg id="layer-preview" aria-label="Layer preview"></svg>
+        </prism-graph-canvas>
+    </main>
+</Layout>
+<script>
+    import { initColorLayers } from "../../../modules/color-layers/initColorLayers";
+
+    initColorLayers();
+</script>
+<style is:global>
+:root {
+  color-scheme: dark;
+}
+html,body {
+    padding: 0;
+    margin: 0;
+}
+</style>
+<style>
+    menu {
+        padding: 5%;
+    }
+    prism-graph-canvas svg {
+        width: 100%;
+        heiht: auto;
+    }
+    prism-graph-canvas svg:empty {
+        aspect-ratio: 16/9;
+        background-color: rgba(128,128,128, .5);
+    }
+</style>
