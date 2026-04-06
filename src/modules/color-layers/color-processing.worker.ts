@@ -583,6 +583,11 @@ const initOxipng = async (): Promise<void> => {
 
     oxiInitPromise = (async () => {
         const response = await fetch(wasmUrl);
+        if (!response.ok) {
+            throw new Error(
+                `Failed to initialize oxipng wasm from ${response.url || wasmUrl}: ${response.status} ${response.statusText}`,
+            );
+        }
         const wasmBytes = await response.arrayBuffer();
         const { instance } = await WebAssembly.instantiate(wasmBytes, {});
         __wbg_set_wasm(instance.exports as Parameters<typeof __wbg_set_wasm>[0]);
