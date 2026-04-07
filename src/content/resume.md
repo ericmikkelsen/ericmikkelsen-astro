@@ -1,6 +1,6 @@
 ---
 title: Eric Mikkelsen
-excerpt: Am I proficient in CSS 3 or HTML 5? Where did I work? Find out answers to these questions and more on my resume!
+description: Am I proficient in CSS 3 or HTML 5? Where did I work? Find out answers to these questions and more on my resume!
 contact: 
   - url: mailto:eric@ericmikkelsen.com
     text: Email eric@ericmikkelsen.com
@@ -11,7 +11,7 @@ contact:
 workHistory:
  - organization: Boldium
    jobTitle: UX Engineer
-   date: September 2018 - Current
+   date: September 2018 - March
    description: At Boldium, I work as a Web Accessibility specialist and UX engineer, the main bit of my job is web development. I usually work on <a href='https://www.11ty.dev/'>Eleventy</a>, <a href="https://nuxtjs.org/">Nuxt</a>, <a href='https://astro.build/'>Astro</a>, and Wordpress sites. But I also work with the (amazing) design team to make sure our work is accessible.
  - organization: Sprout Social
    jobTitle: Web Engineer
