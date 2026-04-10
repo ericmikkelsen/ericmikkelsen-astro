@@ -1,0 +1,55 @@
+---
+const {heading,body = null} = Astro.props
+---
+
+<header>
+    <div class="body">
+        <slot>
+            <h1>{heading}</h1>
+            {body && <p>{body}</p>}
+        </slot>
+    </div>
+</header>
+<style>
+    header {
+        aspect-ratio: 16/9;
+        background-image: url("/images/easter-colors.png");
+        background-size: 100% auto;
+        border: 8px solid black;
+        border-left: 0;
+        display: flex;
+        align-items: flex-end;
+        gap: 24px;
+        width: 100%;
+        height: auto;
+        padding: 5% 5% 0 0;
+    }
+    .body {
+        backdrop-filter: blur(48px);
+        border-top: 1px solid #000;
+        border-right: 1px solid #000;
+        corner-top-right-shape: notch;
+        padding: 5%;
+        width: min-content;
+        border-top-right-radius: 5vw;
+        max-width: 100%;
+    }
+    h1 {
+        font-weight: 900;
+        font-family: var(--font-family);
+        font-size: clamp(2rem, 8vw, 8rem);
+        text-shadow: 0.025em 0.025em #72ddfd;
+        text-shadow: 0.025em 0.025em #fff5b8;
+        margin: 0;
+        max-width: 50ch;
+    }
+    p {
+        backdrop-filter: blur(2rem);
+        border-top: 12px dotted #000;
+        font-size: 1.5rem;
+        margin: 0;
+        max-width: 50ch;
+        padding: 16px 0 0;
+        width: 100%;
+    }
+</style>

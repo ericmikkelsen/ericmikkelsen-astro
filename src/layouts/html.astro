@@ -3,12 +3,13 @@ import BaseHead from "../components/Head/BaseHead.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 const {
+    title = SITE_TITLE,
     description,
     lang = "en",
     h1 = true,
     subTiitle = null,
     showNav = false,
-} = Astro.props;,ls
+} = Astro.props;
 ---
 <!doctype html>
 <html lang={lang}>

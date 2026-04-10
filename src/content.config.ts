@@ -23,10 +23,21 @@ const projects = defineCollection({
 });
 
 const pages = defineCollection({
-    loader: glob({ pattern: './*.md', base: './src/content' }),
+    loader: glob({ pattern: '*.md', base: './src/content' }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
+        contact: z.array(z.object({
+            url: z.string(),
+            text: z.string(),
+        })).optional(),
+        workHistory: z.array(z.object({
+            organization: z.string(),
+            jobTitle: z.string(),
+            date: z.string(),
+            description: z.string().optional(),
+        })).optional(),
+        skills: z.array(z.string()).optional(),
     }),
 });
 

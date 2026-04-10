@@ -1,0 +1,57 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../layouts/index.astro';
+
+export async function getStaticPaths() {
+    const pages = await getCollection('pages');
+
+    return pages.map((entry) => {
+        const entryId = entry.id.replace(/\.md$/, '');
+        const slug = entryId === 'index' ? undefined : entryId;
+
+        return {
+            params: { slug },
+            props: { entry },
+        };
+    });
+}
+
+type Props = {
+    entry: CollectionEntry<'pages'>;
+};
+
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const entryId = entry.id.replace(/\.md$/, '');
+const isResume = entryId === 'resume';
+const workHistory = entry.data.workHistory ?? [];
+---
+
+<Layout
+    title={entry.data.title}
+    description={entry.data.description}
+    showNav={true}
+>
+    <div class="markdown">
+        <Content />
+    </div>
+    {isResume && <section aria-labelledby="work-history">
+        <h2 id="work-history">Work history</h2>
+        {   
+            isResume && workHistory.map( job  => 
+                <h3>{job.organization}</h3>
+                <p>
+                    {job.jobTitle}
+                    <br /><time datetime="">{job.date}</time>
+                    {job.description && <><brssa /><span set:html={job.description} /></>}
+                </p>
+            )
+        }
+    </section>}
+</Layout>
+<style>
+    .markdown {
+        padding-top: 5%;
+        padding-bottom: 5%;
+    }
+</style>

@@ -3,7 +3,7 @@ import Layout from './index.astro';
 const {title, links,reversed = null} = Astro.props
 ---
 <Layout title={title}>
-	<ol reversed={reversed || null}>
+	<ol reversed={reversed || null} role="list">
 		{links.map(({url,text}) => 
 			<li>
 				<a href={url}>
@@ -16,12 +16,20 @@ const {title, links,reversed = null} = Astro.props
 <style>
 	ol {
 		font-size: 2rem;
+		padding: 5%;
+		list-style-position: inside;
+		line-height: 2;
+	}
+	li {
+		padding-left: 10px;
 	}
 	li + li {
 		margin-top: 16px;
 	}
 	a {
 		border-radius: 12px;
+		padding: 4px;
+		font-weight: bold;
 	}
 	a:focus {
 		outline: 4px solid #fff;
