@@ -1,6 +1,7 @@
 ---
 title: Eric Mikkelsen
 ofText: Resume
+description: Certified Web Accessibility Specialist and web developer focusing on what makes things easier for humans, whether it's accessibilty, web performance, or just being a decent human being.
 contact: 
   - url: mailto:eric@ericmikkelsen.com
     text: Email eric@ericmikkelsen.com
@@ -64,9 +65,39 @@ skills:
  - Wordpress
 
 ---
+## Education
+- Bachelors in Interactive Multimedia Columbia chicago
+- Web Accessibility Specialist (WAS) Certification – IAAP (2023)
 
-I'm a [Web Accessibility Specialist](https://www.accessibilityassociation.org/s/wascertification) and web developer focusing on what makes things easier for humans, whether it's accessibilty, web performance, or just being a decent human being.
+## Skills
 
-## Work history
+### Languages & Frameworks: 
+- 11ty
+- Astro
+- CSS
+- JavaScript
+- NextJS
+- Node
+- PHP 
+- React
+- SCSS
+- Svelte
+- SVG
+- Twig
+- TypeScript 
+- Vue
 
-This is every where I worked, aside from my 13 year stint at Starbucks.
+### CMS Expertise
+- Sanity CMS
+- WordPress
+
+### Tools 
+- Git
+- LLMs
+- Tailwind
+
+### Specialty
+- Web Accessibility (WCAG 2.2 and below)
+- Web Components
+
+## Work History
