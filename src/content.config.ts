@@ -37,6 +37,7 @@ const pages = defineCollection({
             jobTitle: z.string(),
             date: z.string(),
             description: z.string().optional(),
+            bulletPoints: z.array(z.string()).optional()
         })).optional(),
         skills: z.array(z.string()).optional(),
     }),
