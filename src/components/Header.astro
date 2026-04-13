@@ -1,55 +1,76 @@
 ---
-const {heading,body = null} = Astro.props
+const {
+    heading,
+    body = null, 
+    id = 'header',
+    ofText = null,
+} = Astro.props
 ---
 
 <header>
-    <div class="body">
+    <div class="body" id={id}>
         <slot>
-            <h1>{heading}</h1>
+            <h1 id="h1">
+                {heading}
+                <i class="ofText">{ofText}</i>
+            </h1>
             {body && <p>{body}</p>}
         </slot>
     </div>
 </header>
 <style>
     header {
-        aspect-ratio: 16/9;
-        background-image: url("/images/easter-colors.png");
-        background-size: 100% auto;
-        border: 8px solid black;
-        border-left: 0;
-        display: flex;
         align-items: flex-end;
         gap: 24px;
         width: 100%;
         height: auto;
-        padding: 5% 5% 0 0;
+        @media screen {
+            display: flex;
+            background-image: url("/images/easter-colors.png");
+            aspect-ratio: 16/9;
+            border: 8px solid black;
+            border-left: 0;
+            background-size: 100% auto;
+            padding: 5% 5% 0 0;
+        }
     }
     .body {
-        backdrop-filter: blur(48px);
-        border-top: 1px solid #000;
-        border-right: 1px solid #000;
-        corner-top-right-shape: notch;
-        padding: 5%;
-        width: min-content;
-        border-top-right-radius: 5vw;
-        max-width: 100%;
+        @media screen {            
+            backdrop-filter: blur(48px);
+            border: 1px solid #000;
+            corner-top-right-shape: notch;
+            border-top-right-radius: 5vw;
+            max-width: 100%;
+            padding: 5%;
+            border-bottom: none;
+            border-left: none;
+        }
     }
     h1 {
         font-weight: 900;
         font-family: var(--font-family);
         font-size: clamp(2rem, 8vw, 8rem);
-        text-shadow: 0.025em 0.025em #72ddfd;
+        text-shadow: 0.025em 0.025em #39d;
         text-shadow: 0.025em 0.025em #fff5b8;
         margin: 0;
-        max-width: 50ch;
+        max-width: 100%;
+        width: 8em;
+        line-height: calc(1em + 4px);
     }
     p {
-        backdrop-filter: blur(2rem);
         border-top: 12px dotted #000;
-        font-size: 1.5rem;
-        margin: 0;
-        max-width: 50ch;
+        margin: 16px 0 0;
         padding: 16px 0 0;
+        font-size: 1.5rem;
+        max-width: 50ch;
         width: 100%;
+    }
+    .ofText {
+        font-size: 1.25rem;
+        margin-top: 4px;
+        display: block;
+        line-height: 1;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        text-shadow: 0.1em 0.1em #fff5b8;
     }
 </style>

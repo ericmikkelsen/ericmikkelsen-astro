@@ -26,6 +26,7 @@ const pages = defineCollection({
     loader: glob({ pattern: '*.md', base: './src/content' }),
     schema: z.object({
         title: z.string(),
+        ofText: z.string().optional(),
         description: z.string(),
         contact: z.array(z.object({
             url: z.string(),

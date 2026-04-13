@@ -1,6 +1,6 @@
 ---
 title: Eric Mikkelsen
-description: Am I proficient in CSS 3 or HTML 5? Where did I work? Find out answers to these questions and more on my resume!
+ofText: Resume
 contact: 
   - url: mailto:eric@ericmikkelsen.com
     text: Email eric@ericmikkelsen.com
