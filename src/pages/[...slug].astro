@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../layouts/index.astro';
+import Markdown from '../components/Markdown.astro';
 
 export async function getStaticPaths() {
     const pages = await getCollection('pages');
@@ -33,7 +34,7 @@ const workHistory = entry.data.workHistory ?? [];
     description={description}
     showNav={true}
 >
-    <div class="markdown">
+    <Markdown class={isResume ? 'resume' : ''}>
         <Content />
         {isResume && workHistory.map((job) => (
             <>
@@ -50,6 +51,7 @@ const workHistory = entry.data.workHistory ?? [];
                 )}
             </>
         ))}
+    </Markdown>
 </Layout>
 <style>
     .markdown {
