@@ -10,6 +10,9 @@ contact:
     text: Mastadon
 workHistory:
  - organization: Boldium
+   jobTitle: Web Developer, UX Engineer, Lead UX Engineer
+   date: September 2018 - March 2026
+   description: I started at Boldium with one React project under my belt and left working with all the major JavaScript frameworks. My greatest impact came from advocating for performance and accessibility and making space for stakeholders to contribute.
    bulletPoints:
     - Changed company design and development workflows to be WCAG 2.2 compliant. 
     - Led the migration from WordPress to Astro, getting a 30% average increase in performance.

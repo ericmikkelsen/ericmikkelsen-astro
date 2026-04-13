@@ -35,20 +35,21 @@ const workHistory = entry.data.workHistory ?? [];
 >
     <div class="markdown">
         <Content />
-    </div>
-    {isResume && <section aria-labelledby="work-history">
-        <h2 id="work-history">Work history</h2>
-        {   
-            isResume && workHistory.map( job  => 
+        {isResume && workHistory.map((job) => (
+            <>
                 <h3>{job.organization}</h3>
                 <p>
                     {job.jobTitle}
                     <br /><time datetime="">{job.date}</time>
-                    {job.description && <><brssa /><span set:html={job.description} /></>}
+                    {job.description && <><br /><span>{job.description}</span></>}
                 </p>
-            )
-        }
-    </section>}
+                {job.bulletPoints && (
+                    <ul>
+                        {job.bulletPoints.map((point) => <li>{point}</li>)}
+                    </ul>
+                )}
+            </>
+        ))}
 </Layout>
 <style>
     .markdown {
