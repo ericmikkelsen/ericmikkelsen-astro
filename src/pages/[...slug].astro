@@ -58,9 +58,12 @@ const workHistory = entry.data.workHistory || [];
         ))}
     </Markdown>
 </Layout>
-<style>
+<style is:global>
     .markdown {
         padding-top: 5%;
         padding-bottom: 5%;
+    }
+    .resume h3 + p {
+        margin-top: 8px;
     }
 </style>
