@@ -27,9 +27,14 @@ const {title, links,reversed = null,ofText} = Astro.props
 		margin-top: 16px;
 	}
 	a {
+		color: inherit;
 		border-radius: 12px;
 		padding: 4px;
 		font-weight: bold;
+	}
+	a:hover {
+		color: inherit;
+		background-color: #7df;
 	}
 	a:focus {
 		outline: 4px solid #fff;
