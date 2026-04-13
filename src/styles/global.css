@@ -30,7 +30,9 @@ a:hover {
     background-color: #000;
     color: #fff;
 }
-
+a:active {
+    text-underline-offset: 7px;
+}
 .icon--square {
     view-transition-name: icon--square;
 }
@@ -48,54 +50,3 @@ img {
     height: auto;
 }
 
-.markdown {
-    width: 100%;
-    padding-bottom: 20%;
-}
-.markdown > * {
-    max-width: 65ch;
-    margin: 0;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-.markdown * + * {
-    margin-top: 1.5em;
-}
-.markdown ul {
-    padding-left: 5%;
-}
-.markdown li + li {
-    margin-top: .75em;
-}
-.markdown p,
-.markdown li {
-    font-size: 1.25em;
-    line-height: 1.5;
-}
-.markdown > h2,
-.markdown > h3,
-.markdown > h4,
-.markdown > h5,
-.markdown > h6 {
-    text-wrap: balance;
-}
-.markdown > * + h2,
-.markdown > * + h3,
-.markdown > * + h4,
-.markdown > * + h5,
-.markdown > * + h6 {
-    margin-top: 1lh;
-}
-.markdown > h2 {
-    /* background-image: linear-gradient(#e62113,#e62113); */
-    background-size: 100% 2px;
-    background-repeat: no-repeat;
-    background-position: .5lh;
-    text-shadow: #fff 2.5px 0,#fff 5px 0, #fff 7.5px 0;
-    font-size: clamp(1.5rem, 3.75vw, 2.5rem);
-}
-.markdown a {
-    font-weight: bold;
-    padding: .5ex;
-    border-radius: 4px;
-}
