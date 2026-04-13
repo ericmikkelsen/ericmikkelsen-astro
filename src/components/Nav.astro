@@ -42,7 +42,7 @@ const links = [
     link.current = current;
     return link;
 });
-const iconClasses = {
+const iconClasses: Record<string, string> = {
     blog: "icon--square",
     projects: "icon--nonagon",
     resume: "icon--triangle",
@@ -59,7 +59,7 @@ const { class: _class, ...rest } = Astro.props;
     </a>
     {
         links.map(({ url, text, slug }) => {
-            const Icon = Icons[slug];
+            const Icon = Icons[slug as keyof typeof Icons];
             const iconClass = iconClasses[slug];
             return (
 
@@ -100,7 +100,6 @@ const { class: _class, ...rest } = Astro.props;
         // background-color: #d30;
         color: #000;
         transition: .2s background-color, .2s filter;
-        text-underline-offset: 2px;
         outline: 4px solid transparent;
         outline-offset: 4px;
         filter: brightness(1);
@@ -114,9 +113,6 @@ const { class: _class, ...rest } = Astro.props;
         text-align: center;
         justify-content: center;
         width: 100%;
-    }
-    a:focus-visible {
-        outline-color: #fff;
     }
     a svg {
         width: auto;
