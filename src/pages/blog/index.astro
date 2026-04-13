@@ -7,7 +7,7 @@ let posts = (await getCollection('blog')).sort(
 	}
 ).map(post => {
 	return {
-		url: `/blog/${post.slug}/`,
+		url: `/blog/${post.id}/`,
 		text: post.data.title
 	}
 });
