@@ -41,21 +41,6 @@ const workHistory = entry.data.workHistory || [];
 >
     <Markdown class={isResume ? 'resume' : ''}>
         <Content />
-        {isResume && workHistory.map((job) => (
-            <>
-                <h3>{job.organization}</h3>
-                <p>
-                    {job.jobTitle}
-                    <br /><time datetime="">{job.date}</time>
-                    {job.description && <><br /><span>{job.description}</span></>}
-                </p>
-                {job.bulletPoints && (
-                    <ul>
-                        {job.bulletPoints.map((point) => <li>{point}</li>)}
-                    </ul>
-                )}
-            </>
-        ))}
     </Markdown>
 </Layout>
 <style is:global>
