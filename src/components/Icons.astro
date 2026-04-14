@@ -1,0 +1,22 @@
+---
+import BlogSquare from "../assets/blog-square.svg";
+import HomeCircle from "../assets/home-circle.svg";
+import ProjectsNonagon from "../assets/projects-nonagon.svg";
+import ResumeTriangle from "../assets/resume-triangle.svg";
+import HomeHouse from '../assets/home-house.svg';
+
+const SVGS = {
+    blog: BlogSquare,
+    projects: ProjectsNonagon,
+    resume: ResumeTriangle,
+    toys: HomeCircle,
+    home: HomeHouse,
+};
+const { 
+    class: _class, 
+    icon,
+
+} = Astro.props;
+const Icon = SVGS[icon as keyof typeof SVGS];
+---
+<Icon class={_class}/>
