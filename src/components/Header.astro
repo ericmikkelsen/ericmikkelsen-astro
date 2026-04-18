@@ -7,7 +7,6 @@ const {
     currentPage = 'home',
 } = Astro.props
 import Icons from "./Icons.astro";
-import { getViewTransitionName, type PageSlug } from "../modules/navigation";
 import NewDot from "./NewDot.astro";
 const resolvedCurrentPage = currentPage as PageSlug;
 const slug = resolvedCurrentPage;

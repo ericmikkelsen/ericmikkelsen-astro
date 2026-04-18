@@ -36,6 +36,9 @@ a:hover {
 a:active {
     text-underline-offset: 7px;
 }
+a:focus-visible {
+    outline: 2px dashed;
+}
 img {
     max-width: 100%;
     height: auto;

@@ -79,7 +79,10 @@ const iconClasses: Record<string, string> = {
         filter: brightness(1);
         flex-grow: 1;
         flex-basis: 60px;
-
+    }
+    a:focus-visible {
+        outline: 2px dashed;
+        outline-offset: -6px;
     }
     .nav__link-inner {
         align-content: center;
