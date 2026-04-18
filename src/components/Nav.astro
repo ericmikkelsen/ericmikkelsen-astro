@@ -1,73 +1,56 @@
 ---
 import Icons from "./Icons.astro";
+import NewDot from "./NewDot.astro";
+import {
+    getCurrentPage,
+    getViewTransitionName,
+    NAV_LINKS,
+    type PageSlug,
+} from "../modules/navigation";
 
-const currentPath = Astro.url.pathname;
-const links = [
-    {
-        current: false,
-        url: "/resume/",
-        slug: "resume",
-        text: "Resume",
-    },
-    {
-        current: false,
-        slug: "blog",
-        text: "Blog",
-        url: "/blog/",
-    },
-    // {
-    //     current: false,
-    //     slug: "projects",
-    //     text: "Projects",
-    //     url: "/projects/",
-    // },
-    // {
-    //     current: false,
-    //     slug: "toys",
-    //     text: "Toys",
-    //     url: "/toys/",
-    // },
-].map((link) => {
-    const current = link.url === currentPath;
-    link.current = current;
-    return link;
-});
+const {
+    class: _class,
+    currentPage = getCurrentPage(Astro.url.pathname),
+} = Astro.props as { class?: string | string[]; currentPage?: PageSlug };
+
+const links = NAV_LINKS;
 const iconClasses: Record<string, string> = {
     blog: "icon--square",
     projects: "icon--nonagon",
     resume: "icon--triangle",
     toys: "icon--circle",
 };
-const { class: _class, ...rest } = Astro.props;
 ---
-
-<nav class={_class}>
-    <a href="/">
-        <span class="nav__link-inner">
-            <span>
-                Eric Mikkelsen
-            </span>
-            <Icons 
-                icon="home" 
-                class={`icon icon--house`}
-                aria-hidden="true"
-            />
-        </span>
-    </a>
+<nav class:list={['nav', _class]}>
     {
         links.map(({ url, text, slug }) => {
             const iconClass = iconClasses[slug];
+            const isCurrent = slug === currentPage;
             return (
 
-                    <a href={url} class={`nav__link nav__link--${slug}`}>
+                    <a
+                        href={url}
+                        class:list={[
+                            "nav__link", 
+                            `nav__link--${slug}`,
+                        ]}
+                        aria-current={isCurrent ? "page" : undefined}
+                    >
                         <span class="nav__link-inner">
 
                             <span>{text}</span>
-                            <Icons
-                                icon={slug}
-                                class={`icon ${iconClass}`}
-                                aria-hidden="true"
-                            />
+                            <span class="icon__wrapper" aria-hidden="true">
+                                <Icons
+                                    icon={slug}
+                                    class={`icon ${iconClass}`}
+                                    current={isCurrent}
+                                    dotTransitionName={getViewTransitionName(slug)}
+                                   
+                                />
+                                {!isCurrent && 
+                                    <NewDot slug={slug}/>
+                                }
+                            </span>
                         </span>
                     </a>
             );
@@ -125,8 +108,14 @@ const { class: _class, ...rest } = Astro.props;
     a:nth-child(5) {
         background-color:  #ffb6f1;
     }
+    .icon__wrapper {
+        position: relative;
+    }
 </style>
 <style is:global lang="scss">
+    a circle {
+        display: none;
+    }
     a svg {
         width: auto;
         height: max(5vw, 3em);
@@ -136,13 +125,14 @@ const { class: _class, ...rest } = Astro.props;
         stroke-width: 1px;
         transition: .2s stroke-width;
         fill: rgba(255,255,255, 0);
+        vector-effect: non-scaling-stroke;
     }
     .ur-here__dot {
         fill: currentColor;
     }
     a:hover path,
     a:hover circle {
-        stroke-width: 16px;
+        stroke-width: 8px;
         fill: rgba(255,255,255, 255);
     }
     a:hover .ur-here__dot {
@@ -156,6 +146,15 @@ const { class: _class, ...rest } = Astro.props;
         transition: .2s r;
     }
     a:active .ur-here__dot {
-        r: 8;
+        r: 8px;
+    }
+    a .new-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    a:not(:hover,:focus) .new-dot {
+        view-transition-name: none;
     }
 </style>

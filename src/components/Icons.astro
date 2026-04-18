@@ -1,22 +1,27 @@
 ---
-import BlogSquare from "../assets/blog-square.svg";
-import HomeCircle from "../assets/home-circle.svg";
-import ProjectsNonagon from "../assets/projects-nonagon.svg";
-import ResumeTriangle from "../assets/resume-triangle.svg";
-import HomeHouse from '../assets/home-house.svg';
+import BlogSquare from "./icons/BlogSquare.astro";
+import HomeCircle from "./icons/HomeCircle.astro";
+import ProjectsNonagon from "./icons/ProjectsNonagon.astro";
+import ResumeTriangle from "./icons/ResumeTriangle.astro";
+import HomeHouse from "./icons/HomeHouse.astro";
 
-const SVGS = {
+const ICONS = {
     blog: BlogSquare,
     projects: ProjectsNonagon,
     resume: ResumeTriangle,
     toys: HomeCircle,
     home: HomeHouse,
 };
-const { 
-    class: _class, 
-    icon,
 
+const {
+    class: className,
+    icon,
+    current = false,
+    dotTransitionName,
+    ...rest
 } = Astro.props;
-const Icon = SVGS[icon as keyof typeof SVGS];
+
+const Icon = ICONS[icon as keyof typeof ICONS];
 ---
-<Icon class={_class}/>
+
+<Icon class={className} current={current} dotTransitionName={dotTransitionName} {...rest} />

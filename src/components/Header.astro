@@ -4,11 +4,24 @@ const {
     body = null, 
     id = 'header',
     ofText = null,
+    currentPage = 'home',
 } = Astro.props
+import Icons from "./Icons.astro";
+import { getViewTransitionName, type PageSlug } from "../modules/navigation";
+import NewDot from "./NewDot.astro";
+const resolvedCurrentPage = currentPage as PageSlug;
+const slug = resolvedCurrentPage;
 ---
 
 <header>
     <div class="body" id={id}>
+        <span aria-hideen="true" class="header__icon-wrapper">
+            <Icons
+                icon={resolvedCurrentPage}
+                class="header__icon"
+            />
+            <NewDot slug={slug}/>
+        </span>
         <slot>
             <h1 id="h1">
                 {heading}
@@ -52,7 +65,7 @@ const {
         font-size: clamp(2rem, 8vw, 8rem);
         text-shadow: 0.025em 0.025em #39d;
         text-shadow: 0.025em 0.025em #fff5b8;
-        margin: 0;
+        margin: 0 0 0 -.05em;
         max-width: 100%;
         width: 8em;
         line-height: calc(1em + 4px);
@@ -72,5 +85,32 @@ const {
         line-height: 1;
         font-family: Georgia, 'Times New Roman', Times, serif;
         text-shadow: 0.1em 0.1em #fff5b8;
+    }
+</style>
+<style is:global>
+    :root {
+        --icon-stroke: 2px;
+    }
+    .header__icon-wrapper {
+        display: inline-flex;
+        position: relative;
+    }
+    .header__icon-wrapper .new-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .header__icon {
+        height: 45px;
+        width: auto;
+        display: block;
+    }
+    .header__icon .ur-here__shape {
+        vector-effect: non-scaling-stroke;
+        stroke-width: 1px;
+    }
+    .header__icon .ur-here__dot {
+        display: none;
     }
 </style>

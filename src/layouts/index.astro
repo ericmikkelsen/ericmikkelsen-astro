@@ -2,6 +2,7 @@
 import BaseHead from "../components/Head/BaseHead.astro";
 import Nav from "../components/Nav.astro";
 import Header from '../components/Header.astro'
+import { getCurrentPage } from "../modules/navigation";
 // import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 const {
     title,
@@ -11,6 +12,8 @@ const {
     subTiitle = null,
     showNav = false,
 } = Astro.props;
+
+const currentPage = getCurrentPage(Astro.url.pathname);
 ---
 
 <!doctype html>
@@ -24,13 +27,14 @@ const {
     <body>
         <a href="#header" class="skip" hidden>Skip to content</a>
         <div class="page">
-            <Nav class={["nav"]} />
+            <Nav class={["nav"]} currentPage={currentPage} />
             <main id="main">
                 <Header
                     id="header"
                     heading={title}
                     ofText={ofText}
                     body={description}
+                    currentPage={currentPage}
                 >
                 </Header>
                 <slot>

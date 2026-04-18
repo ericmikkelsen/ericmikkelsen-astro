@@ -5,6 +5,9 @@
     font-weight: 100 900;
     font-display: swap;
 }
+@view-transition {
+  navigation: auto; 
+}
 
 html, body {
     margin: 0;
@@ -33,20 +36,15 @@ a:hover {
 a:active {
     text-underline-offset: 7px;
 }
-.icon--square {
-    view-transition-name: icon--square;
-}
-.icon--circle {
-    view-transition-name: icon--circle;
-}
-.icon--triangle {
-    view-transition-name: icon--triangle;
-}
-.icon--nonagon {
-    view-transition-name: icon--nonagon;
-}
 img {
     max-width: 100%;
     height: auto;
 }
-
+circle {
+    transform-box: fill-box;
+}
+svg {
+    @view-transition {
+        navigation: auto;
+    }
+}
