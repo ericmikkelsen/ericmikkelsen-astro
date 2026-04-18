@@ -47,19 +47,25 @@ const currentPage = getCurrentPage(Astro.url.pathname);
     html {
     }
     .page {
-        display: flex;
-        min-height: 100vh;
+        @media screen {
+            @media (min-width: 45em) {     
+                display: flex;
+                min-height: 100vh;
+            }
+        }
     }
     main {
         width: 100%;
     }
 </style>
 <style is:global>
-    .nav {
-        height: 100dvh;
-        position: sticky;
-        top: 0;
-
+    @media screen and (min-width: 45em) {     
+        .nav {
+            height: 100dvh;
+            position: sticky;
+            top: 0;
+            max-width: 160px;
+        }
     }
     .skip {
         font-family: 'Courier New', Courier, monospace;

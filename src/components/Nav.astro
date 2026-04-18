@@ -27,32 +27,31 @@ const iconClasses: Record<string, string> = {
             const iconClass = iconClasses[slug];
             const isCurrent = slug === currentPage;
             return (
+                <a
+                    href={url}
+                    class:list={[
+                        "nav__link", 
+                        `nav__link--${slug}`,
+                    ]}
+                    aria-current={isCurrent ? "page" : undefined}
+                >
+                    <span class="nav__link-inner">
 
-                    <a
-                        href={url}
-                        class:list={[
-                            "nav__link", 
-                            `nav__link--${slug}`,
-                        ]}
-                        aria-current={isCurrent ? "page" : undefined}
-                    >
-                        <span class="nav__link-inner">
-
-                            <span>{text}</span>
-                            <span class="icon__wrapper" aria-hidden="true">
-                                <Icons
-                                    icon={slug}
-                                    class={`icon ${iconClass}`}
-                                    current={isCurrent}
-                                    dotTransitionName={getViewTransitionName(slug)}
-                                   
-                                />
-                                {!isCurrent && 
-                                    <NewDot slug={slug}/>
-                                }
-                            </span>
+                        <span>{text}</span>
+                        <span class="icon__wrapper" aria-hidden="true">
+                            <Icons
+                                icon={slug}
+                                class={`icon ${iconClass}`}
+                                current={isCurrent}
+                                dotTransitionName={getViewTransitionName(slug)}
+                                
+                            />
+                            {!isCurrent && 
+                                <NewDot slug={slug}/>
+                            }
                         </span>
-                    </a>
+                    </span>
+                </a>
             );
         })
     }
@@ -62,15 +61,11 @@ const iconClasses: Record<string, string> = {
         --gap: 8px;
         background-color: #000;
         padding: var(--gap);
-        grid-template-columns: repeat(auto-fit, minmax(Min(8em, 100%), 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(6em, 100%), 1fr));
         grid-auto-rows: 1fr;
         gap: var(--gap);
-        max-width: 100%;
-        width: 10em;
-        display: none;
-        @media screen {
-            display: grid;
-        }
+        width: 100%;
+        display: grid;
     }
     a {
         font-weight: 900;
@@ -82,6 +77,9 @@ const iconClasses: Record<string, string> = {
         outline: 4px solid transparent;
         outline-offset: 4px;
         filter: brightness(1);
+        flex-grow: 1;
+        flex-basis: 60px;
+
     }
     .nav__link-inner {
         align-content: center;

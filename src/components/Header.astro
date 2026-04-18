@@ -42,9 +42,13 @@ const slug = resolvedCurrentPage;
             background-image: url("/images/easter-colors.png");
             aspect-ratio: 16/9;
             border: 8px solid black;
-            border-left: 0;
+            border-top-width: 0;
             background-size: 100% auto;
             padding: 5% 5% 0 0;
+            @media (min-width: 45em) {
+                border-top-width: 8px;
+                border-left-width: 0;
+            }
         }
     }
     .body {
