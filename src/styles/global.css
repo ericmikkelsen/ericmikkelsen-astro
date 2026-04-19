@@ -46,8 +46,3 @@ img {
 circle {
     transform-box: fill-box;
 }
-svg {
-    @view-transition {
-        navigation: auto;
-    }
-}
