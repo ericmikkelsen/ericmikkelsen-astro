@@ -1,6 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-
+import Markdown from '../../components/Markdown.astro';
 import Layout from '../../layouts/single.astro'
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
@@ -18,9 +18,9 @@ const { Content } = await render(post);
 	title={post.data.title} 
 	description="Wholesome thoughts on web dev probably."
 >	
-	<div class="markdown">
+	<Markdown>
 		<Content />
-	</div>
+	</Markdown>
 </Layout>
 <style>
     .markdown {
