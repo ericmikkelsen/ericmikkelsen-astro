@@ -1,9 +1,0 @@
-@font-face {
-    font-family: SpaceCowgirl;
-    src: url(/fonts/SpaceCowgirl/variable/SpaceCowgirl.woff2)
-        format("woff2-variations");
-    font-display: swap;
-}
-@view-transition {
-    navigation: auto;
-}
