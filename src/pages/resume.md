@@ -2,7 +2,7 @@
 title: Eric Mikkelsen
 layout: ../layouts/resume.astro
 ofText: Resume
-description: Certified Web Accessibility Specialist and web developer focusing on what makes things easier for humans, whether it's accessibilty, web performance, or just being a decent human being.
+description: Certified Web Accessibility Specialist and web developer focusing on what makes things easier for humans, whether it's accessibility, web performance, or just being a decent human being.
 links: 
   - url: mailto:eric@ericmikkelsen.com
     text: Email eric@ericmikkelsen.com

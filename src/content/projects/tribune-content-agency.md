@@ -15,7 +15,7 @@ Because this was an agency, and I was kind of left to myself I got to set any ki
 ## What I'd Change or update
 
 1. This was before I ever worked with a build step, at this point, I'd probably handle that media query trick with gulp or post css or something.
-2. I didn't know much about Accessibilty back then, so I'd go back and audit the site for A11Y issues.
+2. I didn't know much about accessibility back then, so I'd go back and audit the site for A11Y issues.
 
 ## The Technologies I used:
 
