@@ -8,11 +8,18 @@ const {
 } = Astro.props
 import Icons from "./Icons.astro";
 import NewDot from "./NewDot.astro";
+import {
+    getSectionAccentColor,
+    getSectionColor,
+    type PageSlug,
+} from "../modules/navigation";
 const resolvedCurrentPage = currentPage as PageSlug;
 const slug = resolvedCurrentPage;
+const sectionColor = getSectionColor(resolvedCurrentPage);
+const sectionAccentColor = getSectionAccentColor(resolvedCurrentPage);
 ---
 
-<header>
+<header style={`--section-bg: ${sectionColor}; --section-accent: ${sectionAccentColor}`}>
     <div class="body" id={id}>
         <span aria-hideen="true" class="header__icon-wrapper">
             <Icons
@@ -39,6 +46,7 @@ const slug = resolvedCurrentPage;
         @media screen {
             display: flex;
             background-image: url("/images/easter-colors.png");
+            background-blend-mode: multiply;
             aspect-ratio: 16/9;
             border: 8px solid black;
             border-top-width: 0;
@@ -53,6 +61,7 @@ const slug = resolvedCurrentPage;
     .body {
         @media screen {            
             backdrop-filter: blur(48px);
+            background-color: var(--section-bg);
             border: 1px solid #000;
             corner-top-right-shape: notch;
             border-top-right-radius: 5vw;
@@ -66,8 +75,7 @@ const slug = resolvedCurrentPage;
         font-weight: 900;
         font-family: var(--font-family);
         font-size: clamp(2rem, 8vw, 8rem);
-        text-shadow: 0.025em 0.025em #39d;
-        text-shadow: 0.025em 0.025em #fff5b8;
+        text-shadow: 0.025em 0.025em var(--section-accent);
         margin: 0 0 0 -.05em;
         max-width: 100%;
         width: 8em;
@@ -87,7 +95,7 @@ const slug = resolvedCurrentPage;
         display: block;
         line-height: 1;
         font-family: Georgia, 'Times New Roman', Times, serif;
-        text-shadow: 0.1em 0.1em #fff5b8;
+        text-shadow: 0.1em 0.1em var(--section-bg);
     }
 </style>
 <style is:global>

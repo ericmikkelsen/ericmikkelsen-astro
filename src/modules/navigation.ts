@@ -1,5 +1,13 @@
 export type PageSlug = "home" | "blog" | "projects" | "resume" | "toys";
 
+const SECTION_THEMES = {
+    home: { bg: "#ffb", accent: "#fbf" },
+    resume: { bg: "#7df", accent: "#ffb" },
+    blog: { bg: "#fb7", accent: "#ffb" },
+    // projects: { bg: "#fff5b8", accent: "#9a7d00" },
+    // toys: { bg: "#fbf", accent: "#9d2f78" },
+} as const;
+
 export const NAV_LINKS = [
 
     {
@@ -41,3 +49,6 @@ export const getCurrentPage = (path: string): PageSlug => {
 };
 
 export const getViewTransitionName = (slug: PageSlug) => `dot-${slug}`;
+
+export const getSectionColor = (slug: PageSlug) => SECTION_THEMES[slug].bg;
+export const getSectionAccentColor = (slug: PageSlug) => SECTION_THEMES[slug].accent;
