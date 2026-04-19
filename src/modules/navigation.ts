@@ -4,8 +4,8 @@ const SECTION_THEMES = {
     home: { bg: "#ffb", accent: "#fbf" },
     resume: { bg: "#7df", accent: "#ffb" },
     blog: { bg: "#fb7", accent: "#ffb" },
-    // projects: { bg: "#fff5b8", accent: "#9a7d00" },
-    // toys: { bg: "#fbf", accent: "#9d2f78" },
+    projects: { bg: "#fbf", accent: "#fb7" },
+    toys: { bg: "#eee", accent: "#7df" },
 } as const;
 
 export const NAV_LINKS = [
