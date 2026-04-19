@@ -1,7 +1,7 @@
 ---
 import BaseHead from "../components/Head/BaseHead.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-
+import { Head } from 'astro-capo'
 const {
     title = SITE_TITLE,
     description,
@@ -12,9 +12,9 @@ const {
 ---
 <!doctype html>
 <html lang={lang}>
-    <head>
+    <Head>
         <BaseHead title={title} description={description} />
-    </head>
+    </Head>
     <body>
         <slot />
     </body>
