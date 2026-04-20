@@ -10,6 +10,10 @@
 			],
 			"gallery": "https://api.mcp.github.com",
 			"version": "0.21.0"
+		},
+		"Astro docs": {
+			"url": "https://mcp.docs.astro.build/mcp",
+			"type": "http"
 		}
 	},
 	"inputs": []
