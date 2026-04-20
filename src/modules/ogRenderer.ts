@@ -3,25 +3,46 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import satori from "satori";
-import { getPageFavicon, getSectionAccentColor, getSectionColor, type PageSlug } from "./navigation";
+import { getPageFavicon, getSectionColor, type PageSlug } from "./navigation";
 import { getOgTitle } from "./og";
 
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 627;
-const OG_PNG_COLORS = 10;
+const OG_PNG_COLORS = 4;
+const BASE_TITLE_FONT_SIZE = 124;
+const MIN_TITLE_FONT_SIZE = 113;
+const MAX_TITLE_FONT_SIZE = 150;
 
 const TITLE_FONT_PATH = path.resolve(process.cwd(), "public/fonts/SpaceCowgirl/ttf/SpaceCowgirl-Bold.ttf");
 const OFTEXT_FONT_PATH = path.resolve(process.cwd(), "node_modules/@fontsource/source-serif-4/files/source-serif-4-latin-700-italic.woff");
-const BACKGROUND_PATH = path.resolve(process.cwd(), "public/images/easter-colors.png");
 
 const toArrayBuffer = (buffer: Buffer): ArrayBuffer => {
     return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
 };
 
+const clamp = (value: number, min: number, max: number) => {
+    return Math.min(max, Math.max(min, value));
+};
+
+const getDynamicTitleFontSize = (title: string) => {
+    const normalizedTitle = title.trim();
+    const words = normalizedTitle.split(/\s+/).filter(Boolean);
+    const charCount = normalizedTitle.length;
+    const longestWordLength = words.reduce((max, word) => Math.max(max, word.length), 0);
+
+    // Short titles (or short words) can be larger; long titles/words get reduced.
+    const targetCharCount = 20;
+    const targetLongestWord = 10;
+    const sizeDeltaFromChars = (targetCharCount - charCount) * 2.1;
+    const sizeDeltaFromLongestWord = (targetLongestWord - longestWordLength) * 3.2;
+    const dynamicSize = BASE_TITLE_FONT_SIZE + sizeDeltaFromChars + sizeDeltaFromLongestWord;
+
+    return Math.round(clamp(dynamicSize, MIN_TITLE_FONT_SIZE, MAX_TITLE_FONT_SIZE));
+};
+
 let cachedTitleFontData: ArrayBuffer | null = null;
 let cachedOfTextFontData: ArrayBuffer | null = null;
-let cachedBackgroundImage: string | null = null;
-const cachedPageIcons = new Map<PageSlug, string>();
+const cachedPageIcons = new Map<PageSlug, { dataUri: string; aspectRatio: number }>();
 
 const getTitleFontData = async () => {
     if (cachedTitleFontData) return cachedTitleFontData;
@@ -41,15 +62,6 @@ const getOfTextFontData = async () => {
     return cachedOfTextFontData;
 };
 
-const getBackgroundDataUri = async () => {
-    if (cachedBackgroundImage) return cachedBackgroundImage;
-
-    const backgroundBuffer = await fs.readFile(BACKGROUND_PATH);
-    cachedBackgroundImage = `data:image/png;base64,${backgroundBuffer.toString("base64")}`;
-
-    return cachedBackgroundImage;
-};
-
 const getPageIconDataUri = async (slug: PageSlug) => {
     const cachedIcon = cachedPageIcons.get(slug);
     if (cachedIcon) return cachedIcon;
@@ -58,11 +70,19 @@ const getPageIconDataUri = async (slug: PageSlug) => {
     const absoluteIconPath = path.resolve(process.cwd(), "public", iconPath);
     const iconSvg = await fs.readFile(absoluteIconPath, "utf8");
     const normalizedIconSvg = iconSvg.replace(/stroke-width="[^"]*"/g, 'stroke-width="2"');
+    const viewBoxMatch = normalizedIconSvg.match(/viewBox="([^"]+)"/i);
+    const aspectRatio = viewBoxMatch
+        ? (() => {
+            const [, , w, h] = viewBoxMatch[1].trim().split(/\s+/).map(Number);
+            if (!Number.isFinite(w) || !Number.isFinite(h) || h === 0) return 1;
+            return w / h;
+        })()
+        : 1;
 
     const iconDataUri = `data:image/svg+xml;base64,${Buffer.from(normalizedIconSvg).toString("base64")}`;
-    cachedPageIcons.set(slug, iconDataUri);
+    cachedPageIcons.set(slug, { dataUri: iconDataUri, aspectRatio });
 
-    return iconDataUri;
+    return { dataUri: iconDataUri, aspectRatio };
 };
 
 export const renderOgImage = async ({
@@ -74,17 +94,18 @@ export const renderOgImage = async ({
     ofText?: string;
     slug: PageSlug;
 }) => {
-    const [titleFontData, ofTextFontData, backgroundDataUri, pageIconDataUri] = await Promise.all([
+    const [titleFontData, ofTextFontData, pageIcon] = await Promise.all([
         getTitleFontData(),
         getOfTextFontData(),
-        getBackgroundDataUri(),
         getPageIconDataUri(slug),
     ]);
 
     const safeTitle = getOgTitle(title);
     const safeOfText = ofText?.trim();
     const sectionColor = getSectionColor(slug);
-    const sectionAccentColor = getSectionAccentColor(slug);
+    const titleFontSize = getDynamicTitleFontSize(safeTitle);
+    const iconHeight = 74;
+    const iconWidth = Math.max(1, Math.round(iconHeight * pageIcon.aspectRatio));
 
     const svg = await satori(
         {
@@ -94,28 +115,25 @@ export const renderOgImage = async ({
                     width: `${OG_WIDTH}px`,
                     height: `${OG_HEIGHT}px`,
                     display: "flex",
-                    position: "relative",
                     boxSizing: "border-box",
-                    border: "16px solid #000",
-                    overflow: "hidden",
                     fontFamily: "Spacegirl",
                     color: "#000",
-                    backgroundColor: "#fff",
+                    backgroundColor: sectionColor,
+                    padding: "48px 58px",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    gap: "18px",
                 },
                 children: [
                     {
                         type: "img",
                         props: {
-                            src: backgroundDataUri,
-                            width: OG_WIDTH,
-                            height: OG_HEIGHT,
+                            src: pageIcon.dataUri,
+                            width: iconWidth,
+                            height: iconHeight,
                             style: {
-                                position: "absolute",
-                                top: "0px",
-                                left: "0px",
-                                width: `${OG_WIDTH}px`,
-                                height: `${OG_HEIGHT}px`,
-                                objectFit: "cover",
+                                marginBottom: "6px",
                             },
                         },
                     },
@@ -123,99 +141,31 @@ export const renderOgImage = async ({
                         type: "div",
                         props: {
                             style: {
-                                position: "absolute",
-                                inset: "0px",
-                                backgroundColor: sectionColor,
-                                opacity: 0.62,
-                            },
-                        },
-                    },
-                    {
-                        type: "div",
-                        props: {
-                            style: {
-                                position: "absolute",
-                                inset: "0px",
-                                backgroundImage: "linear-gradient(140deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.05) 65%)",
-                            },
-                        },
-                    },
-                    {
-                        type: "div",
-                        props: {
-                            style: {
-                                display: "flex",
+                                fontSize: `${titleFontSize}px`,
+                                lineHeight: "1.03",
+                                minWidth: 0,
                                 width: "100%",
-                                height: "100%",
-                                position: "relative",
-                                padding: "54px 54px 0 0",
-                                alignItems: "flex-end",
+                                overflow: "hidden",
+                                textWrap: "balance",
                             },
-                            children: {
-                                type: "div",
-                                props: {
-                                    style: {
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        width: "100%",
-                                        minWidth: 0,
-                                        maxWidth: "80%",
-                                        border: "3px solid #000",
-                                        borderTopWidth: "1px",
-                                        borderRightWidth: "1px",
-                                        borderLeft: "none",
-                                        backgroundColor: sectionColor,
-                                        padding: "36px 38px",
-                                    },
-                                    children: [
-                                        {
-                                            type: "img",
-                                            props: {
-                                                src: pageIconDataUri,
-                                                width: 56,
-                                                height: 56,
-                                                style: {
-                                                    marginBottom: "16px",
-                                                },
-                                            },
-                                        },
-                                        {
-                                            type: "div",
-                                            props: {
-                                                style: {
-                                                    fontSize: "97px",
-                                                    lineHeight: "1.02",
-                                                    minWidth: 0,
-                                                    width: "100%",
-                                                    overflow: "hidden",
-                                                    textShadow: `0.025em 0.025em ${sectionAccentColor}`,
-                                                    textWrap: "balance",
-                                                },
-                                                children: safeTitle,
-                                            },
-                                        },
-                                        safeOfText
-                                            ? {
-                                                type: "div",
-                                                props: {
-                                                    style: {
-                                                        fontFamily: "SourceSerif4, serif",
-                                                        fontSize: "34px",
-                                                        lineHeight: "1.1",
-                                                        marginTop: "14px",
-                                                        fontWeight: 700,
-                                                        fontStyle: "italic",
-                                                        textShadow: `0.1em 0.1em ${sectionColor}`,
-                                                    },
-                                                    children: safeOfText,
-                                                },
-                                            }
-                                            : null,
-                                    ],
-                                },
-                            },
+                            children: safeTitle,
                         },
                     },
+                    safeOfText
+                        ? {
+                            type: "div",
+                            props: {
+                                style: {
+                                    fontFamily: "SourceSerif4, serif",
+                                    fontSize: "48px",
+                                    lineHeight: "1.1",
+                                    fontWeight: 700,
+                                    fontStyle: "italic",
+                                },
+                                children: safeOfText,
+                            },
+                        }
+                        : null,
                 ],
             },
         },
