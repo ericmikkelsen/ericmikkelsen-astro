@@ -3,10 +3,6 @@ title: Do you need some help
 description: If you've got an idea that can work on the web, I'd love to spend one to two days with you trying to get your thing off the ground.
 ---
 
-# Do you need some help?
-
-If you've got an idea that can work on the web, I'd love to spend one to two days with you trying to get your thing off the ground.
-
 ## Here's who I am
 
 I'm a web develoeper who has been building websites professionally for 13 years in Chicago Illinois and Berkeley California. My focus is building websites for people with disabilities. 
@@ -33,7 +29,7 @@ I've sat next to and worked with some great people who work in SEO and content s
 
 ## Draw some stuff before you see me.
 
-Bring really bad drawings of what you think you need. Don't feel the need to gussy it. How ever you can maker a picture including hand drawings on the backs of receipts is great.
+Bring really bad drawings of what you think you need. Don't feel the need to gussy it. How ever you can make a picture including hand drawings on the backs of receipts is great.
 
 ## If you want to get started
 

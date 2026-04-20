@@ -1,9 +1,8 @@
 ---
 title: "A love letter to Boldium"
+description: Boldium cares about the people who work there, the clients that they take on, and the people using their work, and I hope they never stop. 
 date: 2026-04-20
 ---
-
-I think Boldium cares about the people who work there, the clients that they take on, and the people using their work, and I hope they never stop. 
 
 I landed at Boldium after a long job search in 2018, and nothing could have felt better than meeting Will and Suzanne. Will was so excited to have a buddy to build out their dev practice. Suzanne wanted a developer who could (in addition to Will) pull off the beautiful designs that their team came up with. It felt like I was coming home in a totally new place, with amazing new people.
 

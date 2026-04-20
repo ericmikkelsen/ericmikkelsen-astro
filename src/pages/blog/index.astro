@@ -13,9 +13,8 @@ let posts = (await getCollection('blog')).sort(
 });
 ---
 <Layout 
-	description="Wholesome thoughts on web dev probably."
+	description="Wholesome thoughts on web dev"
 	links={posts.reverse()}
 	reversed={true}
 	title={'Blog'} 
-	ofText={'of Eric Mikkelsen'}
 />
