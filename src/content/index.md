@@ -10,4 +10,4 @@ Hi! I'm Eric Mikkelsen a web developer and web accessibility specialist who's be
 Depending on who you are, I've put together some questions I usually get asked.
 - [Hey recruiters!](/recruiters/)
 - [Hiya' hiring managers!](/hiring-managers/)
-- [Do you need help with an idea?](/need-help/)
+- [Do you need help with an idea?](/i-want-to-help/)

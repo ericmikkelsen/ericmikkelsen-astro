@@ -1,10 +1,10 @@
 ---
 import Layout from './index.astro'
-const {title} = Astro.props
+const { title, description } = Astro.props
 ---
 <Layout 
 	title={title}
-	description="Wholesome thoughts on web dev probably."
+	description={description}
 >
 	<slot></slot>
 </Layout>
