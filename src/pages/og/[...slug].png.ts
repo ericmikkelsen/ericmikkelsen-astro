@@ -89,7 +89,7 @@ export const GET: APIRoute = async ({ props }) => {
     return new Response(body, {
         headers: {
             "Content-Type": "image/png",
-            "Cache-Control": "public, max-age=31536000, immutable",
+            "Cache-Control": "public, max-age=3600, s-maxage=86400",
         },
     });
 };
