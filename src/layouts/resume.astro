@@ -19,7 +19,7 @@ const typedWorkHistory = workHistory as WorkHistoryItem[];
     ofText={ofText}
     title={title}
 >
-    <Markdown>
+    <Markdown class="markdown--main">
         <p>Links</p>
         {links && <ul>
             {links.map(({url,text}) => <li><a href={url}>{text}</a></li>)}
@@ -46,3 +46,9 @@ const typedWorkHistory = workHistory as WorkHistoryItem[];
         }
     </Markdown>
 </Layout>
+<style is:global>
+    .markdown--main {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+</style>

@@ -97,21 +97,12 @@ const {
     }
     /* resume nonsense */
     .markdown h3 + ul:has(li:nth-child(8)) {
-        max-width: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(9em, 100%), 1fr));
-        gap: 1em;
+        column-width: 100px;
         li {
-            margin: 0;
+            break-after: page;
         }
     }
     @media print {
-        .markdown h3 + ul {
-            max-width: 60em;
-            display: grid;
-            gap: 0;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-        }
         .markdown h2 + ul {
             max-width: 60em;
             display: grid;
