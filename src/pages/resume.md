@@ -4,23 +4,22 @@ layout: ../layouts/resume.astro
 ofText: Resume
 description: Certified Web Accessibility Specialist and web developer focusing on what makes things easier for humans, whether it's accessibility, web performance, or just being a decent human being.
 links: 
+  - url: https://ericmikkelsen.com/
+    text: ericmikkelsen.com
   - url: mailto:eric@ericmikkelsen.com
-    text: Email eric@ericmikkelsen.com
+    text: "Email: eric@ericmikkelsen.com"
   - url: https://www.linkedin.com/in/eric-mikkelsen/
-    text: Linkedin
-  - url: https://ericmikkelsen@fosstodon.org/@ericmikkelsen
-    text: Mastadon
+    text: "Linkedin: linkedin.com/in/eric-mikkelsen"
 workHistory:
  - organization: Boldium
    jobTitle: Web Developer, UX Engineer, Lead UX Engineer
    date: September 2018 - March 2026
    description: I started at Boldium with one React project under my belt and left working with all the major JavaScript frameworks. My greatest impact came from advocating for performance and accessibility and making space for stakeholders to contribute.
    bulletPoints:
-    - Changed company design and development workflows to be WCAG 2.2 compliant. 
-    - Led the migration from WordPress to Astro, getting a 30% average increase in performance.
+    - Changed company design and development workflows to be WCAG 2.2 compliant
+    - Led the migration from WordPress to Astro, getting a 30% average increase in performance
     - Introduced Agile/Sprint cycles and code reviews, increasing predictability and code quality
     - Architected "right-tool-for-the-job" solutions using WordPress for client autonomy and Astro for high-performance sites
-    - "AI POV: For production code I sketch out the logic and expectations in comments first, then let AI fill it out. I personally hand-write HTML and CSS because that's for people."
  - organization: Sprout Social
    jobTitle: Web Engineer
    date: January 2017 - June 2018
@@ -67,7 +66,7 @@ skills:
 
 ---
 ## Education
-- Bachelors in Interactive Multimedia Columbia chicago
+- Bachelors in Interactive Multimedia Columbia Chicago
 - Web Accessibility Specialist (WAS) Certification – IAAP (2023)
 
 ## Skills

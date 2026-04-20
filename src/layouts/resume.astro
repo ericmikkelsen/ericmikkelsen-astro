@@ -11,7 +11,7 @@ type WorkHistoryItem = {
 };
 
 const {frontmatter} = Astro.props;
-const {title,description, ofText, workHistory = []} = frontmatter;
+const {title,description, ofText, workHistory = [], links = []} = frontmatter;
 const typedWorkHistory = workHistory as WorkHistoryItem[];
 ---
 <Layout
@@ -20,25 +20,29 @@ const typedWorkHistory = workHistory as WorkHistoryItem[];
     title={title}
 >
     <Markdown>
+        <p>Links</p>
+        {links && <ul>
+            {links.map(({url,text}) => <li><a href={url}>{text}</a></li>)}
+        </ul>}
         <slot />
         {typedWorkHistory.length > 0 &&
-            <section>
-                <h2>Work history</h2>
+            <>
+                <h2 id="work-history">Work history</h2>
             
                 {typedWorkHistory.map(({date, jobTitle, organization, description, bulletPoints = []}) => (
-                    <section>
+                    <>
                         <h3>{organization}</h3>
                         <p>
-                            {jobTitle}
+                            <i>{jobTitle}</i>
                             <br /><time datetime="">{date}</time>
                             {description && <span><br />{description}</span>}
                         </p>
                         {bulletPoints.length > 0 && <ul>
                                 {bulletPoints.map(point => <li>{point}</li>)}
                         </ul>}
-                    </section>
+                    </>
                 ))}
-            </section>
+            </>
         }
     </Markdown>
 </Layout>
