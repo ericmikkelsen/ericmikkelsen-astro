@@ -21,4 +21,6 @@ I was a lot of different people, like you are on smaller teams — but the throu
 
 ## What’s a recent accomplishment?
 
-We ended up losing a project we put in a bid for with one of our longest running clients. Honestly, it stung a little. I was sure they were going to have to solve some problems that we already built solutions for. So to strengthen our relationship with the client I kept an eye on the project's Slack channel. We supported the other agency by letting them use our prebuilt resources. Then after the blog launched and maintenance started I was able to provide some additional support. After a few months the client felt like we were a better fit and we won the 
+We lost a bid with one of our longest-running clients. Honestly, it stung. I was sure they'd hit problems we'd already solved. So instead of going quiet, I kept an ear out for friction on the project and offered up resources we'd already built for the other agency to use. Once the blog launched and maintenance started, I jumped in to help where I could. A few months in, the client decided we were the better fit and brought maintenance side of the work back to us.
+
+Losing gracefully and staying useful turned out to be a better long-term play than winning the bid would have been.
