@@ -5,6 +5,7 @@ import "../../styles/global.css";
 import { getOgImagePath } from "../../modules/og";
 interface Props {
     title: string;
+    ofText?: string | null;
     description: string;
     image?: string;
     favicon?: string;
@@ -15,17 +16,19 @@ const defaultImage = getOgImagePath(Astro.url.pathname);
 
 const {
     title,
+    ofText = null,
     description,
     image = defaultImage,
     favicon = "/favicon.svg",
 } = Astro.props;
+const resolvedTitle = `${title}${ofText ? ` ${ofText}` : ""}`.trim();
 // https://speakerdeck.com/csswizardry/get-your-head-straight?slide=39
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>{title}</title>
+<title>{resolvedTitle}</title>
 
 <style>
     @font-face {
@@ -55,19 +58,19 @@ const {
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
-<meta name="title" content={title} />
+<meta name="title" content={resolvedTitle} />
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={resolvedTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
+<meta property="twitter:title" content={resolvedTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />

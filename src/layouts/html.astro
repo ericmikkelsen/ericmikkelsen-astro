@@ -5,6 +5,7 @@ import { Head } from 'astro-capo'
 import { getCurrentPage, getPageFavicon } from "../modules/navigation";
 const {
     title = SITE_TITLE,
+    ofText = null,
     description,
     lang = "en",
     h1 = true,
@@ -18,7 +19,7 @@ const resolvedFavicon = favicon ?? getPageFavicon(currentPage);
 <!doctype html>
 <html lang={lang}>
     <Head>
-        <BaseHead title={title} description={description} favicon={resolvedFavicon} />
+        <BaseHead title={title} ofText={ofText} description={description} favicon={resolvedFavicon} />
     </Head>
     <body>
         <slot />
