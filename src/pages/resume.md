@@ -14,38 +14,35 @@ workHistory:
  - organization: Boldium
    jobTitle: Web Developer, UX Engineer, Lead UX Engineer
    date: September 2018 - March 2026
-   description: I started at Boldium with one React project under my belt and left working with all the major JavaScript frameworks. My greatest impact came from advocating for performance and accessibility and making space for stakeholders to contribute.
+   description: I joined Boldium with one React project under my belt and left fluent in most major JS frameworks. My biggest impact came from making accessibility and performance the default, and giving non-dev stakeholders real ways to contribute.
    bulletPoints:
-    - Implemented WCAG 2.2 compliant design and development workflows across the company, ensuring all client-facing products met modern accessibility standards.
-    - Changed our standard tool for building websites from WordPress to Astro, resulting in an average performance increase of 30% for key client sites.
-    - Introduced Agile/Sprint cycles and mandatory code reviews, significantly increasing project predictability and overall code quality.
-    - Architected "right-tool-for-the-job" solutions, leveraging WordPress for client autonomy and Astro for high-performance, custom sites., custom sites.
+    - Built WCAG 2.2 into our design and dev workflow with automated tooling and code review checklists, saving real time and money we'd otherwise spend on rework.
+    - Led the move from WordPress to Astro for marketing sites, lifting Lighthouse scores 30% and pulling SEO wins along with it.
+    - Rolled out sprint cycles and code reviews (covering compatibility, accessibility, and carbon output), which kept regressions from slipping into production.
+    - "Matched the right tool to each project: WordPress when clients wanted more autonomy or were blog focused, Astro when they needed performance."
  - organization: Sprout Social
    jobTitle: Web Engineer
    date: January 2017 - June 2018
    description: At Sprout I worked on the marketing properties and I was part of the Accessibility Advisory Board working with the marketing design department to maintain the accessibility for our designs.
    bulletPoints:
-    - Planned and implemented ADA/WCAG remediation effort in the first month I was there
-    - Helped start the Accessibility Advisory board
-    - Aligned development team to focus on performance
-    - Contributed to the design system
-    - Worked in Wordpress, PHP, HTML, Javascript, CSS
+    - Planned and shipped an ADA/WCAG remediation pass on the marketing properties in my first month.
+    - Co-founded the Accessibility Advisory Board, giving accessibility a standing seat in design and marketing reviews.
+    - Pushed the marketing dev team to treat performance as a first-class concern alongside features.
+    - Contributed components and patterns to the marketing design system used across sproutsocial.com.
  - organization: Mightybytes
    jobTitle: Web Developer
    date: June 2015 - November 2016
    description: At Mightybytes, I built websites in Wordpress, HTML, CSS, Javascript, and PHP. I learned best practices such as tooling with Gulp, version control with Git, LESS & SCSS preprocessors, and templating through Twig.
    bulletPoints: 
-    - Developed a modular system for building dynamic pages where content authors got to choose from a list of components to build their page
-    - Worked closely with the content team to ensure that work was easy to update in CMSs for the client
-    - Worked in Wordpress, PHP, HTML, Javascript, CSS
+    - Built a modular page-building system in WordPress that let content authors compose pages from a library of components, no developer required.
+    - Partnered with the content team to make sure CMS workflows were easy for clients to maintain after handoff.
  - organization: Tribune Publishing
    jobTitle: Web Developer
    date: January 2014 - June 2015
    description: I  started at the Tribune doing Wordpress theme customizations for smaller clients, but when I left I was  doing custom development for larger clients, while also developing sites that were internal to the Tribune parent company.   
    bulletPoints: 
-    - Launched the agency’s largest project, tribunecontentagency.com, as the primary developer
-    - Led the transition from WordPress theme-remixing to custom development, enabling the agency to take on more complex, high-revenue enterprise projects
-    - Worked in Wordpress, PHP, HTML, Javascript, CSS
+    - Shipped the agency's largest internal project, tribunecontentagency.com, as the primary developer.
+    - Led the shift from WordPress theme-remixing to custom development, opening the door to more complex, higher-revenue enterprise work.
  - organization: Starbucks
    jobTitle: Barista, Shift Supervisor, Assistant Store Manager
    description: Prior to my dev career, I spent 13 years brewing coffee, training people, managing profit & loss, and smiling at 5 AM
