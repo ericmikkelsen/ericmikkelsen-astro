@@ -7,13 +7,14 @@ let posts = (await getCollection('blog')).sort(
 	}
 ).map(post => {
 	return {
-		url: `/blog/${post.slug}/`,
+		url: `/blog/${post.id}/`,
 		text: post.data.title
 	}
 });
 ---
 <Layout 
+	description="Wholesome thoughts on web dev"
+	links={posts.reverse()}
+	reversed={true}
 	title={'Blog'} 
-	description="Wholesome thoughts on web dev probably."
-	links={posts}
 />

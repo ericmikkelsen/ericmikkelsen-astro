@@ -1,106 +1,82 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
+import BaseHead from "../components/Head/BaseHead.astro";
 import Nav from "../components/Nav.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import Header from '../components/Header.astro'
+import { getCurrentPage, getPageFavicon } from "../modules/navigation";
+// import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+const {
+    title,
+    description,
+    ofText = null,
+    favicon,
+} = Astro.props;
 
-const { title, description, heading, imageSrc = "", marquee } = Astro.props;
-const Heading = marquee ? "b" : "h1";
+const currentPage = getCurrentPage(Astro.url.pathname);
+const resolvedFavicon = favicon ?? getPageFavicon(currentPage);
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-	</head>
-	<body>
-		<Nav class:list={["NAV"]} />
-		<main>
-			<Heading class="Heading rounded-right">
-				<span>
-					{marquee || title}
-				</span>
-			</Heading>
-			<div class="rounded-right">
-				<slot />
-			</div>
-			<img
-				src={imageSrc || "/eric-looking-left.jpg"}
-				alt="Eric in a green shirt looking at the h1 to the left"
-			/>
-		</main>
-	</body><style>
-		main {
-			margin: auto;
-			padding: 5%;
-			padding: clamp(1rem, 5vw, 3rem);
-			padding-top: 0;
-		}
-		.Heading {
-			background: pink;
-			color: #000;
-			display: inline-block;
-			font-size: var(--step-7);
-			line-height: 0.775;
-			margin: 0;
-			margin-right: 5.555555555%;
-			margin-right: clamp(1rem, 5vw, 3rem);
-			padding: 5.555555555%;
-			padding: clamp(1rem, 5vw, 3rem);
-			position: relative;
-			text-shadow: 0.075em 0.075em 0 #fff;
-			text-transform: uppercase;
-			vertical-align: top;
-			width: 2ch;
-			word-break: break-all;
-		}
-		@media (min-width: 54.5em) {
-			.Heading {
-				position: sticky;
-				top: 5%;
-				top: clamp(1rem, 5vw, 3rem);
-			}
-		}
-		.Heading span {
-			position: relative;
-			top: 0.05em;
-			right: 0.025em;
-			font-size: 1em;
-			line-height: inherit;
-			transform: scale(1.05);
-			display: block;
-		}
-		img {
-			width: 100%;
-			z-index: -1;
-			height: 100%;
-			height: 100lvh;
-			position: fixed;
-			transform: translate3d(0, 0, 0);
-			border-radius: none;
-			top: 0;
-			left: 0;
-			object-fit: cover;
-			object-position: 60%;
-		}
-		main div {
-			display: inline-block;
-			width: fit-content;
-			background-color: #fff;
-			padding: 5.555555555%;
-			padding: clamp(1rem, 5vw, 3rem);
-			margin-top: 5.555555555%;
-			margin-top: clamp(1rem, 5vw, 3rem);
-			min-width: 60%;
-			width: 33rem;
-			max-width: 100%;
-			box-sizing: border-box;
-		}
-		main div > * {
-			margin: 0;
-		}
-		main div > * + * {
-			margin-top: 1.5em;
-			margin-top: calc(1em + 0.5rem);
-		}
-	</style>
+    <head>
+        <BaseHead title={title} description={description} favicon={resolvedFavicon} />
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <a href="#header" class="skip">Skip to content</a>
+        <div class="page">
+            <Nav class={["nav"]} currentPage={currentPage} />
+            <main id="main">
+                <Header
+                    id="header"
+                    heading={title}
+                    ofText={ofText}
+                    body={description}
+                    currentPage={currentPage}
+                >
+                </Header>
+                <slot />
+            </main>
+        </div>
+    </body>
 </html>
+<style>
+    html {
+    }
+    .page {
+        @media screen {
+            @media (min-width: 45em) {     
+                display: flex;
+                min-height: 100vh;
+            }
+        }
+    }
+    main {
+        width: 100%;
+    }
+</style>
+<style is:global>
+    @media screen and (min-width: 45em) {     
+        .nav {
+            height: 100dvh;
+            position: sticky;
+            top: 0;
+            max-width: 160px;
+        }
+    }
+    .skip {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 700;
+        padding: 16px;
+        text-align: center;
+        border: 8px solid #000;
+        border-bottom: none;
+        @media screen {
+            display: block;
+        }
+        &:focus-visible {
+            outline-offset: -12px;
+        }
+    }
+</style>

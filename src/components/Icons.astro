@@ -1,0 +1,27 @@
+---
+import BlogSquare from "./icons/BlogSquare.astro";
+import HomeCircle from "./icons/HomeCircle.astro";
+import ProjectsNonagon from "./icons/ProjectsNonagon.astro";
+import ResumeTriangle from "./icons/ResumeTriangle.astro";
+import HomeHouse from "./icons/HomeHouse.astro";
+
+const ICONS = {
+    blog: BlogSquare,
+    projects: ProjectsNonagon,
+    resume: ResumeTriangle,
+    toys: HomeCircle,
+    home: HomeHouse,
+};
+
+const {
+    class: className,
+    icon,
+    current = false,
+    dotTransitionName,
+    ...rest
+} = Astro.props;
+
+const Icon = ICONS[icon as keyof typeof ICONS];
+---
+
+<Icon class={className} current={current} dotTransitionName={dotTransitionName} {...rest} />

@@ -1,0 +1,125 @@
+---
+const { 
+        class: _class,
+        pad = true,
+} = Astro.props;
+---
+<div class:list={[
+    "markdown",
+    pad ? "markdown--padded" : null,
+    _class
+]}>
+    <slot>
+    
+    </slot>
+</div>
+<style is:global>
+    @media print {
+        @page {
+            margin: 5%; /* Sets 10mm margin on all sides */
+        }
+    }
+    .markdown {
+        width: 100%;
+        padding-bottom: 20%;
+    }
+    .markdown--padded {
+        padding-top: 5%;
+        padding-bottom: 5%;
+    }
+    .markdown > * {
+        max-width: 65ch;
+        margin: 0;
+        @media screen {
+            padding-left: 5%;
+            padding-right: 5%; 
+        }
+    }
+    .markdown * + * {
+        margin-top: 1.5em;
+    }
+    .markdown ul {
+        padding-left: 5%;
+    }
+    .markdown li + li {
+        margin-top: .75em;
+    }
+    .markdown p,
+    .markdown li {
+        line-height: 1.5;
+        @media screen {
+            font-size: 1.25em;
+            break-before: avoid;
+            break-after: avoid;
+        }
+    }
+    .markdown ul {
+        break-before: avoid;
+    }
+    .markdown * + p {
+        margin-top: 20px;
+    }
+    .markdown h2,
+    .markdown h3,
+    .markdown h4,
+    .markdown h5,
+    .markdown h6 {
+        text-wrap: balance;
+    }
+    .markdown * + h2,
+    .markdown * + h3,
+    .markdown * + h4,
+    .markdown * + h5,
+    .markdown * + h6 {
+        @media screen {
+            margin-top: 1.5lh;
+        }
+    }
+    .markdown h3 {
+        @media screen {
+            font-size: 1.5em;
+        }
+    }
+    .markdown > h2 {
+        /* background-image: linear-gradient(#e62113,#e62113); */
+        background-size: 100% 2px;
+        background-repeat: no-repeat;
+        background-position: .5lh;
+        text-shadow: #fff 2.5px 0,#fff 5px 0, #fff 7.5px 0;
+        @media screen {
+            font-size: clamp(1.75rem, 3.75vw, 2.5rem);
+        }
+    }
+    .markdown a {
+        font-weight: bold;
+        padding: .5ex;
+        border-radius: 4px;
+    }
+    /* resume nonsense */
+    .markdown h3 + ul:has(li:nth-child(8)) {
+        column-width: 100px;
+        li {
+            break-after: page;
+        }
+    }
+    @media print {
+        .markdown h2 + ul {
+            max-width: 60em;
+            display: grid;
+            column-gap: 0;
+            grid-template-columns: 1fr 1fr;
+        }
+        .markdown :is(h2,h3) + ul > li + li {
+            margin-top: 0;
+        }
+    }
+    .markdown pre {
+        max-width: none;
+        padding-top: 5%;
+        padding-bottom: 5%;
+    }
+    .markdown img {
+        border: 1px solid currentColor;
+        border-radius: 24px;
+    }
+</style>

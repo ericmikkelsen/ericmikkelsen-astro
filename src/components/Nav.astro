@@ -1,163 +1,152 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE } from "../consts";
-import shuffleArray from "../modules/shuffleArray";
+import Icons from "./Icons.astro";
+import NewDot from "./NewDot.astro";
+import {
+    getCurrentPage,
+    getSectionAccentColor,
+    getSectionColor,
+    getViewTransitionName,
+    NAV_LINKS,
+    type PageSlug,
+} from "../modules/navigation";
 
-const delays = shuffleArray(['0s','.05s','.1s']);
-const currentDelay = '.275s';
-const currentPath = Astro.url.pathname;
-const links = [
-    {
-        text: "ericmikkelsen.com",
-        url: "/",
-        delay: '',
-        current: false,
-    },
-    {
-        text: "blog",
-        url: "/blog/",
-        delay: '',
-        current: false,
-    },
-    {
-        text: "resume",
-        url: "/resume/",
-        delay: '',
-        current: false,
-    },
-    {
-        text: "projects",
-        url: "/projects/",
-        delay: '',
-        current: false,
+const {
+    class: _class,
+    currentPage = getCurrentPage(Astro.url.pathname),
+} = Astro.props as { class?: string | string[]; currentPage?: PageSlug };
 
-    },
-].map(link => {
-    const current = link.url === currentPath;
-    const relatedLink = current || currentPath.startsWith(link.url) && link.url !== '/'
-    if(relatedLink) {
-        link.delay = currentDelay
-    } else {
-        link.delay = delays[0]
-        delays.shift();
-    }
-    link.current = current
-    return link
-});
-
+const links = NAV_LINKS;
+const iconClasses: Record<string, string> = {
+    blog: "icon--square",
+    projects: "icon--nonagon",
+    resume: "icon--triangle",
+    toys: "icon--circle",
+};
 ---
-<style>
-    nav {
-        margin: 5% 0 0;
-        margin: clamp(1rem, 5vw, 3rem) 0 0;
-        padding: 0 5%;
-        padding-inline: clamp(1rem, 5vw, 3rem);
-        font-weight: 700;
-    }
-    a {
-        text-decoration: none;
-        border-radius: 100rem;
-        display: inline-block;
-        margin-right: 5%;
-        margin-right: clamp(1rem, 5vw, 3rem);
-        margin-bottom: 5%;
-        margin-bottom: clamp(1rem, 5vw, 3rem);
-        transition-timing-function: ease-in-out;
-        aspect-ratio: 1/1;
-        outline: none;
-        transform: rotate(30deg);
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        position: relative;
-    }
-    a:focus-visible > * {
-        outline: 0.25em solid #fff;
-        outline-offset: -0.5em;
-    }
-    a:active .link-target > * {
-        transform: translateY(0.125em);
-    }
-    @keyframes fadeInAnimation {
-        80% {transform: scale(1.1)}
-        100% { transform: scale(1) }
-    }
-    .link-target {
-        align-items: center;
-        aspect-ratio: 1/1;
-        background: #000;
-        border-radius: 100rem;
-        color: #000;
-        display: inline-flex;
-        justify-content: center;
-        min-width: 2.75rem;
-        padding: 2.5vw;
-        position: relative;
-        text-align: center;
-        text-decoration: none;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-        .link-target {
-            animation: fadeInAnimation ease .2s;
-            animation-iteration-count: 1;
-            animation-fill-mode: forwards;
-            animation-timing-function: ease-out;
-            transform: scale(0);
-        }
-    }
-    a:nth-child(1) .link-target {
-        background-color: #be449d;
-        animation-delay: var(--nav-1-delay, 0s);
-    }
-    a:nth-child(2) .link-target {
-        background-color: #e40089;
-        animation-delay: .15s;
-        animation-delay: var(--nav-2-delay, .15s);
-    }
-    a:nth-child(3) .link-target {
-        background-color: #e3220c;
-        animation-delay: .05s;
-        animation-delay: var(--nav-3-delay, .05s);
-    }
-    a:nth-child(4) .link-target {
-        background-color: #d40;
-        animation-delay: .1s;
-        animation-delay: var(--nav-4-delay, .1s);
-    }
-    .link-target::before {
-        content: "";
-        display: block;
-        position: absolute;
-        width: 115%;
-        height: 115%;
-        background-color: inherit;
-        opacity: 1;
-        border-radius: inherit;
-        transform: scale(0.86956521739);
-        z-index: -1;
-        opacity: .75;
-        transition: transform .25s;
-        transition-timing-function: ease-out;
-        box-sizing: initial; 
-    }
-    a:hover .link-target::before {
-        transform: scale(1);
-    }
-    .link-target span {
-        border-bottom: 0.25em solid;
-        line-height: 1.1;
-        transition: 0.125s;
-    }
-</style>
-<nav class="rounded-right">
+<nav class:list={['nav', _class]}>
     {
-        links.map((link,index) => {
-            const i = index + 1;
+        links.map(({ url, text, slug }) => {
+            const iconClass = iconClasses[slug];
+            const isCurrent = slug === currentPage;
             return (
-                <a href={link.url}>
-                    <span aria-current={link.current ? 'page' : null} class="link-target" style={`--nav-${i}-delay:${link.delay}`}>
-                        <span>{link.text}</span>
+                <a
+                    href={url}
+                    class:list={[
+                        "nav__link", 
+                        `nav__link--${slug}`,
+                    ]}
+                    style={`--section-bg: ${getSectionColor(slug)}; --section-accent: ${getSectionAccentColor(slug)}`}
+                    aria-current={isCurrent ? "page" : undefined}
+                >
+                    <span class="nav__link-inner">
+
+                        <span>{text}</span>
+                        <span class="icon__wrapper" aria-hidden="true">
+                            <Icons
+                                icon={slug}
+                                class={`icon ${iconClass}`}
+                                current={isCurrent}
+                                dotTransitionName={getViewTransitionName(slug)}
+                                
+                            />
+                            {!isCurrent && 
+                                <NewDot slug={slug}/>
+                            }
+                        </span>
                     </span>
                 </a>
             );
         })
     }
 </nav>
+<style lang="scss">
+    nav {
+        --gap: 8px;
+        background-color: #000;
+        padding: var(--gap);
+        grid-template-columns: repeat(auto-fit, minmax(min(6em, 100%), 1fr));
+        grid-auto-rows: 1fr;
+        gap: var(--gap);
+        width: 100%;
+        display: grid;
+    }
+    a {
+        font-weight: 900;
+        font-size: 1.25em;
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        color: #000;
+        transition: .2s background-color, .2s filter;
+        outline: 4px solid transparent;
+        outline-offset: 4px;
+        filter: brightness(1);
+        flex-grow: 1;
+        flex-basis: 60px;
+    }
+    a:focus-visible {
+        outline: 2px dashed;
+        outline-offset: -6px;
+    }
+    .nav__link-inner {
+        align-content: center;
+        padding: 8px;
+        display: flex;
+        gap: 8px;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+    }
+    a {
+        background-color: var(--section-bg, #fffbbe);
+    }
+    .icon__wrapper {
+        position: relative;
+    }
+</style>
+<style is:global lang="scss">
+    a circle {
+        display: none;
+    }
+    a svg {
+        width: auto;
+        height: max(5vw, 3em);
+    }
+    a path,
+    a circle {
+        stroke-width: 1px;
+        transition: .2s stroke-width;
+        fill: rgba(255,255,255, 0);
+        vector-effect: non-scaling-stroke;
+    }
+    .ur-here__dot {
+        fill: currentColor;
+    }
+    a:hover path,
+    a:hover circle {
+        stroke-width: 8px;
+        fill: rgba(255,255,255, 255);
+    }
+    a:hover .ur-here__dot {
+        fill: currentColor;
+    }
+    a:active path,
+    a:active circle {
+        stroke-width: 1px;
+    }
+    .ur-here__dot {
+        transition: .2s r;
+    }
+    a:active .ur-here__dot {
+        r: 8px;
+    }
+    a .new-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    a:not(:hover,:focus) .new-dot {
+        view-transition-name: none;
+    }
+</style>

@@ -1,0 +1,18 @@
+---
+const {slug} = Astro.props
+const vtName = 'new-dot-' + slug;
+const styles = {
+    '--vt-name': vtName,
+}
+---
+<i class="new-dot" style={styles}></i>
+<style>
+    .new-dot {
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        background: #000;
+        border-radius: 10rem;
+        view-transition-name: var(--vt-name);
+    }
+</style>

@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/index.astro';
+import Markdown from '../components/Markdown.astro';
+
+type WorkHistoryItem = {
+    description?: string;
+    organization: string;
+    jobTitle: string;
+    date: string;
+    bulletPoints?: string[];
+};
+
+const {frontmatter} = Astro.props;
+const {title,description, ofText, workHistory = [], links = []} = frontmatter;
+const typedWorkHistory = workHistory as WorkHistoryItem[];
+---
+<Layout
+    description={description}
+    ofText={ofText}
+    title={title}
+>
+    <Markdown class="markdown--main">
+        <p>Links</p>
+        {links && <ul>
+            {links.map(({url,text}) => <li><a href={url}>{text}</a></li>)}
+        </ul>}
+        <slot />
+        {typedWorkHistory.length > 0 &&
+            <>
+                <h2 id="work-history">Work history</h2>
+            
+                {typedWorkHistory.map(({date, jobTitle, organization, description, bulletPoints = []}) => (
+                    <>
+                        <h3>{organization}</h3>
+                        <p>
+                            <i>{jobTitle}</i>
+                            <br /><time datetime="">{date}</time>
+                            {description && <span><br />{description}</span>}
+                        </p>
+                        {bulletPoints.length > 0 && <ul>
+                                {bulletPoints.map(point => <li>{point}</li>)}
+                        </ul>}
+                    </>
+                ))}
+            </>
+        }
+    </Markdown>
+</Layout>
+<style is:global>
+    .markdown--main {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+</style>

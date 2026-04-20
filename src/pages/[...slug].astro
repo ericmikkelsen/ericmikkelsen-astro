@@ -1,0 +1,50 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../layouts/index.astro';
+import Markdown from '../components/Markdown.astro';
+
+export async function getStaticPaths() {
+    const pages = await getCollection('pages');
+
+    return pages.map((entry) => {
+        const entryId = entry.id.replace(/\.md$/, '');
+        const slug = entryId === 'index' ? undefined : entryId;
+
+        return {
+            params: { slug },
+            props: { entry },
+        };
+    });
+}
+
+type Props = {
+    entry: CollectionEntry<'pages'>;
+};
+
+const { entry } = Astro.props as Props;
+const {
+    description,
+    title,
+    ofText = null,
+} = entry.data;
+const { Content } = await render(entry);
+const entryId = entry.id.replace(/\.md$/, '');
+const isResume = entryId === 'resume';
+const workHistory = entry.data.workHistory || [];
+---
+
+<Layout
+    title={title}
+    ofText={ofText}
+    description={description}
+    showNav={true}
+>
+    <Markdown class={isResume ? 'resume' : ''}>
+        <Content />
+    </Markdown>
+</Layout>
+<style is:global>
+    .resume h3 + p {
+        margin-top: 8px;
+    }
+</style>

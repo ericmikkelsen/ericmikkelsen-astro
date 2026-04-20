@@ -1,0 +1,36 @@
+---
+const {
+    class: className,
+    current = false,
+    dotTransitionName,
+    ...rest
+} = Astro.props;
+---
+
+<svg
+    class:list={["ur-here", className]}
+    xmlns="http://www.w3.org/2000/svg"
+    width="192"
+    height="192"
+    viewBox="0 0 192 192"
+    {...rest}
+>
+    <path
+        class="ur-here__shape ur-here__shape--square"
+        fill="transparent"
+        stroke="currentColor"
+        stroke-linejoin="round"
+        stroke-width="16"
+        d="M8 8h176v176H8z"
+    />
+    {!current && (
+        <circle
+            class="ur-here__dot"
+            fill="currentColor"
+            cx="48"
+            cy="144"
+            r="16"
+            style={dotTransitionName ? `view-transition-name: ${dotTransitionName};` : undefined}
+        />
+    )}
+</svg>
