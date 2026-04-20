@@ -52,3 +52,13 @@ export const getViewTransitionName = (slug: PageSlug) => `dot-${slug}`;
 
 export const getSectionColor = (slug: PageSlug) => SECTION_THEMES[slug].bg;
 export const getSectionAccentColor = (slug: PageSlug) => SECTION_THEMES[slug].accent;
+
+const PAGE_FAVICONS: Record<PageSlug, string> = {
+    home: "/images/home-house.svg",
+    blog: "/images/blog-square.svg",
+    projects: "/images/projects-nonagon.svg",
+    resume: "/images/resume-triangle.svg",
+    toys: "/images/home-circle.svg",
+};
+
+export const getPageFavicon = (slug: PageSlug) => PAGE_FAVICONS[slug];

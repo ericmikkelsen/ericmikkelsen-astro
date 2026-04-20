@@ -1,0 +1,4 @@
+<svg class="ur-here" xmlns="http://www.w3.org/2000/svg" width="189.2" height="192" viewBox="0 0 189.2 192">
+  <path class="ur-here__shape ur-here__shape--nonagon" fill="#fbf" stroke="currentColor" stroke-linejoin="round" stroke-width="16" d="m181 96-21 57-53 31-60-11-39-46V65l39-46 60-11 53 31Z"/>
+  <circle class="ur-here__dot" fill="#000" cx="94.6" cy="96" r="16"/>
+</svg>

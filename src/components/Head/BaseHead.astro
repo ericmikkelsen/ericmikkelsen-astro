@@ -7,11 +7,17 @@ interface Props {
     title: string;
     description: string;
     image?: string;
+    favicon?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
+const {
+    title,
+    description,
+    image = "/blog-placeholder-1.jpg",
+    favicon = "/favicon.svg",
+} = Astro.props;
 // https://speakerdeck.com/csswizardry/get-your-head-straight?slide=39
 ---
 
@@ -42,7 +48,7 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
     crossorigin
 />
 
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href={favicon} />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

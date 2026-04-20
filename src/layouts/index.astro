@@ -2,21 +2,23 @@
 import BaseHead from "../components/Head/BaseHead.astro";
 import Nav from "../components/Nav.astro";
 import Header from '../components/Header.astro'
-import { getCurrentPage } from "../modules/navigation";
+import { getCurrentPage, getPageFavicon } from "../modules/navigation";
 // import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 const {
     title,
     description,
     ofText = null,
+    favicon,
 } = Astro.props;
 
 const currentPage = getCurrentPage(Astro.url.pathname);
+const resolvedFavicon = favicon ?? getPageFavicon(currentPage);
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
-        <BaseHead title={title} description={description} />
+        <BaseHead title={title} description={description} favicon={resolvedFavicon} />
         <style>
 
         </style>
