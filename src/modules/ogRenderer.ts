@@ -8,7 +8,7 @@ import { getOgTitle } from "./og";
 
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 627;
-const OG_PNG_COLORS = 10;
+const OG_PNG_COLORS = 4;
 const BASE_TITLE_FONT_SIZE = 124;
 const MIN_TITLE_FONT_SIZE = 113;
 const MAX_TITLE_FONT_SIZE = 150;
