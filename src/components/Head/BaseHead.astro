@@ -2,7 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../../styles/global.css";
-import GlobalStyles from "./GlobalStyles.astro";
+import { getOgImagePath } from "../../modules/og";
 interface Props {
     title: string;
     description: string;
@@ -11,11 +11,12 @@ interface Props {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const defaultImage = getOgImagePath(Astro.url.pathname);
 
 const {
     title,
     description,
-    image = "/blog-placeholder-1.jpg",
+    image = defaultImage,
     favicon = "/favicon.svg",
 } = Astro.props;
 // https://speakerdeck.com/csswizardry/get-your-head-straight?slide=39
