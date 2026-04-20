@@ -4,7 +4,7 @@ description: Boldium cares about the people who work there, the clients that the
 date: 2026-04-20
 ---
 
-I landed at Boldium after a long job search in 2018, and nothing could have felt better than meeting Will and Suzanne. Will was so excited to have a buddy to build out their dev practice. Suzanne wanted a developer who could (in addition to Will) pull off the beautiful designs that their team came up with. Chai red haired poodle mix that jumps like she's a bag of twigs in a plastic bag, cuddled me during the interview. This was home.
+I landed at Boldium after a long job search in 2018, and nothing could have felt better than meeting Will and Suzanne. Will was so excited to have a buddy to build out their dev practice. Suzanne wanted a developer who could (in addition to Will) pull off the beautiful designs that their team came up with. Chai a red haired poodle mix who feels like she's made out of spring twigs and feathers floating in a plastic bag, cuddled me during the interview. So this was home now.
 
 ## I'm really proud of the work we did there.
 
