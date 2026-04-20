@@ -9,9 +9,15 @@ I'm a web developer, certified Web Accessibility Specialist, and I've been doing
 
 ## What did you do in your last role?
 
-At Boldium, I helped realign the company's designs and development to be accessible. This meant we could say yes to more projects as people started to expect accessible work from agencies. I drove updates to development practices like implementing code reviews and increased code quality. Adopting a sprint schedule was important to me and made our larger project completions much more predictable. I also led the migration from WordPress to Astro, this made the sites super fast and really helped our performance which helped SEO. My day to day work was working in Astro with a Sanity backend, and with the Wordpress gutenberg editor using the CMS and occasionally making bespoke blocks using React. 
+Recent clients had handed us a mandate: build for accessibility. I worked with design and dev to catch issues with automated tooling, plus code review checklists for what tooling can't. Tim Cook's line — you don't do accessibility for ROI — became our north star, but treating it as a foundation saved real time and money we'd otherwise spend on rework.
 
-I might be your guy if you need a versatile front-end js framework polyglot who makes sure your html is semantic and accessible.
+Coming from Sprout Social, I brought what worked there to grow up our dev practice. Deadlines were slipping, so I implemented sprint schedules to get design, dev, and project managers aligned on timelines.
+
+I was the second developer hired, and I'd worked in a silo before where knowledge didn't get shared. Within a couple weeks I rolled out code reviews with checks for browser compatibility, accessibility, and eventually carbon output and performance. Even when we shipped something with high carbon output, the whole team knew what to come back and fix . Then accessibility and compatibility regressions stopped slipping into production.
+
+Lighthouse scores jumped 30% after we moved our marketing sites off WordPress. At Sprout we'd used Hexo for marketing and WordPress for blogs, so I knew both had their place — and Boldium's marketing-heavy work needed Astro. We could still reach for almost any JS framework, but ship static, nearly JS-less sites that were dynamic and beautiful. SEO wins followed.
+
+I was a lot of different people, like you are on smaller teams — but the through-line was making the work faster and more accessible for people.
 
 ## What’s a recent accomplishment?
 
