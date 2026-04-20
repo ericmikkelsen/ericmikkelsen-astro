@@ -16,10 +16,10 @@ workHistory:
    date: September 2018 - March 2026
    description: I started at Boldium with one React project under my belt and left working with all the major JavaScript frameworks. My greatest impact came from advocating for performance and accessibility and making space for stakeholders to contribute.
    bulletPoints:
-    - Changed company design and development workflows to be WCAG 2.2 compliant
-    - Led the migration from WordPress to Astro, getting a 30% average increase in performance
-    - Introduced Agile/Sprint cycles and code reviews, increasing predictability and code quality
-    - Architected "right-tool-for-the-job" solutions using WordPress for client autonomy and Astro for high-performance sites
+    - Implemented WCAG 2.2 compliant design and development workflows across the company, ensuring all client-facing products met modern accessibility standards.
+    - Changed our standard tool for building websites from WordPress to Astro, resulting in an average performance increase of 30% for key client sites.
+    - Introduced Agile/Sprint cycles and mandatory code reviews, significantly increasing project predictability and overall code quality.
+    - Architected "right-tool-for-the-job" solutions, leveraging WordPress for client autonomy and Astro for high-performance, custom sites., custom sites.
  - organization: Sprout Social
    jobTitle: Web Engineer
    date: January 2017 - June 2018
