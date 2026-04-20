@@ -1,4 +1,4 @@
 <svg class="ur-here" xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
-  <circle class="ur-here__shape ur-here__shape--circle" cx="96" cy="96" r="88" fill="#eee" stroke="currentColor" stroke-linejoin="round" stroke-width="16"/>
-  <circle class="ur-here__dot" fill="#000" cx="96" cy="96" r="16"/>
+  <circle class="ur-here__shape ur-here__shape--circle" cx="96" cy="96" r="88" fill="#eee" stroke="currentColor" stroke-linejoin="round" stroke-width="1"/>
+  <circle class="ur-here__dot" fill="#000" cx="96" cy="96" r="32"/>
 </svg>
