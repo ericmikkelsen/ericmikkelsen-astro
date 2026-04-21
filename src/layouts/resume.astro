@@ -10,19 +10,26 @@ type WorkHistoryItem = {
     bulletPoints?: string[];
 };
 
+type LinkItem = {
+    url: string;
+    text: string;
+};
+
 const {frontmatter} = Astro.props;
-const {title,description, ofText, workHistory = [], links = []} = frontmatter;
+const {title,description, ofText, image, workHistory = [], links = []} = frontmatter;
 const typedWorkHistory = workHistory as WorkHistoryItem[];
+const typedLinks = links as LinkItem[];
 ---
 <Layout
     description={description}
     ofText={ofText}
     title={title}
+    image={image}
 >
     <Markdown class="markdown--main">
         <p>Links</p>
-        {links && <ul>
-            {links.map(({url,text}) => <li><a href={url}>{text}</a></li>)}
+        {typedLinks.length > 0 && <ul>
+            {typedLinks.map(({url,text}) => <li><a href={url}>{text}</a></li>)}
         </ul>}
         <slot />
         {typedWorkHistory.length > 0 &&

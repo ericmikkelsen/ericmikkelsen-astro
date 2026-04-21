@@ -1,8 +1,27 @@
 ---
 import Layout from './index.astro';
-const { title, description, links, reversed = null, ofText } = Astro.props
+type LinkItem = {
+	url: string;
+	text: string;
+};
+
+const {
+	title,
+	description,
+	links = [],
+	reversed = null,
+	ofText,
+	image,
+} = Astro.props as {
+	title: string;
+	description: string;
+	links?: LinkItem[];
+	reversed?: boolean | null;
+	ofText?: string;
+	image?: string;
+};
 ---
-<Layout title={title} description={description} ofText={ofText}>
+<Layout title={title} description={description} ofText={ofText} image={image}>
 	<ol reversed={reversed || null} role="list">
 		{links.map(({url,text}) => 
 			<li>

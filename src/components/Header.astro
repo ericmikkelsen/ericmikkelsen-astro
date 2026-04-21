@@ -5,6 +5,7 @@ const {
     id = 'header',
     ofText = null,
     currentPage = 'home',
+    image = null,
 } = Astro.props
 import Icons from "./Icons.astro";
 import NewDot from "./NewDot.astro";
@@ -17,9 +18,10 @@ const resolvedCurrentPage = currentPage as PageSlug;
 const slug = resolvedCurrentPage;
 const sectionColor = getSectionColor(resolvedCurrentPage);
 const sectionAccentColor = getSectionAccentColor(resolvedCurrentPage);
+const resolvedHeaderImage = image || "/images/easter-colors.png";
 ---
 
-<header style={`--section-bg: ${sectionColor}; --section-accent: ${sectionAccentColor}`}>
+<header style={`--section-bg: ${sectionColor}; --section-accent: ${sectionAccentColor}; --header-bg-image: url('${String(resolvedHeaderImage).replaceAll("'", "\\'")}')`}>
     <div class="body" id={id}>
         <span aria-hidden="true" class="header__icon-wrapper">
             <Icons
@@ -45,7 +47,8 @@ const sectionAccentColor = getSectionAccentColor(resolvedCurrentPage);
         height: auto;
         @media screen {
             display: flex;
-            background-image: url("/images/easter-colors.png");
+            background-image: var(--header-bg-image);
+            image-rendering: pixelated;
             background-blend-mode: multiply;
             aspect-ratio: 16/9;
             border: 8px solid black;

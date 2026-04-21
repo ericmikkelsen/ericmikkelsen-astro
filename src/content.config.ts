@@ -11,6 +11,7 @@ const blog = defineCollection({
         description: z.string().optional(),
         date: z.date(),
         permalink: z.string().optional(),
+        image: z.string().optional(),
     }),
 });
 
@@ -19,7 +20,8 @@ const projects = defineCollection({
     schema: z.object({
         title: z.string(),
         description: z.string(),
-        url: z.string()
+        url: z.string(),
+        image: z.string().optional(),
     }),
 });
 
@@ -29,6 +31,7 @@ const pages = defineCollection({
         title: z.string(),
         ofText: z.string().optional(),
         description: z.string(),
+        image: z.string().optional(),
         contact: z.array(z.object({
             url: z.string(),
             text: z.string(),

@@ -17,6 +17,7 @@ const { Content } = await render(post);
 <Layout 
 	title={post.data.title} 
 	description={post.data.description ?? ""}
+	image={post.data.image}
 >	
 	<Markdown>
 		<Content />
