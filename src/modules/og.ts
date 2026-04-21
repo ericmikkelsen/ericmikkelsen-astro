@@ -4,6 +4,7 @@ export type OgPage = {
     pathname: string;
     title: string;
     ofText?: string;
+    image?: string;
     slug: PageSlug;
 };
 
