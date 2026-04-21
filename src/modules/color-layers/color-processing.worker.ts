@@ -11,6 +11,7 @@ import initLibImageQuantWasm, { ImageQuantizer } from "libimagequant-wasm/wasm/l
 import libimagequantWasmUrl from "libimagequant-wasm/wasm/libimagequant_wasm_bg.wasm?url";
 
 const MAX_PALETTE_SIZE = 32;
+const BACKGROUND_SENTINEL_INDEX = 255;
 
 // Message payload and protocol types
 
@@ -190,6 +191,10 @@ const quantizePreview = async ({
     imageBitmap.close?.();
     const imageData = sourceContext.getImageData(0, 0, outputSize.width, outputSize.height);
     applyToneAdjustments(imageData.data, contrast, lightness);
+    const backgroundMask = detectBackgroundMask(imageData.data, outputSize.width, outputSize.height);
+    const quantizationSource = backgroundMask
+        ? excludeBackgroundFromQuantization(imageData.data, backgroundMask)
+        : imageData.data;
 
     const safeColorCount = clamp(colorCount, 1, MAX_PALETTE_SIZE);
     await initLibImageQuant();
@@ -202,17 +207,19 @@ const quantizePreview = async ({
         quantizer.setSpeed(3);
         quantizer.setQuality(0, 100);
 
-        quantResult = quantizer.quantizeImage(imageData.data, outputSize.width, outputSize.height);
+        quantResult = quantizer.quantizeImage(quantizationSource, outputSize.width, outputSize.height);
         quantResult.setDithering(clamp(dithering, 0, 1));
 
         const paletteRgba = quantResult.getPalette() as number[][];
         const paletteIndices = quantResult.getPaletteIndices(
-            imageData.data,
+            quantizationSource,
             outputSize.width,
             outputSize.height
         );
         const cleanedIndices = applySpeckleCleanup(
-            paletteIndices,
+            backgroundMask
+                ? applyBackgroundMaskToIndices(paletteIndices, backgroundMask)
+                : paletteIndices,
             outputSize.width,
             outputSize.height,
             speckleCleanup
@@ -224,7 +231,11 @@ const quantizePreview = async ({
 
         for (let i = 0; i < cleanedIndices.length; i += 1) {
             const paletteIndex = cleanedIndices[i];
-            const [r, g, b, a] = paletteRgba[paletteIndex] || [0, 0, 0, 255];
+            const [r, g, b, a] =
+                paletteRgba[paletteIndex] ||
+                (backgroundMask?.[i]
+                    ? [255, 255, 255, 0]
+                    : [0, 0, 0, 255]);
             indexedPixels[i] = paletteIndex;
             const pixelOffset = i * 4;
             quantizedRgba[pixelOffset] = r;
@@ -259,6 +270,125 @@ const applyToneAdjustments = (
         rgba[i + 1] = clamp(Math.round((rgba[i + 1] - 128) * clampedContrast + 128 + offset), 0, 255);
         rgba[i + 2] = clamp(Math.round((rgba[i + 2] - 128) * clampedContrast + 128 + offset), 0, 255);
     }
+};
+
+const detectBackgroundMask = (
+    rgba: Uint8ClampedArray,
+    width: number,
+    height: number
+): Uint8Array | null => {
+    if (width < 2 || height < 2) {
+        return null;
+    }
+
+    const edgePixels: number[] = [];
+    const pushPixel = (x: number, y: number): void => {
+        edgePixels.push((y * width + x) * 4);
+    };
+
+    for (let x = 0; x < width; x += 1) {
+        pushPixel(x, 0);
+        pushPixel(x, height - 1);
+    }
+    for (let y = 1; y < height - 1; y += 1) {
+        pushPixel(0, y);
+        pushPixel(width - 1, y);
+    }
+
+    let candidateCount = 0;
+    let redTotal = 0;
+    let greenTotal = 0;
+    let blueTotal = 0;
+
+    for (const offset of edgePixels) {
+        const alpha = rgba[offset + 3];
+        if (alpha < 200) {
+            continue;
+        }
+        const red = rgba[offset];
+        const green = rgba[offset + 1];
+        const blue = rgba[offset + 2];
+        const maxChannel = Math.max(red, green, blue);
+        const minChannel = Math.min(red, green, blue);
+        if (maxChannel < 170 || maxChannel - minChannel > 48) {
+            continue;
+        }
+
+        candidateCount += 1;
+        redTotal += red;
+        greenTotal += green;
+        blueTotal += blue;
+    }
+
+    if (candidateCount < edgePixels.length * 0.2) {
+        return null;
+    }
+
+    const backgroundColor: [number, number, number] = [
+        Math.round(redTotal / candidateCount),
+        Math.round(greenTotal / candidateCount),
+        Math.round(blueTotal / candidateCount),
+    ];
+
+    const mask = new Uint8Array(width * height);
+    let maskedCount = 0;
+
+    for (let i = 0; i < width * height; i += 1) {
+        const offset = i * 4;
+        const alpha = rgba[offset + 3];
+        if (alpha < 200) {
+            continue;
+        }
+        const red = rgba[offset];
+        const green = rgba[offset + 1];
+        const blue = rgba[offset + 2];
+        const maxChannel = Math.max(red, green, blue);
+        const minChannel = Math.min(red, green, blue);
+        const distance = Math.abs(red - backgroundColor[0]) + Math.abs(green - backgroundColor[1]) + Math.abs(blue - backgroundColor[2]);
+        if (maxChannel >= 160 && maxChannel - minChannel <= 60 && distance <= 72) {
+            mask[i] = 1;
+            maskedCount += 1;
+        }
+    }
+
+    if (maskedCount < width * height * 0.03) {
+        return null;
+    }
+
+    return mask;
+};
+
+const excludeBackgroundFromQuantization = (
+    rgba: Uint8ClampedArray,
+    backgroundMask: Uint8Array
+): Uint8ClampedArray => {
+    const masked = new Uint8ClampedArray(rgba);
+
+    for (let i = 0; i < backgroundMask.length; i += 1) {
+        if (backgroundMask[i] !== 1) {
+            continue;
+        }
+        const offset = i * 4;
+        masked[offset] = 255;
+        masked[offset + 1] = 255;
+        masked[offset + 2] = 255;
+        masked[offset + 3] = 0;
+    }
+
+    return masked;
+};
+
+const applyBackgroundMaskToIndices = (
+    indices: ArrayLike<number>,
+    backgroundMask: Uint8Array
+): Uint16Array => {
+    const maskedIndices = new Uint16Array(indices.length);
+
+    for (let i = 0; i < indices.length; i += 1) {
+        maskedIndices[i] = backgroundMask[i] === 1 ? BACKGROUND_SENTINEL_INDEX : indices[i];
+    }
+
+    return maskedIndices;
 };
 
 /**
@@ -298,6 +428,11 @@ const applySpeckleCleanup = (
                 const index = y * width + x;
                 const center = source[index];
 
+                if (center === BACKGROUND_SENTINEL_INDEX) {
+                    target[index] = center;
+                    continue;
+                }
+
                 let sameNeighborCount = 0;
                 let touchedCount = 0;
                 let bestColor = center;
@@ -315,6 +450,9 @@ const applySpeckleCleanup = (
                         }
 
                         const neighbor = source[ny * width + nx];
+                        if (neighbor === BACKGROUND_SENTINEL_INDEX) {
+                            continue;
+                        }
                         if (neighbor === center) {
                             sameNeighborCount += 1;
                         }

@@ -490,14 +490,19 @@ export const initColorLayers = (): void => {
         const existingByPaletteIndex = createLayerByPaletteIndexMap();
         state.layers = state.palette.map((rgb, index) => {
             const existing = existingByPaletteIndex.get(index);
+            const nextColor = rgbToHex(rgb as [number, number, number]);
             if (existing) {
-                return existing;
+                return {
+                    ...existing,
+                    color: nextColor,
+                    paletteIndex: index,
+                };
             }
 
             return {
                 id: `layer-${index + 1}`,
                 name: `Layer ${index + 1}`,
-                color: rgbToHex(rgb as [number, number, number]),
+                color: nextColor,
                 opacity: 100,
                 paletteIndex: index,
             };
