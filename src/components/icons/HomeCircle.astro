@@ -25,14 +25,12 @@ const {
         stroke-linejoin="round"
         stroke-width="16"
     />
-    {!current && (
-        <circle
-            class="ur-here__dot"
-            fill="currentColor"
-            cx="96"
-            cy="96"
-            r="16"
-            style={dotTransitionName ? `view-transition-name: ${dotTransitionName};` : undefined}
-        />
-    )}
+    <circle
+        class="ur-here__dot"
+        fill="currentColor"
+        cx="96"
+        cy="96"
+        r="16"
+        style={dotTransitionName ? `view-transition-name: ${dotTransitionName};` : undefined}
+    />
 </svg>

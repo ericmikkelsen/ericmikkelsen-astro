@@ -1,5 +1,6 @@
 ---
 import Layout from "../../../layouts/html.astro";
+import Icons from "../../../components/Icons.astro";
 /**
  * User stories
  * - As a user I should be able to upload an image
@@ -15,137 +16,144 @@ import Layout from "../../../layouts/html.astro";
 
 <Layout title="Color Layers">
     <div id="color-layers-layout" data-layout="side-by-side">
-    <menu aria-label="Controls" role="menu">
-        <li id="controls-top-bar">
-            <label for="file-upload">
-                <span>Upload image</span>
-                <input
-                    name="file"
-                    type="file"
-                    id="file-upload"
-                    accept="image/svg+xml, image/png, image/jpeg, image/jpg, image/avif, image/webp"
-                />
-            </label>
-            <a id="colors-fyi-link" href="https://colors.fyi/compare-colors/?colors=" target="_blank" rel="noopener noreferrer">Check colors in colors.fyi</a>
-            <button id="export-png">Export flattened PNG</button>
-        </li>
-        <li id="image-settings-controls">
-            <details name="controls">
-                <summary>Image Settings</summary>
-                <!-- each list item should be a new image setting, unless it makes sense to put them together like widht/height and preserve aspect ratio -->
-                <ul>
-                    <li>
-                        <label for="layout-mode">
-                            <span>Layout</span>
-                            <select name="layout-mode" id="layout-mode">
-                                <option value="side-by-side" selected>Side by side</option>
-                                <option value="top-and-bottom">Top and bottom</option>
-                            </select>
-                        </label>
-                    </li>
-                    <li>
-                        <label for="color-count">
-                            <span>Color count</span>
-                            <input
-                                name="color-count"
-                                id="color-count"
-                                type="number"
-                                min="2"
-                                max="32"
-                                value="6"
-                            />
-                        </label>
-                        <span>This will reset existing colors</span>
-                    </li>
-                    <li>
-                        <label for="dithering">
-                            <span>Dithering</span>
-                            <input
-                                name="dithering"
-                                id="dithering"
-                                type="range"
-                                min="0"
-                                max="1"
-                                step="0.01"
-                                value="0.85"
-                            />
-                        </label>
-                    </li>
-                    <li>
-                        <label for="contrast">
-                            <span>Contrast</span>
-                            <input
-                                name="contrast"
-                                id="contrast"
-                                type="range"
-                                min="0"
-                                max="2"
-                                step="0.01"
-                                value="1"
-                            />
-                        </label>
-                    </li>
-                    <li>
-                        <label for="lightness">
-                            <span>Lightness</span>
-                            <input
-                                name="lightness"
-                                id="lightness"
-                                type="range"
-                                min="-100"
-                                max="100"
-                                step="1"
-                                value="0"
-                            />
-                        </label>
-                    </li>
-                    <li>
-                        <label for="speckle-cleanup">
-                            <span>Speckle cleanup</span>
-                            <input
-                                name="speckle-cleanup"
-                                id="speckle-cleanup"
-                                type="range"
-                                min="0"
-                                max="100"
-                                step="1"
-                                value="0"
-                            />
-                        </label>
-                    </li>
-                    <li>
-                        <label for="lock-aspect-ratio">
-                            <span>Lock aspect ratio</span>
-                            <input
-                                name="lock-aspect-ratio"
-                                type="checkbox"
-                                id="lock-aspect-ratio"
-                                checked
-                            />
-                        </label>
-                    </li>
-                    <li>
-                        <label for="width">
-                            <span>Width</span>
-                            <input name="width" type="number" id="width" />
-                        </label>
-                    </li>
-                    <li>
-                        <label for="height">
-                            <span>Height</span>
-                            <input name="height" type="number" id="height" />
-                        </label>
-                    </li>
+    <div>
+        <header>
+            <Icons icon="toys" class="page-title-icon" current={true} aria-hidden="true" />
+            <h1>Color layers</h1>
+            <p>This is a tool to draw in overlapping layers of color made by <a href="/">Eric Mikkelsen</a></p>
+        </header>
+        <menu aria-label="Controls" role="menu">
+            <li id="controls-top-bar">
+                <label for="file-upload">
+                    <span>Upload image</span>
+                    <input
+                        name="file"
+                        type="file"
+                        id="file-upload"
+                        accept="image/svg+xml, image/png, image/jpeg, image/jpg, image/avif, image/webp"
+                    />
+                </label>
+                <a id="colors-fyi-link" href="https://colors.fyi/compare-colors/?colors=" target="_blank" rel="noopener noreferrer">Check colors in colors.fyi</a>
+                <button id="export-png">Export flattened PNG</button>
+            </li>
+            <li id="image-settings-controls">
+                <details name="controls">
+                    <summary>Image Settings</summary>
+                    <!-- each list item should be a new image setting, unless it makes sense to put them together like widht/height and preserve aspect ratio -->
+                    <ul>
+                        <li>
+                            <label for="layout-mode">
+                                <span>Layout</span>
+                                <select name="layout-mode" id="layout-mode">
+                                    <option value="side-by-side" selected>Side by side</option>
+                                    <option value="top-and-bottom">Top and bottom</option>
+                                </select>
+                            </label>
+                        </li>
+                        <li>
+                            <label for="color-count">
+                                <span>Color count</span>
+                                <input
+                                    name="color-count"
+                                    id="color-count"
+                                    type="number"
+                                    min="2"
+                                    max="32"
+                                    value="6"
+                                />
+                            </label>
+                            <span>This will reset existing colors</span>
+                        </li>
+                        <li>
+                            <label for="dithering">
+                                <span>Dithering</span>
+                                <input
+                                    name="dithering"
+                                    id="dithering"
+                                    type="range"
+                                    min="0"
+                                    max="1"
+                                    step="0.01"
+                                    value="0.85"
+                                />
+                            </label>
+                        </li>
+                        <li>
+                            <label for="contrast">
+                                <span>Contrast</span>
+                                <input
+                                    name="contrast"
+                                    id="contrast"
+                                    type="range"
+                                    min="0"
+                                    max="2"
+                                    step="0.01"
+                                    value="1"
+                                />
+                            </label>
+                        </li>
+                        <li>
+                            <label for="lightness">
+                                <span>Lightness</span>
+                                <input
+                                    name="lightness"
+                                    id="lightness"
+                                    type="range"
+                                    min="-100"
+                                    max="100"
+                                    step="1"
+                                    value="0"
+                                />
+                            </label>
+                        </li>
+                        <li>
+                            <label for="speckle-cleanup">
+                                <span>Speckle cleanup</span>
+                                <input
+                                    name="speckle-cleanup"
+                                    id="speckle-cleanup"
+                                    type="range"
+                                    min="0"
+                                    max="100"
+                                    step="1"
+                                    value="0"
+                                />
+                            </label>
+                        </li>
+                        <li>
+                            <label for="lock-aspect-ratio">
+                                <span>Lock aspect ratio</span>
+                                <input
+                                    name="lock-aspect-ratio"
+                                    type="checkbox"
+                                    id="lock-aspect-ratio"
+                                    checked
+                                />
+                            </label>
+                        </li>
+                        <li>
+                            <label for="width">
+                                <span>Width</span>
+                                <input name="width" type="number" id="width" />
+                            </label>
+                        </li>
+                        <li>
+                            <label for="height">
+                                <span>Height</span>
+                                <input name="height" type="number" id="height" />
+                            </label>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+            <li>
+                <span>Layers</span>
+                <ul id="layers-list" aria-label="Layers">
+                    <li>No layers yet. Upload an image to begin.</li>
                 </ul>
-            </details>
-        </li>
-        <li>
-            <span>Layers</span>
-            <ul id="layers-list" aria-label="Layers">
-                <li>No layers yet. Upload an image to begin.</li>
-            </ul>
-        </li>
-    </menu>
+            </li>
+        </menu>
+    </div>
     <main>
         <prism-graph-canvas>
             <svg id="layer-preview" aria-label="Layer preview"></svg>
@@ -162,118 +170,183 @@ import Layout from "../../../layouts/html.astro";
 :root {
   color-scheme: dark;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --border-dark: #2a2a2a;
+  --bg-dark: #0f0f0f;
+  --border-light: #5a5a5a;
+  --text-primary: #f3f3f3;
+  --text-secondary: #e7e7e7;
+  --text-tertiary: #767676;
+  --text-muted: #a8a8a8;
+  --text-hover: #a1a1a1;
+  --bg-input: #101010;
+  --text-input: #bbb;
+  --text-input-dark: #111;
 }
-html,body {
+html, body {
     padding: 0;
     margin: 0;
 }
-#color-layers-layout {
-    display: grid;
-    gap: 0.75rem;
-    align-items: start;
-}
-#color-layers-layout[data-layout="side-by-side"] {
-    grid-template-columns: minmax(20rem, 38rem) minmax(0, 1fr);
-}
-#color-layers-layout[data-layout="top-and-bottom"] {
-    grid-template-columns: 1fr;
-}
-prism-graph-canvas {
-    position: relative;
-    display: block;
-}
-#layer-preview {
-    position: relative;
-    z-index: 1;
-}
-#paint-overlay-fo {
-    pointer-events: none;
-}
-#paint-overlay {
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: none;
-}
-menu,ul {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    list-style-type: none;
-    padding: 0;
-}
+</style>
+<style is:global>
+    :root {
+      --color-layers-gap: 0.75rem;
+      --control-padding: 12px;
+      --control-gap: 8px;
+      --layer-gap: 32px;
+    }
+    
+    #color-layers-layout {
+        display: grid;
+        gap: var(--color-layers-gap);
+        align-items: start;
+    }
+    
+    #color-layers-layout[data-layout="side-by-side"] {
+        grid-template-columns: minmax(20rem, 38rem) minmax(0, 1fr);
+    }
+    
+    #color-layers-layout[data-layout="top-and-bottom"] {
+        grid-template-columns: 1fr;
+    }
+    
+    header {
+        padding: var(--control-padding);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    header * {
+        margin: 0;
+    }
+    
+    header h1 {
+        font-family: 'Spacegirl', 'Courier New', Courier, monospace;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        line-height: calc(1em + .125rem);
+    }
+    
+    header .page-title-icon {
+        width: 2.5em;
+        height: 2.5em;
+        flex: 0 0 auto;
+        overflow: visible;
+    }
+    
+    header .page-title-icon path {
+        stroke: currentColor;
+        fill: transparent;
+        vector-effect: non-scaling-stroke;
+    }
+    
+    header .page-title-icon circle {
+        vector-effect: non-scaling-stroke;
+    }
 
-menu[aria-label="Controls"] {
-    max-width: 56rem;
-    margin: 0 auto;
-    padding: 12px;
-    gap: 8px;
-}
-
-menu[aria-label="Controls"] > li {
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
-    background: #0f0f0f;
-    padding: 0.5rem;
-}
-
-#controls-top-bar {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    width: 100%;
-    flex-wrap: wrap;
-}
-
-#controls-top-bar > label {
-    margin: 0;
-    width: 100%;
-}
-
-menu[aria-label="Controls"] > li > span {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 0.8125rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #a8a8a8;
-}
-
-li[data-layer-id] {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(6rem, 100%), 1fr));
-    gap: 12px;
-    align-items: center;
-}
-li[data-layer-id] > * {
-    min-width: 0;
-}
-label {
-    font-size: 1rem;
-    color: #767676;
-    border-radius: 4px;
-    padding: 0;
-    overflow: hidden;
-    align-items: center;
-    display: grid;
-    gap: 0.375rem;
-    align-content: center;
-    span {
+    header .page-title-icon .ur-here__shape--circle {
+        stroke: #fff;
+        fill: transparent;
+        stroke-width: 2px;
+    }
+    
+    header .page-title-icon .ur-here__dot {
+        stroke-width: 0;
+        fill: #fff;
+    }
+    
+    menu {
+        padding: 0;
+        list-style: none;
+    }
+    
+    menu, ul {
+        display: flex;
+        flex-direction: column;
+        gap: var(--control-gap);
+        list-style-type: none;
         padding: 0;
     }
-}
-#layers-list {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-#layers-list label {
-    border: 1px solid #5a5a5a;
-    padding: 0;
-    span {
+    
+    menu[aria-label="Controls"] {
+        max-width: 56rem;
+        margin: 0 auto;
+        padding: var(--control-padding);
+        gap: var(--control-gap);
+    }
+    
+    menu[aria-label="Controls"] > li {
+        border: 1px solid var(--border-dark);
+        border-radius: 8px;
+        background: var(--bg-dark);
+        padding: 0.5rem;
+    }
+    
+    menu[aria-label="Controls"] > li > span {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.8125rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+    
+    #controls-top-bar {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    #controls-top-bar > label {
+        margin: 0;
+        width: 100%;
+    }
+    
+    li[data-layer-id] {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(6rem, 100%), 1fr));
+        gap: 12px;
+        align-items: center;
+    }
+    
+    li[data-layer-id] > * {
+        min-width: 0;
+    }
+    
+    label {
+        font-size: 1rem;
+        color: var(--text-tertiary);
+        border-radius: 4px;
+        padding: 0;
+        overflow: hidden;
+        align-items: center;
+        display: grid;
+        gap: 0.375rem;
+        align-content: center;
+    }
+    
+    label span {
+        padding: 0;
+    }
+    
+    #layers-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--layer-gap);
+    }
+    
+    #layers-list label {
+        border: 1px solid var(--border-light);
+        padding: 0;
+    }
+    
+    #layers-list label span {
         padding: 4px 4px 0;
     }
-    input,select {
+    
+    #layers-list label input,
+    #layers-list label select {
         appearance: none;
         padding: 4px;
         border: none;
@@ -284,220 +357,225 @@ label {
         outline: none;
         font-weight: bold;
     }
-    input[type="number"] {
-        background-color: #bbb;
-        color: #111;
+    
+    #layers-list label input[type="number"] {
+        background-color: var(--text-input);
+        color: var(--text-input-dark);
         height: 1.5rem;
     }
+    
+    #layers-list label input[type="range"] {
+        height: 1.5rem;
+    }
+    
+    #layers-list label input[type="color"] {
+        height: 1.5rem;
+        padding: 0;
+    }
+    
+    #layers-list select[data-action="edit-mode"] {
+        background-repeat: no-repeat;
+        background-position: 0.4rem center;
+        background-size: 20px 20px;
+        padding-left: 2rem;
+    }
+    
+    #layers-list select[data-action="edit-mode"][data-mode="none"] {
+        background-image: none;
+        padding-left: 0.5rem;
+    }
+    
+    #layers-list select[data-action="edit-mode"][data-mode="draw"] {
+        background-image: url("/images/icons/pencil-white.svg");
+    }
+    
+    #layers-list select[data-action="edit-mode"][data-mode="erase"] {
+        background-image: url("/images/icons/eraser-white.svg");
+    }
+    
+    #layers-list button {
+        justify-self: self-end;
+    }
+    
+    button {
+        appearance: none;
+        padding: 8px;
+        font-size: 1rem;
+        line-height: 1;
+        background-color: #171717;
+        color: var(--text-primary);
+        border: 1px solid var(--border-light);
+        border-radius: 6px;
+    }
+    
+    button:hover {
+        border-color: var(--text-hover);
+    }
+    
+    #colors-fyi-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    details > summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--text-secondary);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+    
+    details > summary::before {
+        content: "";
+        width: 0.5rem;
+        height: 0.5rem;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(-45deg);
+        transition: transform 120ms ease;
+        margin-left: 0.125rem;
+    }
+    
+    details[open] > summary::before {
+        transform: rotate(45deg);
+    }
+    
+    details > ul {
+        margin-top: 0.75rem;
+    }
+    
+    label:has(*:focus) {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+    }
+    
+    input {
+        appearance: none;
+        border: none;
+        padding: 0;
+        font-size: 1rem;
+        background-color: transparent;
+        font-weight: bold;
+        width: 100%;
+        outline: none;
+        display: block;
+        margin: 0;
+        line-height: 1;
+    }
+    
+    input::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+    
+    input::-webkit-color-swatch {
+        border: none;
+    }
+    
+    input::-moz-color-swatch {
+        border: none;
+    }
+    
+    #file-upload {
+        appearance: auto;
+        -webkit-appearance: auto;
+        border: 1px solid var(--border-light);
+        border-radius: 6px;
+        min-height: 44px;
+        padding: 4px;
+        background: var(--bg-input);
+        color: var(--text-primary);
+    }
+    
+    #file-upload::file-selector-button,
+    #file-upload::-webkit-file-upload-button {
+        padding: 8px;
+        font-size: 1rem;
+        line-height: 1;
+        appearance: none;
+        background-color: #171717;
+        color: var(--text-primary);
+        border: 1px solid var(--border-light);
+        border-radius: 6px;
+        margin-right: 0.5rem;
+    }
+    
+    #file-upload:hover::file-selector-button,
+    #file-upload:hover::-webkit-file-upload-button {
+        border-color: var(--text-hover);
+    }
+    
+    select {
+        appearance: none;
+        border: 1px solid var(--border-light);
+        border-radius: 6px;
+        min-height: 44px;
+        padding: 0 0.625rem;
+        font-size: 1rem;
+        background: var(--bg-input);
+        color: var(--text-primary);
+        width: 100%;
+    }
+    
     input[type="range"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
         height: 1.5rem;
+        background: transparent;
+        margin: 0;
     }
-    input[type="color"] {
-        height: 1.5rem;
-        padding: 0;
+    
+    input[type="range"]:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
     }
-}
-#layers-list select[data-action="edit-mode"] {
-    background-repeat: no-repeat;
-    background-position: 0.4rem center;
-    background-size: 20px 20px;
-    padding-left: 2rem;
-}
-#layers-list select[data-action="edit-mode"][data-mode="none"] {
-    background-image: none;
-    padding-left: 0.5rem;
-}
-#layers-list select[data-action="edit-mode"][data-mode="draw"] {
-    background-image: url("/images/icons/pencil-white.svg");
-}
-#layers-list select[data-action="edit-mode"][data-mode="erase"] {
-    background-image: url("/images/icons/eraser-white.svg");
-}
-#layers-list button {
-    justify-self: self-end;
-}
-
-details > summary {
-    cursor: pointer;
-    font-weight: 600;
-    color: #e7e7e7;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-}
-
-details > summary::before {
-    content: "";
-    width: 0.5rem;
-    height: 0.5rem;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(-45deg);
-    transition: transform 120ms ease;
-    margin-left: 0.125rem;
-}
-
-details[open] > summary::before {
-    transform: rotate(45deg);
-}
-
-details > ul {
-    margin-top: 0.75rem;
-}
-
-button {
-    appearance: none;
-    padding: 8px;
-    font-size: 1rem;
-    line-height: 1;
-    background-color: #171717;
-    color: #f3f3f3;
-    border: 1px solid #5a5a5a;
-    border-radius: 6px;
-}
-
-#colors-fyi-link {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-}
-
-@media (max-width: 900px) {
-    #controls-top-bar {
-        grid-template-columns: 1fr;
+    
+    input[type="range"]::-webkit-slider-runnable-track {
+        height: 0.5rem;
+        border: 1px solid #fff;
+        border-radius: 999px;
+        background: #000;
     }
-    #color-layers-layout[data-layout="side-by-side"] {
-        grid-template-columns: 1fr;
+    
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 1rem;
+        height: 1rem;
+        margin-top: -0.3125rem;
+        border-radius: 999px;
+        border: 2px solid #fff;
+        background: #000;
     }
-}
-
-button:hover {
-    border-color: #a1a1a1;
-}
-label:has(*:focus) {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-}
-input {
-    appearance: none;
-    border: none;
-    padding: 0;
-    font-size: 1rem;
-    background-color: transparent;
-    font-weight: bold;
-    padding: 0;
-    width: 100%;
-    outline: none;
-    display: block;
-    margin: 0;
-    line-height: 1;
-    &::-webkit-color-swatch-wrapper {
-        padding: 0;
+    
+    input[type="range"]::-moz-range-track {
+        height: 0.5rem;
+        border: 1px solid #fff;
+        border-radius: 999px;
+        background: #000;
     }
-    &::-webkit-color-swatch {
-        border: none;
+    
+    input[type="range"]::-moz-range-thumb {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 999px;
+        border: 2px solid #fff;
+        background: #000;
     }
-    /* Remove the inner border in Firefox */
-    &::-moz-color-swatch {
-        border: none;
-    }
-}
-#file-upload {
-    appearance: auto;
-    -webkit-appearance: auto;
-    border: 1px solid #5a5a5a;
-    border-radius: 6px;
-    min-height: 44px;
-    padding: 4px;
-    background: #101010;
-    color: #f3f3f3;
-}
-#file-upload::file-selector-button,
-#file-upload::-webkit-file-upload-button {
-    padding: 8px;
-    font-size: 1rem;
-    line-height: 1;
-    appearance: none;
-    background-color: #171717;
-    color: #f3f3f3;
-    border: 1px solid #5a5a5a;
-    border-radius: 6px;
-    margin-right: 0.5rem;
-}
-#file-upload:hover::file-selector-button,
-#file-upload:hover::-webkit-file-upload-button {
-    border-color: #a1a1a1;
-}
-select {
-    appearance: none;
-    border: 1px solid #5a5a5a;
-    border-radius: 6px;
-    min-height: 44px;
-    padding: 0 0.625rem;
-    font-size: 1rem;
-    background: #101010;
-    color: #f3f3f3;
-    width: 100%;
-}
-input[type="range"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 100%;
-    height: 1.5rem;
-    background: transparent;
-    margin: 0;
-}
-input[type="range"]:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-}
-input[type="range"]::-webkit-slider-runnable-track {
-    height: 0.5rem;
-    border: 1px solid #fff;
-    border-radius: 999px;
-    background: #000;
-}
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 1rem;
-    height: 1rem;
-    margin-top: -0.3125rem;
-    border-radius: 999px;
-    border: 2px solid #fff;
-    background: #000;
-}
-input[type="range"]::-moz-range-track {
-    height: 0.5rem;
-    border: 1px solid #fff;
-    border-radius: 999px;
-    background: #000;
-}
-input[type="range"]::-moz-range-thumb {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 999px;
-    border: 2px solid #fff;
-    background: #000;
-}
-label:has([type="radio"]) {
-
-}
-</style>
-<style>
-    menu {
-        padding: 0;
-        list-style: none;
-    }
+    
     prism-graph-canvas {
         position: relative;
         display: block;
     }
+    
     prism-graph-canvas svg {
         width: 100%;
         height: auto;
         display: block;
     }
+    
     prism-graph-canvas canvas#paint-overlay {
         position: absolute;
         top: 0;
@@ -506,8 +584,23 @@ label:has([type="radio"]) {
         height: 100%;
         pointer-events: none;
     }
+    
     prism-graph-canvas svg:empty {
         aspect-ratio: 16/9;
-        background-color: rgba(128,128,128, .5);
+        background-color: rgba(128, 128, 128, 0.5);
+    }
+    
+    #layer-preview {
+        position: relative;
+        z-index: 1;
+    }
+    
+    @media (max-width: 900px) {
+        #controls-top-bar {
+            grid-template-columns: 1fr;
+        }
+        #color-layers-layout[data-layout="side-by-side"] {
+            grid-template-columns: 1fr;
+        }
     }
 </style>

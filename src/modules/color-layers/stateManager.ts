@@ -3,7 +3,7 @@
  * Provides factory functions to create initial state and helper functions for state access.
  */
 
-import {
+import type {
     AppState,
     CachedElements,
 } from "./types";
