@@ -26,6 +26,7 @@ const getStaticOgPages = async (): Promise<OgPage[]> => {
             pathname,
             title: entry.data.title,
             ofText: entry.data.ofText,
+            image: entry.data.image,
             slug: getOgPageSlug(pathname),
         };
     });
@@ -36,6 +37,7 @@ const getStaticOgPages = async (): Promise<OgPage[]> => {
         return {
             pathname,
             title: entry.data.title,
+            image: entry.data.image,
             slug: getOgPageSlug(pathname),
         };
     });
@@ -46,6 +48,7 @@ const getStaticOgPages = async (): Promise<OgPage[]> => {
             return {
                 pathname,
                 title: entry.data.title,
+                image: entry.data.image,
                 slug: getOgPageSlug(pathname),
             };
         });
@@ -82,6 +85,7 @@ export const GET: APIRoute = async ({ props }) => {
     const png = await renderOgImage({
         title: page.title,
         ofText: page.ofText,
+        image: page.image,
         slug: page.slug,
     });
     const body = new Uint8Array(png);

@@ -8,6 +8,7 @@ import { getOgTitle } from "./og";
 
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 627;
+const OG_CROPPED_SIZE = 1208;
 const OG_PNG_COLORS = 4;
 const BASE_TITLE_FONT_SIZE = 124;
 const MIN_TITLE_FONT_SIZE = 113;
@@ -88,12 +89,18 @@ const getPageIconDataUri = async (slug: PageSlug) => {
 export const renderOgImage = async ({
     title,
     ofText,
+    image,
     slug,
 }: {
     title: string;
     ofText?: string;
+    image?: string;
     slug: PageSlug;
 }) => {
+    if (image) {
+        return renderCroppedSourceImage(image);
+    }
+
     const [titleFontData, ofTextFontData, pageIcon] = await Promise.all([
         getTitleFontData(),
         getOfTextFontData(),
@@ -204,6 +211,42 @@ export const renderOgImage = async ({
             colours: OG_PNG_COLORS,
             effort: 10,
             dither: 0.8,
+        })
+        .toBuffer();
+};
+
+const resolveImageToBuffer = async (image: string): Promise<Buffer> => {
+    const trimmedImage = image.trim();
+    if (!trimmedImage) {
+        throw new Error("Social image path is empty.");
+    }
+
+    if (/^https?:\/\//i.test(trimmedImage)) {
+        const response = await fetch(trimmedImage);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch social image ${trimmedImage}: ${response.status} ${response.statusText}`);
+        }
+        const bytes = await response.arrayBuffer();
+        return Buffer.from(bytes);
+    }
+
+    const normalizedPath = trimmedImage.replace(/^\/+/, "");
+    const absolutePath = path.resolve(process.cwd(), "public", normalizedPath);
+    return fs.readFile(absolutePath);
+};
+
+const renderCroppedSourceImage = async (image: string): Promise<Buffer> => {
+    const sourceImage = await resolveImageToBuffer(image);
+
+    return sharp(sourceImage)
+        .rotate()
+        .resize(OG_CROPPED_SIZE, OG_CROPPED_SIZE, {
+            fit: "cover",
+            position: "attention",
+        })
+        .png({
+            compressionLevel: 9,
+            adaptiveFiltering: true,
         })
         .toBuffer();
 };

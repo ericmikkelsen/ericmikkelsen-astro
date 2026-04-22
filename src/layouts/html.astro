@@ -11,6 +11,7 @@ const {
     h1 = true,
     showNav = false,
     favicon,
+    image,
 } = Astro.props;
 
 const currentPage = getCurrentPage(Astro.url.pathname);
@@ -19,7 +20,13 @@ const resolvedFavicon = favicon ?? getPageFavicon(currentPage);
 <!doctype html>
 <html lang={lang}>
     <Head>
-        <BaseHead title={title} ofText={ofText} description={description} favicon={resolvedFavicon} />
+        <BaseHead
+            title={title}
+            ofText={ofText}
+            description={description}
+            favicon={resolvedFavicon}
+            image={image}
+        />
     </Head>
     <body>
         <slot />

@@ -26,6 +26,7 @@ const {
     description,
     title,
     ofText = null,
+    image,
 } = entry.data;
 const { Content } = await render(entry);
 const entryId = entry.id.replace(/\.md$/, '');
@@ -37,6 +38,7 @@ const workHistory = entry.data.workHistory || [];
     title={title}
     ofText={ofText}
     description={description}
+    image={image}
     showNav={true}
 >
     <Markdown class={isResume ? 'resume' : ''}>
