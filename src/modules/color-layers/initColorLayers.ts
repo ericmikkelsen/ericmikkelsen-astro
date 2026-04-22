@@ -3,10 +3,25 @@ import {
     quantizeForPreview,
     renderLayersWithWebGL,
 } from "./quantize";
+import { createInitialState, createEmptyElements } from "./stateManager";
+import { hexToRgb as utilHexToRgb, rgbToHex as utilRgbToHex, clamp as utilClamp, blendColors } from "./colorUtils";
 
 /**
  * Initializes the Color Layers page controller.
- * Owns UI events, state transitions, and render/export orchestration.
+ *
+ * Orchestrates the complete application workflow:
+ * - UI event handling: file upload, settings changes, layer editing
+ * - State management: image data, palette, layers, editing masks
+ * - Render pipeline: quantization, WebGL/Canvas rendering, layer compositing
+ * - Export: flattened PNG with optimized compression
+ *
+ * The application state machine ensures consistent behavior:
+ * 1. User loads an image
+ * 2. Quantization preview generates palette and indexed pixels
+ * 3. Layers are created from palette
+ * 4. User can edit layers (draw/erase masks) or change settings
+ * 5. Rendering pipeline composites final output
+ * 6. User can export as flattened PNG with optional optimization
  */
 
 // Configuration constants
@@ -128,79 +143,13 @@ type CachedElements = {
 
 // DOM cache bootstrap
 
-const emptyElements = (): CachedElements => ({
-    layoutRoot: null,
-    layoutModeInput: null,
-    imageSettingsControls: null,
-    fileInput: null,
-    colorCountInput: null,
-    ditheringInput: null,
-    contrastInput: null,
-    lightnessInput: null,
-    speckleCleanupInput: null,
-    lockAspectRatioInput: null,
-    widthInput: null,
-    heightInput: null,
-    layersList: null,
-    toolsList: null,
-    svgPreview: null,
-    paintOverlay: null,
-    colorsFyiLink: null,
-    exportButton: null,
-});
+const emptyElements = (): CachedElements => createEmptyElements();
 
 /**
  * Entry point for wiring the color-layers page behavior.
  */
 export const initColorLayers = (): void => {
-    const state: AppState = {
-        imageInput: {
-            file: null,
-            prefilledFileKey: null,
-            normalizedPngFile: null,
-            normalizedFromFileKey: null,
-            sourceWidth: null,
-            sourceHeight: null,
-        },
-        settings: {
-            colorCount: DEFAULT_COLOR_COUNT,
-            dithering: DEFAULT_DITHERING,
-            contrast: DEFAULT_CONTRAST,
-            lightness: DEFAULT_LIGHTNESS,
-            speckleCleanup: DEFAULT_SPECKLE_CLEANUP,
-            lockAspectRatio: true,
-            width: 0,
-            height: 0,
-        },
-        palette: [],
-        preview: {
-            requestToken: 0,
-            width: 0,
-            height: 0,
-            baseIndexedPixels: null,
-            indexedPixels: null,
-            quantizedRgba: null,
-        },
-        render: {
-            requestToken: 0,
-            objectUrls: [],
-        },
-        background: {
-            color: "#ffffff",
-            opacity: 100,
-        },
-        editing: {
-            mode: "none",
-            selectedLayerId: null,
-            strokeSize: DEFAULT_STROKE_SIZE,
-            hasEdits: false,
-            layerMasks: {},
-            maskVersionByLayer: {},
-            isPainting: false,
-            lastPaintPoint: null,
-        },
-        layers: [],
-    };
+    const state: AppState = createInitialState();
 
     type EditedLayerWebGLState = {
         canvas: OffscreenCanvas;
@@ -496,23 +445,10 @@ export const initColorLayers = (): void => {
     const setStatus = (_message: string): void => {
     };
 
-    const clamp = (value: number, min: number, max: number): number => {
-        return Math.max(min, Math.min(max, value));
-    };
-
-    const rgbToHex = ([r, g, b]: [number, number, number]): string => {
-        const toHex = (value: number): string => value.toString(16).padStart(2, "0");
-        return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-    };
-
-    const hexToRgb = (hex: string): [number, number, number] => {
-        const safeHex = hex.replace("#", "");
-        return [
-            Number.parseInt(safeHex.slice(0, 2), 16),
-            Number.parseInt(safeHex.slice(2, 4), 16),
-            Number.parseInt(safeHex.slice(4, 6), 16),
-        ];
-    };
+    // Use imported utility functions instead of local definitions
+    const clamp = utilClamp;
+    const hexToRgb = utilHexToRgb;
+    const rgbToHex = utilRgbToHex;
 
     const escapeHtml = (value: string): string => {
         return value
@@ -608,6 +544,18 @@ export const initColorLayers = (): void => {
         ctx.globalAlpha = 1;
     };
 
+    /**
+     * Draw an erase circle in the SVG erase mask.
+     *
+     * Note: SVG coordinate system has Y-axis flipped compared to Canvas/image space.
+     *   Canvas: Y=0 is top, increases downward
+     *   SVG: Y=0 is top, but content is typically flipped
+     *
+     * To match image space (where Y increases downward), we flip: SVG_Y = imageHeight - Y
+     *
+     * @param previewX - X coordinate in image pixels
+     * @param previewY - Y coordinate in image pixels
+     */
     const drawLiveEraseCircleAtPreviewPixel = (previewX: number, previewY: number): void => {
         const mask = ensureLiveEraseMask();
         if (!mask) {
@@ -621,6 +569,7 @@ export const initColorLayers = (): void => {
 
         const circle = document.createElementNS(IMAGE_NS, "circle");
         circle.setAttribute("cx", String(previewX + 0.5));
+        // Flip Y-axis for SVG coordinate system
         circle.setAttribute("cy", String(state.preview.height - (previewY + 0.5)));
         circle.setAttribute("r", String(Math.max(0.5, state.editing.strokeSize / 2)));
         cutouts.appendChild(circle);
@@ -659,6 +608,21 @@ export const initColorLayers = (): void => {
         };
     };
 
+    /**
+     * Apply a circular brush stroke to the selected layer's mask.
+     *
+     * Mask encoding: pixels store edit state as Int8Array:
+     *   1 = explicitly drawn (forces pixel visible regardless of palette)
+     *  -1 = explicitly erased (forces pixel hidden)
+     *   0 = neutral (use base palette decision)
+     *
+     * Uses distance-based antialiasing: pixels are included if their center is within brush radius.
+     * This creates smooth circular brush edges without individual alpha blending.
+     *
+     * @param centerX - Brush center X coordinate in image pixels
+     * @param centerY - Brush center Y coordinate in image pixels
+     * @returns True if any pixels changed, false otherwise
+     */
     const applyBrushStroke = (centerX: number, centerY: number): boolean => {
         const selectedLayer = getSelectedEditableLayer();
         if (!selectedLayer || !state.preview.indexedPixels) {
@@ -670,6 +634,7 @@ export const initColorLayers = (): void => {
             return false;
         }
 
+        // Calculate brush bounding box
         const radius = Math.max(0.5, state.editing.strokeSize / 2);
         const minX = Math.max(0, Math.floor(centerX - radius));
         const maxX = Math.min(state.preview.width - 1, Math.ceil(centerX + radius));
@@ -678,16 +643,24 @@ export const initColorLayers = (): void => {
         const radiusSquared = radius * radius;
         let changed = false;
 
+        // Iterate over bounding box and apply brush using distance check
         for (let y = minY; y <= maxY; y += 1) {
             for (let x = minX; x <= maxX; x += 1) {
+                // Distance from pixel center to brush center
+                // Pixel center is at (x + 0.5, y + 0.5) in image space
                 const distanceX = x + 0.5 - centerX;
                 const distanceY = y + 0.5 - centerY;
+
+                // Check if pixel center is within brush radius
                 if (distanceX * distanceX + distanceY * distanceY > radiusSquared) {
                     continue;
                 }
 
+                // Flatten 2D coordinates to 1D array index: pixelIndex = y * width + x
                 const pixelIndex = y * state.preview.width + x;
+
                 if (state.editing.mode === "draw") {
+                    // Mark pixel as explicitly drawn
                     if (mask[pixelIndex] !== 1) {
                         mask[pixelIndex] = 1;
                         changed = true;
@@ -695,6 +668,7 @@ export const initColorLayers = (): void => {
                     continue;
                 }
 
+                // Mark pixel as explicitly erased
                 if (state.editing.mode === "erase" && mask[pixelIndex] !== -1) {
                     mask[pixelIndex] = -1;
                     changed = true;
@@ -706,6 +680,7 @@ export const initColorLayers = (): void => {
             return false;
         }
 
+        // Mark that edits exist and increment layer mask version for cache invalidation
         state.editing.hasEdits = true;
         state.editing.maskVersionByLayer[selectedLayer.id] =
             (state.editing.maskVersionByLayer[selectedLayer.id] || 0) + 1;
@@ -1500,6 +1475,20 @@ export const initColorLayers = (): void => {
         const selectedLayer = getSelectedEditableLayer();
         const shouldFreezeOtherLayers = Boolean(state.editing.isPainting && selectedLayer);
 
+        /**
+         * Blend a foreground color over existing background using standard alpha compositing.
+         *
+         * Formula: out_c = (fg_c * fg_a + bg_c * bg_a * (1 - fg_a)) / out_a
+         *          out_a = fg_a + bg_a * (1 - fg_a)
+         *
+         * This handles semi-transparent overlays correctly by accounting for both alphas.
+         * The formula derives from pre-multiplied alpha blending.
+         *
+         * @param data - ImageData.data array (RGBA bytes)
+         * @param pixelOffset - Byte offset (pixelIndex * 4)
+         * @param fgR,fgG,fgB - Foreground RGB (0-255)
+         * @param fgA - Foreground alpha (0-255)
+         */
         const blendPixel = (
             data: Uint8ClampedArray,
             pixelOffset: number,
@@ -1524,6 +1513,7 @@ export const initColorLayers = (): void => {
                 return;
             }
 
+            // Apply alpha compositing formula
             data[pixelOffset] = Math.round((fgR * fgAlpha + bgRLocal * bgAlpha * (1 - fgAlpha)) / outAlpha);
             data[pixelOffset + 1] = Math.round((fgG * fgAlpha + bgGLocal * bgAlpha * (1 - fgAlpha)) / outAlpha);
             data[pixelOffset + 2] = Math.round((fgB * fgAlpha + bgBLocal * bgAlpha * (1 - fgAlpha)) / outAlpha);
