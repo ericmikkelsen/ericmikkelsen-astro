@@ -14,11 +14,9 @@ import Layout from "../../../layouts/html.astro";
 ---
 
 <Layout title="Color Layers">
+    <div id="color-layers-layout" data-layout="side-by-side">
     <menu aria-label="Controls" role="menu">
-        <li>
-            <output id="settings-status" aria-live="polite" aria-atomic="true"></output>
-        </li>
-        <li>
+        <li id="controls-top-bar">
             <label for="file-upload">
                 <span>Upload image</span>
                 <input
@@ -28,12 +26,23 @@ import Layout from "../../../layouts/html.astro";
                     accept="image/svg+xml, image/png, image/jpeg, image/jpg, image/avif, image/webp"
                 />
             </label>
+            <a id="colors-fyi-link" href="https://colors.fyi/compare-colors/?colors=" target="_blank" rel="noopener noreferrer">Check colors in colors.fyi</a>
+            <button id="export-png">Export flattened PNG</button>
         </li>
         <li id="image-settings-controls">
             <details name="controls">
                 <summary>Image Settings</summary>
                 <!-- each list item should be a new image setting, unless it makes sense to put them together like widht/height and preserve aspect ratio -->
                 <ul>
+                    <li>
+                        <label for="layout-mode">
+                            <span>Layout</span>
+                            <select name="layout-mode" id="layout-mode">
+                                <option value="side-by-side" selected>Side by side</option>
+                                <option value="top-and-bottom">Top and bottom</option>
+                            </select>
+                        </label>
+                    </li>
                     <li>
                         <label for="color-count">
                             <span>Color count</span>
@@ -131,18 +140,10 @@ import Layout from "../../../layouts/html.astro";
             </details>
         </li>
         <li>
-            <details name="controls">
-                <summary>Layers</summary>
-                <ul id="layers-list" aria-label="Layers">
-                    <li>No layers yet. Upload an image to begin.</li>
-                </ul>
-            </details>
-        </li>
-        <li>
-            <a id="colors-fyi-link" href="https://colors.fyi/compare-colors/?colors=" target="_blank" rel="noopener noreferrer">Check colors in colors.fyi</a>
-        </li>
-        <li>
-            <button id="export-png">Export flattened PNG</button>
+            <span>Layers</span>
+            <ul id="layers-list" aria-label="Layers">
+                <li>No layers yet. Upload an image to begin.</li>
+            </ul>
         </li>
     </menu>
     <main>
@@ -150,6 +151,7 @@ import Layout from "../../../layouts/html.astro";
             <svg id="layer-preview" aria-label="Layer preview"></svg>
         </prism-graph-canvas>
     </main>
+    </div>
 </Layout>
 <script>
     import { initColorLayers } from "../../../modules/color-layers/initColorLayers";
@@ -159,19 +161,351 @@ import Layout from "../../../layouts/html.astro";
 <style is:global>
 :root {
   color-scheme: dark;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 html,body {
     padding: 0;
     margin: 0;
 }
+#color-layers-layout {
+    display: grid;
+    gap: 0.75rem;
+    align-items: start;
+}
+#color-layers-layout[data-layout="side-by-side"] {
+    grid-template-columns: minmax(20rem, 38rem) minmax(0, 1fr);
+}
+#color-layers-layout[data-layout="top-and-bottom"] {
+    grid-template-columns: 1fr;
+}
+prism-graph-canvas {
+    position: relative;
+    display: block;
+}
+#layer-preview {
+    position: relative;
+    z-index: 1;
+}
+#paint-overlay-fo {
+    pointer-events: none;
+}
+#paint-overlay {
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+}
+menu,ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style-type: none;
+    padding: 0;
+}
+
+menu[aria-label="Controls"] {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 12px;
+    gap: 8px;
+}
+
+menu[aria-label="Controls"] > li {
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    background: #0f0f0f;
+    padding: 0.5rem;
+}
+
+#controls-top-bar {
+    display: flex;
+    grid-template-columns: minmax(14rem, 1fr) auto auto;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+#controls-top-bar > label {
+    margin: 0;
+    width: 100%;
+}
+
+menu[aria-label="Controls"] > li > span {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #a8a8a8;
+}
+
+li[data-layer-id] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(6rem, 100%), 1fr));
+    gap: 12px;
+    align-items: center;
+}
+li[data-layer-id] > * {
+    min-width: 0;
+}
+label {
+    font-size: 1rem;
+    color: #767676;
+    border-radius: 4px;
+    padding: 0;
+    overflow: hidden;
+    align-items: center;
+    display: grid;
+    gap: 0.375rem;
+    align-content: center;
+    span {
+        padding: 0;
+    }
+}
+#layers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+#layers-list label {
+    border: 1px solid #5a5a5a;
+    padding: 0;
+    span {
+        padding: 4px 4px 0;
+    }
+    input,select {
+        appearance: none;
+        padding: 4px;
+        border: none;
+        min-height: 0;
+        font-size: 1rem;
+        line-height: 1;
+        height: auto;
+        outline: none;
+        font-weight: bold;
+    }
+    input[type="number"] {
+        background-color: #bbb;
+        color: #111;
+        height: 1.5rem;
+    }
+    input[type="range"] {
+        height: 1.5rem;
+    }
+    input[type="color"] {
+        height: 1.5rem;
+        padding: 0;
+    }
+}
+#layers-list select[data-action="edit-mode"] {
+    background-repeat: no-repeat;
+    background-position: 0.4rem center;
+    background-size: 20px 20px;
+    padding-left: 2rem;
+}
+#layers-list select[data-action="edit-mode"][data-mode="none"] {
+    background-image: none;
+    padding-left: 0.5rem;
+}
+#layers-list select[data-action="edit-mode"][data-mode="draw"] {
+    background-image: url("/images/icons/pencil-white.svg");
+}
+#layers-list select[data-action="edit-mode"][data-mode="erase"] {
+    background-image: url("/images/icons/eraser-white.svg");
+}
+#layers-list button {
+    justify-self: self-end;
+}
+
+details > summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #e7e7e7;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+details > summary::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 120ms ease;
+    margin-left: 0.125rem;
+}
+
+details[open] > summary::before {
+    transform: rotate(45deg);
+}
+
+details > ul {
+    margin-top: 0.75rem;
+}
+
+button {
+    appearance: none;
+    padding: 8px;
+    font-size: 1rem;
+    line-height: 1;
+    background-color: #171717;
+    color: #f3f3f3;
+    border: 1px solid #5a5a5a;
+    border-radius: 6px;
+}
+
+#colors-fyi-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    #controls-top-bar {
+        grid-template-columns: 1fr;
+    }
+    #color-layers-layout[data-layout="side-by-side"] {
+        grid-template-columns: 1fr;
+    }
+}
+
+button:hover {
+    border-color: #a1a1a1;
+}
+label:has(*:focus) {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+input {
+    appearance: none;
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+    background-color: transparent;
+    font-weight: bold;
+    padding: 0;
+    width: 100%;
+    outline: none;
+    display: block;
+    margin: 0;
+    line-height: 1;
+    &::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+    &::-webkit-color-swatch {
+        border: none;
+    }
+    /* Remove the inner border in Firefox */
+    &::-moz-color-swatch {
+        border: none;
+    }
+}
+#file-upload {
+    appearance: auto;
+    -webkit-appearance: auto;
+    border: 1px solid #5a5a5a;
+    border-radius: 6px;
+    min-height: 44px;
+    padding: 4px;
+    background: #101010;
+    color: #f3f3f3;
+}
+#file-upload::file-selector-button,
+#file-upload::-webkit-file-upload-button {
+    padding: 8px;
+    font-size: 1rem;
+    line-height: 1;
+    appearance: none;
+    background-color: #171717;
+    color: #f3f3f3;
+    border: 1px solid #5a5a5a;
+    border-radius: 6px;
+    margin-right: 0.5rem;
+}
+#file-upload:hover::file-selector-button,
+#file-upload:hover::-webkit-file-upload-button {
+    border-color: #a1a1a1;
+}
+select {
+    appearance: none;
+    border: 1px solid #5a5a5a;
+    border-radius: 6px;
+    min-height: 44px;
+    padding: 0 0.625rem;
+    font-size: 1rem;
+    background: #101010;
+    color: #f3f3f3;
+    width: 100%;
+}
+input[type="range"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 1.5rem;
+    background: transparent;
+    margin: 0;
+}
+input[type="range"]:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 0.5rem;
+    border: 1px solid #fff;
+    border-radius: 999px;
+    background: #000;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1rem;
+    height: 1rem;
+    margin-top: -0.3125rem;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    background: #000;
+}
+input[type="range"]::-moz-range-track {
+    height: 0.5rem;
+    border: 1px solid #fff;
+    border-radius: 999px;
+    background: #000;
+}
+input[type="range"]::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    background: #000;
+}
+label:has([type="radio"]) {
+
+}
 </style>
 <style>
     menu {
-        padding: 5%;
+        padding: 0;
+        list-style: none;
+    }
+    prism-graph-canvas {
+        position: relative;
+        display: block;
     }
     prism-graph-canvas svg {
         width: 100%;
         height: auto;
+        display: block;
+    }
+    prism-graph-canvas canvas#paint-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
     }
     prism-graph-canvas svg:empty {
         aspect-ratio: 16/9;
