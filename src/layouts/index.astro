@@ -34,7 +34,7 @@ const resolvedFavicon = favicon ?? getPageFavicon(currentPage);
         <a href="#header" class="skip">Skip to content</a>
         <div class="page">
             <Nav class={["nav"]} currentPage={currentPage} />
-            <main id="main">
+            <div class="content-wrapper">
                 <Header
                     id="header"
                     heading={title}
@@ -44,8 +44,10 @@ const resolvedFavicon = favicon ?? getPageFavicon(currentPage);
                     image={image}
                 >
                 </Header>
-                <slot />
-            </main>
+                <main id="main">
+                    <slot />
+                </main>
+            </div>
         </div>
     </body>
 </html>
@@ -61,6 +63,9 @@ const resolvedFavicon = favicon ?? getPageFavicon(currentPage);
         }
     }
     main {
+        width: 100%;
+    }
+    .content-wrapper {
         width: 100%;
     }
 </style>

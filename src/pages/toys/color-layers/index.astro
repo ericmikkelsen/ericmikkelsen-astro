@@ -194,7 +194,6 @@ html, body {
       --control-gap: 8px;
       --layer-gap: 32px;
     }
-    
     #color-layers-layout {
         display: grid;
         gap: var(--color-layers-gap);
@@ -448,8 +447,11 @@ html, body {
     details > ul {
         margin-top: 0.75rem;
     }
-    
+    button:focus-visible,
+    summary:focus-visible,
+    a:focus-visible,
     label:has(*:focus) {
+        border-radius: 4px;
         outline: 2px solid #fff;
         outline-offset: 2px;
     }
