@@ -1190,15 +1190,20 @@ export const initColorLayers = (): void => {
                 nextLayerGroup.appendChild(svgImage);
             }
 
-            await Promise.all(layerLoadPromises);
-            if (requestToken !== state.render.requestToken) {
-                revokeObjectUrls(nextUrls);
-                return false;
-            }
-
+            // Insert into DOM before awaiting load events — Safari only fires load
+            // on SVG <image> elements that are already attached to the document.
             els.svgPreview.setAttribute("viewBox", `0 0 ${state.preview.width} ${state.preview.height}`);
             els.svgPreview.replaceChildren(nextLayerGroup);
             attachPaintOverlayToSvg();
+
+            await Promise.all(layerLoadPromises);
+            if (requestToken !== state.render.requestToken) {
+                // A newer render started while we were waiting — undo the early DOM update.
+                els.svgPreview.removeAttribute("viewBox");
+                els.svgPreview.replaceChildren();
+                revokeObjectUrls(nextUrls);
+                return false;
+            }
 
             if (clearPreviewAfterRender) {
                 clearPaintOverlay();
