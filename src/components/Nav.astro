@@ -76,12 +76,14 @@ const iconClasses: Record<string, string> = {
         font-family: 'Courier New', Courier, monospace;
         display: flex;
         color: #000;
-        transition: .2s background-color, .2s filter;
         outline: 4px solid transparent;
         outline-offset: 4px;
         filter: brightness(1);
         flex-grow: 1;
         flex-basis: 60px;
+        @media (prefers-reduced-motion: no-preference) {
+            transition: .2s background-color, .2s filter;
+        }
     }
     a:focus-visible {
         outline: 2px dashed;
@@ -115,9 +117,11 @@ const iconClasses: Record<string, string> = {
     a path,
     a circle {
         stroke-width: 1px;
-        transition: .2s stroke-width;
         fill: rgba(255,255,255, 0);
         vector-effect: non-scaling-stroke;
+        @media (prefers-reduced-motion: no-preference) {
+            transition: .2s stroke-width;
+        }
     }
     .ur-here__dot {
         fill: currentColor;
@@ -134,8 +138,10 @@ const iconClasses: Record<string, string> = {
     a:active circle {
         stroke-width: 1px;
     }
-    .ur-here__dot {
-        transition: .2s r;
+    @media (prefers-reduced-motion: no-preference) {  
+        .ur-here__dot {
+            transition: .2s r;
+        }
     }
     a:active .ur-here__dot {
         r: 8px;

@@ -435,8 +435,10 @@ html, body {
         border-right: 2px solid currentColor;
         border-bottom: 2px solid currentColor;
         transform: rotate(-45deg);
-        transition: transform 120ms ease;
         margin-left: 0.125rem;
+        @media (prefers-reduced-motion: no-preference) {
+            transition: transform 120ms ease;
+        }
     }
     
     details[open] > summary::before {
