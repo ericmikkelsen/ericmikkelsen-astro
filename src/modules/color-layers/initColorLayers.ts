@@ -172,6 +172,7 @@ export const initColorLayers = (): void => {
     let renderInFlight = false;
     let renderQueued = false;
     let clearPreviewAfterRender = false;
+    let svgPreviewOwnerRequestToken = 0;
     let editedLayerGLState: EditedLayerWebGLState | null = null;
     let editedPreviewCache: {
         key: string;
@@ -1005,6 +1006,7 @@ export const initColorLayers = (): void => {
         if (els.svgPreview) {
             els.svgPreview.removeAttribute("viewBox");
             els.svgPreview.replaceChildren();
+            svgPreviewOwnerRequestToken = 0;
         }
         renderLayerList();
         renderToolsPanel();
@@ -1195,13 +1197,17 @@ export const initColorLayers = (): void => {
             // on SVG <image> elements that are already attached to the document.
             els.svgPreview.setAttribute("viewBox", `0 0 ${state.preview.width} ${state.preview.height}`);
             els.svgPreview.replaceChildren(nextLayerGroup);
+            svgPreviewOwnerRequestToken = requestToken;
             attachPaintOverlayToSvg();
 
             await Promise.all(layerLoadPromises);
             if (requestToken !== state.render.requestToken) {
-                // A newer render started while we were waiting — undo the early DOM update.
-                els.svgPreview.removeAttribute("viewBox");
-                els.svgPreview.replaceChildren();
+                // Only undo if this request still owns the current preview DOM.
+                if (svgPreviewOwnerRequestToken === requestToken) {
+                    els.svgPreview.removeAttribute("viewBox");
+                    els.svgPreview.replaceChildren();
+                    svgPreviewOwnerRequestToken = 0;
+                }
                 revokeObjectUrls(nextUrls);
                 return false;
             }
@@ -1996,8 +2002,17 @@ export const initColorLayers = (): void => {
 
         // Preload demo image so the tool is ready to use immediately.
         fetch("/images/tornado-1-c.png")
-            .then((res) => res.blob())
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`Failed to preload demo image: ${res.status}`);
+                }
+                return res.blob();
+            })
             .then((blob) => {
+                // If a user-selected file exists, do not replace it with the demo image.
+                if (state.imageInput.file || (els.fileInput?.files?.length || 0) > 0) {
+                    return;
+                }
                 const file = new File([blob], "tornado-1-c.png", { type: "image/png" });
                 state.imageInput.file = file;
                 setImageSettingsVisibility(true);
