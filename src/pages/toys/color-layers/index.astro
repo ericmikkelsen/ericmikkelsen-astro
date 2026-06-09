@@ -22,7 +22,7 @@ import Icons from "../../../components/Icons.astro";
             <h1>Color layers</h1>
             <p>This is a tool to draw in overlapping layers of color made by <a href="/">Eric Mikkelsen</a></p>
         </header>
-        <section aria-label="Controls">
+        <ul class="menu" aria-label="Controls">
             <li id="controls-top-bar">
                 <label for="file-upload">
                     <span>Upload image</span>
@@ -152,7 +152,7 @@ import Icons from "../../../components/Icons.astro";
                     <li>No layers yet. Upload an image to begin.</li>
                 </ul>
             </li>
-        </section>
+        </ul>
     </div>
     <main>
         <prism-graph-canvas>
@@ -254,12 +254,12 @@ html, body {
         fill: #fff;
     }
     
-    section {
+    .menu {
         padding: 0;
         list-style: none;
     }
     
-    section, ul {
+    .menu, ul {
         display: flex;
         flex-direction: column;
         gap: var(--control-gap);
@@ -267,21 +267,21 @@ html, body {
         padding: 0;
     }
     
-    section[aria-label="Controls"] {
+    .menu[aria-label="Controls"] {
         max-width: 56rem;
         margin: 0 auto;
         padding: var(--control-padding);
         gap: var(--control-gap);
     }
     
-    section[aria-label="Controls"] > li {
+    .menu[aria-label="Controls"] > li {
         border: 1px solid var(--border-dark);
         border-radius: 8px;
         background: var(--bg-dark);
         padding: 0.5rem;
     }
     
-    section[aria-label="Controls"] > li > span {
+    .menu[aria-label="Controls"] > li > span {
         display: block;
         margin-bottom: 0.5rem;
         font-size: 0.8125rem;
