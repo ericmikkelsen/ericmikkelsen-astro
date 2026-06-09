@@ -1992,6 +1992,20 @@ export const initColorLayers = (): void => {
         window.addEventListener("pointerup", stopPainting);
         window.addEventListener("resize", updatePreviewCursor);
         els.exportButton?.addEventListener("click", exportFlattenedPng);
+
+        // Preload demo image so the tool is ready to use immediately.
+        fetch("/images/tornado-1-c.png")
+            .then((res) => res.blob())
+            .then((blob) => {
+                const file = new File([blob], "tornado-1-c.png", { type: "image/png" });
+                state.imageInput.file = file;
+                setImageSettingsVisibility(true);
+                state.settings = readSettingsForm();
+                runLivePipeline();
+            })
+            .catch(() => {
+                // Preload failed silently — user can still upload manually.
+            });
     };
 
     init();
