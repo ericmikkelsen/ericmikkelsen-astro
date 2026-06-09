@@ -1187,6 +1187,7 @@ export const initColorLayers = (): void => {
                 );
                 svgImage.setAttribute("data-layer-id", layer.id);
                 svgImage.setAttribute("aria-label", `Layer ${layerIndex + 1}`);
+                svgImage.role = 'img';
                 nextLayerGroup.appendChild(svgImage);
             }
 
