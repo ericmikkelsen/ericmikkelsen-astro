@@ -22,7 +22,7 @@ const resolvedHeaderImage = image || "/images/easter-colors.png";
 ---
 
 <header style={`--section-bg: ${sectionColor}; --section-accent: ${sectionAccentColor}; --header-bg-image: url('${String(resolvedHeaderImage).replaceAll("'", "\\'")}')`}>
-    <div class="body" id={id}>
+    <div class="body" id={id} tabindex="-1">
         <span aria-hidden="true" class="header__icon-wrapper">
             <Icons
                 icon={resolvedCurrentPage}
