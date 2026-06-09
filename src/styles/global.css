@@ -16,7 +16,9 @@ a {
     color: currentColor;
     text-decoration: 1px underline;
     text-underline-offset: 6px;
-    transition: text-decoration 300ms ease;
+    @media (prefers-reduced-motion: no-preference) {
+        transition: text-decoration 300ms ease;
+    }
 }
 a:hover {
     background-color: #000;

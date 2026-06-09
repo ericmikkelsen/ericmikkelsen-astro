@@ -38,8 +38,10 @@ const resolvedTitle = `${title}${ofText ? ` ${ofText}` : ""}`.trim();
         font-weight: 100 900;
         font-display: swap;
     }
-    @view-transition {
-        navigation: auto; 
+    @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+            navigation: auto; 
+        }
     }
 </style>
 
