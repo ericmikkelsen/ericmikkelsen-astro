@@ -1,0 +1,46 @@
+---
+import Layout from "./html.astro";
+import Icons from "../components/Icons.astro";
+import "../styles/tokens.css";
+import "../styles/toy-layout.css";
+
+/**
+ * ToyLayout — the shared toy layout, extracted from color-layers so every toy uses the
+ * *same* layout: a two-column grid with a controls column (header + `.menu`) beside a
+ * preview column.
+ *
+ * Props:
+ * - title: page title (also the document <title> unless docTitle is given)
+ * - docTitle: optional distinct <title>
+ * - icon: header nav icon (default "toys")
+ * - layout: "side-by-side" (default) | "top-and-bottom" | "stacked"
+ * - id: id for the layout grid element (e.g. so a controller can toggle data-layout)
+ *
+ * Slots:
+ * - description: header lede paragraph
+ * - controls: the `.menu` control panel (controls column, below the header)
+ * - default (unnamed): the preview column content (rendered inside <main>)
+ */
+const { title, docTitle, icon = "toys", layout = "side-by-side", id, ...rest } = Astro.props;
+---
+<Layout title={docTitle ?? title} {...rest}>
+    <div class="toy-shell">
+        <div class="toy-layout" data-layout={layout} id={id}>
+            <div class="toy-layout__controls">
+                <header>
+                    <Icons icon={icon} class="page-title-icon" current={true} aria-hidden="true" />
+                    <h1>{title}</h1>
+                    {
+                        Astro.slots.has("description") && (
+                            <slot name="description" />
+                        )
+                    }
+                </header>
+                <slot name="controls" />
+            </div>
+            <main class="toy-layout__preview">
+                <slot />
+            </main>
+        </div>
+    </div>
+</Layout>

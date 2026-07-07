@@ -1,0 +1,292 @@
+---
+import ToyLayout from "../../../layouts/ToyLayout.astro";
+/**
+ * Image Check — analyze a photo for use as a background image with light/dark text.
+ *
+ * Uses the shared toy layout (the same one color-layers uses): a controls menu beside
+ * a preview. Contrast/lightness adjustments re-run the accessibility analysis. The
+ * contrast results (prose) sit in the controls column; color groups sit under them.
+ */
+const title = "Image check";
+---
+<ToyLayout title={title} layout="side-by-side" id="image-check-layout">
+    <p slot="description">
+        Upload a photo to see its darkest and lightest colors, their luminance, and
+        whether it works as a background image with white or black text. Made by
+        <a href="/">Eric Mikkelsen</a>.
+    </p>
+
+    <ul class="menu" aria-label="Controls" slot="controls">
+        <li class="menu-top-bar">
+            <label for="image-input">
+                <span>Upload image</span>
+                <input
+                    id="image-input"
+                    name="image"
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg, image/avif, image/webp, image/svg+xml"
+                />
+            </label>
+            <button id="send-to-color-layers" type="button" disabled>Send to Color Layers →</button>
+        </li>
+
+        <li id="image-settings-controls">
+            <details name="ic-controls" open>
+                <summary>Image settings</summary>
+                <ul>
+                    <li>
+                        <label for="layout-mode">
+                            <span>Layout</span>
+                            <select id="layout-mode" name="layout-mode">
+                                <option value="side-by-side" selected>Side by side</option>
+                                <option value="top-and-bottom">Top and bottom</option>
+                            </select>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="contrast">
+                            <span>Contrast</span>
+                            <input id="contrast" name="contrast" type="range" min="0" max="2" step="0.01" value="1" />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="lightness">
+                            <span>Lightness</span>
+                            <input id="lightness" name="lightness" type="range" min="-100" max="100" step="1" value="0" />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="lock-aspect">
+                            <span>Lock aspect ratio</span>
+                            <input id="lock-aspect" name="lock-aspect" type="checkbox" checked />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="width">
+                            <span>Width</span>
+                            <input id="width" name="width" type="number" min="1" />
+                        </label>
+                    </li>
+                    <li>
+                        <label for="height">
+                            <span>Height</span>
+                            <input id="height" name="height" type="number" min="1" />
+                        </label>
+                    </li>
+                </ul>
+            </details>
+        </li>
+
+        <li>
+            <span>Contrast results</span>
+            <div id="ic-results" class="ic-results">
+                <p class="ic-muted">Upload an image to see contrast results.</p>
+            </div>
+            <p>
+                <a
+                    id="colors-fyi-link"
+                    href="https://colors.fyi/compare-colors/?colors="
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >Check these colors on colors.fyi (opens in new tab)</a>
+            </p>
+        </li>
+
+        <li>
+            <span>Color groups</span>
+            <label for="group-count">
+                <span>Number of groups: <output id="group-count-value">5</output></span>
+                <input id="group-count" name="group-count" type="range" min="2" max="10" step="1" value="5" />
+            </label>
+            <div id="ic-groups" class="ic-groups"></div>
+        </li>
+    </ul>
+
+    <span class="toy-caption">Preview</span>
+    <div id="ic-preview"></div>
+    <p id="ic-status" class="ic-muted" role="status" aria-live="polite"></p>
+</ToyLayout>
+
+<script>
+    import { initImageCheck } from "../../../modules/image-check/initImageCheck";
+
+    initImageCheck();
+</script>
+
+<style is:global>
+    /* Page-specific styles only; layout + controls come from the shared toy layout. */
+    #image-check-layout .toy-caption {
+        display: block;
+        margin-bottom: var(--toy-gap-sm);
+        font-size: var(--toy-fs-caption);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--toy-text-muted);
+    }
+
+    .ic-muted {
+        color: var(--toy-text-muted);
+    }
+
+    .ic-note {
+        font-size: var(--toy-fs-small);
+    }
+
+    /* Preview with sample text over the image. */
+    .ic-preview-frame {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--toy-control-border);
+        border-radius: var(--toy-radius);
+        aspect-ratio: var(--ic-aspect, 16 / 9);
+        max-width: 100%;
+    }
+
+    .ic-preview-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    #ic-preview:empty::before {
+        content: "No image yet";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 16 / 9;
+        border: 1px dashed var(--toy-control-border);
+        border-radius: var(--toy-radius);
+        color: var(--toy-text-muted);
+    }
+
+    .ic-samples {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0.75rem;
+        pointer-events: none;
+    }
+
+    .ic-sample {
+        font-size: clamp(1rem, 3vw, 1.75rem);
+        font-weight: 700;
+        align-self: flex-start;
+    }
+
+    .ic-sample--white {
+        color: #fff;
+    }
+    .ic-sample--black {
+        color: #000;
+    }
+
+    /* Prose contrast results. */
+    .ic-result-block {
+        margin-bottom: var(--toy-gap);
+    }
+
+    .ic-verdict {
+        margin: 0 0 0.5rem;
+        color: var(--toy-text);
+    }
+
+    .ic-verdict code,
+    .ic-prose code {
+        font-family: var(--toy-mono-font);
+    }
+
+    .ic-swatch-inline {
+        display: inline-block;
+        width: 0.9em;
+        height: 0.9em;
+        border-radius: 0.2em;
+        border: 1px solid var(--toy-control-border);
+        vertical-align: -0.1em;
+        margin-right: 0.15em;
+    }
+
+    .ic-passrates {
+        margin: 0.25rem 0 0;
+        padding-left: 1.1rem;
+        font-size: var(--toy-fs-label);
+        color: var(--toy-text);
+    }
+
+    .ic-badge {
+        display: inline-block;
+        padding: 0.05rem 0.4rem;
+        border-radius: var(--toy-radius-pill);
+        font-size: 0.75rem;
+        font-weight: 700;
+        border: 1px solid currentColor;
+        background: color-mix(in srgb, currentColor 14%, transparent);
+    }
+
+    .ic-badge--fail {
+        color: var(--toy-fail);
+    }
+    .ic-badge--aa-large {
+        color: var(--toy-warn);
+    }
+    .ic-badge--aa-normal,
+    .ic-badge--aaa-large {
+        color: var(--toy-ok);
+    }
+    .ic-badge--aaa-normal {
+        color: var(--toy-info);
+    }
+
+    .ic-yes {
+        color: var(--toy-ok);
+        font-weight: 700;
+    }
+    .ic-no {
+        color: var(--toy-fail);
+        font-weight: 700;
+    }
+
+    .ic-summary {
+        border-left: 3px solid var(--toy-control-border);
+        padding-left: 0.75rem;
+        font-style: italic;
+        color: var(--toy-text);
+    }
+
+    /* Gradient circles. */
+    .ic-groups {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+        align-items: flex-end;
+    }
+
+    .ic-circle-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+        text-align: center;
+    }
+
+    .ic-circle {
+        border-radius: var(--toy-radius-pill);
+        border: 1px solid var(--toy-control-border);
+    }
+
+    .ic-circle-meta {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.25;
+        max-width: 10rem;
+    }
+
+    .ic-lum {
+        color: var(--toy-text-muted);
+        font-size: var(--toy-fs-small);
+    }
+</style>

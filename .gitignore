@@ -3,6 +3,8 @@ dist/
 # generated types
 .astro/
 os
+# local-only PDF styling previews
+src/pages/preview/
 # dependencies
 node_modules/
 

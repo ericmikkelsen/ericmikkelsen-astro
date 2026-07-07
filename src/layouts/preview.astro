@@ -1,0 +1,50 @@
+---
+import Layout from './html.astro';
+import Markdown from '../components/Markdown.astro';
+import '@fontsource/atkinson-hyperlegible/400.css';
+import '@fontsource/atkinson-hyperlegible/700.css';
+import '@fontsource/atkinson-hyperlegible/400-italic.css';
+import '@fontsource/atkinson-hyperlegible/700-italic.css';
+
+const { title, description, image } = Astro.props;
+---
+<Layout title={title} description={description} image={image}>
+	<main id="main">
+		<Markdown>
+			<slot />
+		</Markdown>
+	</main>
+</Layout>
+<style is:global>
+    @page {
+        size: letter; /* Sets paper size (e.g., letter, A4) */
+        margin: 5%;  /* Simulates 1-inch page padding on all sides */
+    }
+    html {
+        padding: 0;
+        font-size: 1rem;
+        font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+    }
+    * {
+        line-height: calc(1em + .5rem);
+    }
+    .markdown > h1{
+        font-size: 2rem; 
+    }
+    .markdown > h2{
+        font-size: 1.875rem; 
+    }
+    .markdown li {
+        width: 100%;
+    }
+    .markdown h3 + * {
+        margin-top: 0;
+    }
+    .markdown li + li,
+    .markdown p + p {
+        margin-top: 8px;
+    }
+    .markdown h2 + ul {
+        display: block;
+    }
+</style>
