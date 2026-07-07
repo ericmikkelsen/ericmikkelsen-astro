@@ -5,6 +5,7 @@ import {
 } from "./quantize";
 import { createInitialState, createEmptyElements } from "./stateManager";
 import { hexToRgb as utilHexToRgb, rgbToHex as utilRgbToHex, clamp as utilClamp, blendColors } from "./colorUtils";
+import { takeHandoffImage } from "../image-handoff";
 
 /**
  * Initializes the Color Layers page controller.
@@ -2000,27 +2001,59 @@ export const initColorLayers = (): void => {
         window.addEventListener("resize", updatePreviewCursor);
         els.exportButton?.addEventListener("click", exportFlattenedPng);
 
-        // Preload demo image so the tool is ready to use immediately.
-        fetch("/images/tornado-1-c.png")
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`Failed to preload demo image: ${res.status}`);
-                }
-                return res.blob();
-            })
-            .then((blob) => {
-                // If a user-selected file exists, do not replace it with the demo image.
-                if (state.imageInput.file || (els.fileInput?.files?.length || 0) > 0) {
-                    return;
-                }
-                const file = new File([blob], "tornado-1-c.png", { type: "image/png" });
+        // Apply a File as if the user had selected it: inject into the file input and
+        // dispatch a change event so the normal settings/quantization pipeline runs.
+        const applySelectedFile = (file: File): void => {
+            if (els.fileInput) {
+                const transfer = new DataTransfer();
+                transfer.items.add(file);
+                els.fileInput.files = transfer.files;
+                els.fileInput.dispatchEvent(new Event("change", { bubbles: true }));
+            } else {
                 state.imageInput.file = file;
                 setImageSettingsVisibility(true);
                 state.settings = readSettingsForm();
                 runLivePipeline();
+            }
+        };
+
+        // Preload the demo image so the tool is ready to use immediately.
+        const preloadDemoImage = (): void => {
+            fetch("/images/tornado-1-c.png")
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error(`Failed to preload demo image: ${res.status}`);
+                    }
+                    return res.blob();
+                })
+                .then((blob) => {
+                    // If a user-selected file exists, do not replace it with the demo image.
+                    if (state.imageInput.file || (els.fileInput?.files?.length || 0) > 0) {
+                        return;
+                    }
+                    const file = new File([blob], "tornado-1-c.png", { type: "image/png" });
+                    state.imageInput.file = file;
+                    setImageSettingsVisibility(true);
+                    state.settings = readSettingsForm();
+                    runLivePipeline();
+                })
+                .catch(() => {
+                    // Preload failed silently — user can still upload manually.
+                });
+        };
+
+        // Prefer an image handed off from another toy (e.g. image-check). Falls back to
+        // the demo image when there is no pending handoff.
+        takeHandoffImage()
+            .then((handoffFile) => {
+                if (handoffFile) {
+                    applySelectedFile(handoffFile);
+                } else {
+                    preloadDemoImage();
+                }
             })
             .catch(() => {
-                // Preload failed silently — user can still upload manually.
+                preloadDemoImage();
             });
     };
 
